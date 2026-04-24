@@ -2,7 +2,7 @@
 
 To run idealised models, or add extra features for yourself and others, you will likely need to build a MOM6 executable.
 The aim of this page is provide instructions for how to do this using the infrastructure provided by ACCESS-NRI.
-If you notice anything that is missing or could be improved in the explanation please [raise an issue!](https://github.com/ACCESS-Community-Hub/access-iom3-configs/issues)
+If you notice anything that is missing or could be improved in the explanation please [raise an issue!](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/issues)
 
 # Building a standalone MOM6 executable
 
