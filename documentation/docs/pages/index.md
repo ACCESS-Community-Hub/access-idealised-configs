@@ -1,13 +1,13 @@
 
-Welcome to the documentation for the [mom6-idealised ocean-seaice model configurations](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs)! 
+Welcome to the documentation for the [mom6-idealised ocean model configurations](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs)! 
 
-The purpose of this repository, is to encourage community users to both use and share _idealised_ [OM3](https://access-om3-configs.access-hive.org.au/) model configurations.
+The purpose of this repository, is to encourage community users to both use and share _idealised_ ocean model configurations.
 
 ## Getting involved in mom6-idealised
 
 **Contributions from people of all career stages and backgrounds are highly encouraged.** All these models and configurations are developed are open source. Development is led by ACCESS-NRI and the [COSIMA working group](https://cosima.org.au/) where we follow an open development model building on the work of international modelling consortia.
 
-Contributors so far include: Christopher Bull (ACCESS-NRI), Josef Bisits (University of New South Wales).
+Contributors so far include: Christopher Bull (ACCESS-NRI), Claire Yung (Australian National University), Josef Bisits (University of New South Wales).
 
 ### Report a bug or make a suggestion
 
