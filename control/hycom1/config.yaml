@@ -1,16 +1,16 @@
 ncpus: 240
 walltime: 03:00:00
 jobname: tub-hyc
-project: g40
+project: ol01
 queue: normal
 
 model: mom6
-shortpath: /scratch/x77
-exe: /g/data/x77/ahg157/exes/MOM6/AG_FMS1-f005486
-input: /g/data/x77/amh157/mom6/input/anu-tub
+exe: /g/data/x77/ahg157/exes/MOM6/AG-07f0a144
+input: ../../input
 
 storage:
   gdata:
+    - ol01
     - x77
 
 collate: False
@@ -20,5 +20,3 @@ mpi:
 
 qsub_flags: -W umask=027
 
-userscripts:
-   archive: qsub sync_output_to_gdata.sh
