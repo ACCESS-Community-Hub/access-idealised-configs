@@ -6,7 +6,7 @@ queue: normal
 
 model: mom6
 exe: /g/data/x77/ahg157/exes/MOM6/AG-07f0a144
-input: ../../input
+input: input
 
 storage:
   gdata:

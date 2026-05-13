@@ -1,8 +1,0 @@
-format: yamanifest
-version: 1.0
----
-work/AG-07f0a144:
-  fullpath: /g/data/x77/ahg157/exes/MOM6/AG-07f0a144
-  hashes:
-    binhash: c9fbf04bfbc19cfdaa3438e6c72c426c
-    md5: a91c533f23b49c7de8e25373c9d7155f
