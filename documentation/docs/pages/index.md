@@ -9,7 +9,7 @@ repository) easier to run, and to make what is
 available easy to browse and discover: for each configuration you can see how it is set up, its
 surface forcing (where the run saved it) and its output, before running it yourself.
 
-It collects _idealised_ ocean model configurations for MOM6, from the [COSIMA community](configurations/Overview.md#cosima-community-configurations)
+This website collects _idealised_ ocean model configurations for MOM6, from the [COSIMA community](configurations/Overview.md#cosima-community-configurations)
 and from [GFDL's MOM6 examples](configurations/Overview.md#global-mom6-community-configurations), so that the community can run, check and share them. Each one comes
 with a tested script that runs it on NCI Gadi with the prebuilt `mom6-solo` from ACCESS-OM3, so
 [you don't need to compile MOM6](#quick-start). If you do want to build your own `mom6-solo`
