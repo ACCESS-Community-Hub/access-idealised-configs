@@ -23,6 +23,8 @@ import shutil
 
 import yaml
 
+import param_diff   # lib/param_diff.py: parameter comparison (same method as access-om3-live)
+
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))     # tested-configs/
 REPO = os.path.dirname(HERE)
 DOCS = os.path.join(REPO, "documentation", "docs")
@@ -269,16 +271,16 @@ def write_notebook_page(name, back_link, back_title):
 def status_banner(name, s):
     """Admonition at the top of a configuration's page saying whether its tested run worked."""
     if s is None:
-        return '!!! warning ":grey_question: Not tested yet"\n    No test run has been recorded for this configuration.\n'
+        return '!!! warning "Run status: :grey_question: not tested yet"\n    No test run has been recorded for this configuration.\n'
     if s["ok"]:
         pbs = s.get("pbs", {})
-        return (f'!!! success ":white_check_mark: This configuration ran successfully"\n'
+        return (f'!!! success "Run status: :white_check_mark: ran successfully"\n'
                 f"    Tested on {environment['date']} with `{versions['ACCESS_OM3_MODULE']}` (`mom6-solo`): "
                 f"{pbs.get('NCPUs Requested', '?')} cores, walltime used {pbs.get('Walltime Used', '?')}, "
                 f"{pbs.get('Service Units', '?')} SU. Details further down this page.\n")
     issue = known_issues.get(name, "")
     reason = (issue.split(". ")[0].rstrip(".") + ".") if issue else "See the error log further down this page."
-    return (f'!!! failure ":x: This configuration did not run"\n'
+    return (f'!!! failure "Run status: :x: did not run"\n'
             f"    Tested on {environment['date']} with `{versions['ACCESS_OM3_MODULE']}`. {reason}\n")
 
 
@@ -302,7 +304,7 @@ def example_page(ex, s):
         kind = "failure" if (s is not None and not s["ok"]) else "warning"
         lines += [f'!!! {kind} "Known issue"', indent(" ".join(known_issues[name].split())), ""]
     if s is not None and "userscripts:" in s.get("config_yaml", ""):
-        lines += ['!!! info "Workaround used: no restart files"',
+        lines += ['!!! info "Workaround in the payu set-up (the MOM6-examples files are unchanged)"',
                   indent(" ".join(known_issues["_restart_control"].split())), ""]
 
     # (whether it ran is the status banner at the top of the page; how pages are made is on the Overview)
@@ -324,7 +326,7 @@ def example_page(ex, s):
         return "\n".join(lines)
     upstream_rows = [f"| MOM6-examples | [`{commit}`]({UPSTREAM}/commit/{commit}) |"]
     return "\n".join(lines + results_section(name, s, "../../../assets", upstream_rows,
-                                              "the upstream MOM_parameter_doc.all"))
+                                              "the upstream MOM_parameter_doc.all", ex=ex))
 
 
 def figure_lines(name, s, assets):
@@ -334,7 +336,66 @@ def figure_lines(name, s, assets):
     return [f"![{name}]({assets}/tested-configs/{name}.png)", "", f"*{s.get('figure_note', '')}.*", ""]
 
 
-def results_section(name, s, assets, config_rows, reference_label, show_figure=True, nb_prefix="../notebooks/"):
+# Files MOM6 writes itself (not set by diag_table), described for the "Output files" table.
+FIXED_OUTPUT = {
+    "ocean_geometry.nc": "Static grid: coordinates, cell sizes and areas, bottom depth `D`, Coriolis parameter, land mask",
+    "Vertical_coordinate.nc": "The vertical coordinate: target values of the layers or levels",
+    "ocean.stats.nc": "Domain totals at each energy-save time (energy, mass, heat, salt, maximum CFL); "
+                      "the netCDF form of `ocean.stats`",
+    "timestats.nc": "Domain totals at each energy-save time (energy, mass, maximum CFL); the netCDF "
+                    "form of the energy file",
+    "Depth_list.nc": "Ocean area and volume as a function of depth, used for the energy diagnostics",
+    "MOM_IC.nc": "Initial state written by MOM6 at the start of the run",
+    "GOLD_IC.nc": "Initial state written by MOM6 at the start of the run",
+    "Initial_state.nc": "Initial state written by MOM6 at the start of the run",
+}
+
+
+def _csv(line):
+    """Split one diag_table line on commas outside quotes; strip quotes and spaces."""
+    return [x.strip().strip('"').strip("'") for x in re.findall(r'(?:"[^"]*"|[^,])+', line)]
+
+
+def diag_table_files(run_dir):
+    """{file name prefix: {"freq": str, "fields": [(field, averaged)]}} from the run's diag_table."""
+    path = os.path.join(run_dir or "", "diag_table")
+    files = {}
+    if not os.path.exists(path):
+        return files
+    for line in open(path).read().splitlines()[2:]:
+        line = line.split("#")[0].strip()
+        if not line:
+            continue
+        parts = _csv(line)
+        if len(parts) >= 6 and re.fullmatch(r"-?\d+", parts[1]):          # a file line
+            base = parts[0].split("%")[0].rstrip("_")
+            freq = "written once (static)" if int(parts[1]) < 0 else f"every {parts[1]} {parts[2]}"
+            files.setdefault(base, {"freq": freq, "fields": []})["freq"] = freq
+        elif len(parts) >= 6:                                               # a field line
+            base = parts[3].split("%")[0].rstrip("_")
+            avg = parts[5].lower() in (".true.", "true", "average", "mean")
+            files.setdefault(base, {"freq": "", "fields": []})["fields"].append((parts[2], avg))
+    return files
+
+
+def output_description(fname, files):
+    if fname in FIXED_OUTPUT:
+        return FIXED_OUTPUT[fname]
+    stem = fname[:-3] if fname.endswith(".nc") else fname
+    base = max((b for b in files if stem == b or stem.startswith(b + "_")), key=len, default=None)
+    if base is None:
+        return ""
+    info = files[base]
+    names = [f for f, _ in info["fields"]]
+    kinds = {avg for _, avg in info["fields"]}
+    kind = "time averages" if kinds == {True} else "snapshots" if kinds == {False} else "snapshots and averages"
+    shown = ", ".join(f"`{n}`" for n in names[:8]) + (f" and {len(names) - 8} more" if len(names) > 8 else "")
+    return f"Diagnostics set in `diag_table`: {kind} of {shown}, {info['freq']}" if names else \
+           f"Diagnostics set in `diag_table`, {info['freq']}"
+
+
+def results_section(name, s, assets, config_rows, reference_label, show_figure=True, nb_prefix="../notebooks/",
+                    ex=None):
     """Markdown lines for "What we got", the notebook section (if any) and "Provenance" of one run.
     assets: path from the page to docs/assets; config_rows: table rows naming the config source;
     show_figure=False when the page shows the figure higher up (community pages)."""
@@ -355,6 +416,7 @@ def results_section(name, s, assets, config_rows, reference_label, show_figure=T
         lines += [""]
 
     lines += notebook
+    lines += param_section(name, s, ex)
 
     # ---- provenance --------------------------------------------------------------
     lines += ["## Provenance", "",
@@ -380,22 +442,6 @@ def results_section(name, s, assets, config_rows, reference_label, show_figure=T
         lines += ["This example needs no input files: grid, bathymetry, initial state and "
                   "forcing are all set analytically in `MOM_input`.", ""]
 
-    pc = s.get("param_changes")
-    if pc:
-        n = len(pc["added"]) + len(pc["removed"]) + len(pc["changed"])
-        lines += [f'??? info "Parameters differing from {reference_label} ({n})"',
-                  f"    Comparison of this run's `MOM_parameter_doc.all` with {reference_label}.",
-                  "    Differences show where the ACCESS-OM3 MOM6 version adds, drops or "
-                  "changes default parameters.", ""]
-        if pc["changed"]:
-            lines += ["    | Parameter | reference | this run |", "    |---|---|---|"]
-            lines += [f"    | `{k}` | `{a}` | `{b}` |" for k, (a, b) in pc["changed"].items()]
-            lines += [""]
-        if pc["added"]:
-            lines += ["    New in this run: " + ", ".join(f"`{p}`" for p in pc["added"]), ""]
-        if pc["removed"]:
-            lines += ["    Only upstream: " + ", ".join(f"`{p}`" for p in pc["removed"]), ""]
-
     if s.get("env"):
         lines += ['??? info "Run-time environment (selected variables from payu\'s `env.yaml`)"',
                   "    | Variable | Value |", "    |---|---|"]
@@ -404,13 +450,45 @@ def results_section(name, s, assets, config_rows, reference_label, show_figure=T
     lines += ['??? info "payu config.yaml written by the script"', "    ```yaml",
               indent(s.get("config_yaml", "").rstrip()), "    ```", ""]
     if s.get("output_files"):
-        lines += ['??? info "Output files"', "    | File | Size |", "    |---|---|"]
-        lines += [f"    | `{f}` | {sz/1e6:.2f} MB |" for f, sz in s["output_files"].items()]
+        files = diag_table_files(s.get("output_dir"))
+        lines += ['??? info "Output files"', "    | File | Size | What it is |", "    |---|---|---|"]
+        lines += [f"    | `{f}` | {sz/1e6:.2f} MB | {output_description(f, files)} |"
+                  for f, sz in s["output_files"].items()]
         lines += [""]
     return lines
 
 
 # ---- fragments for the hand-written pages of stand-alone configurations ---------------
+# Reference MOM_parameter_doc.all for the COSIMA configurations: (local path, GitHub URL, label, Gadi run path)
+COMMUNITY_REF = {
+    "anu-tub-zstar": ("anu-tub/docs/MOM_parameter_doc.all",
+                      "https://github.com/ACCESS-Community-Hub/anu-tub/blob/e413708c4b1446e267b42f2f0da95d6ab48ae0e0/docs/MOM_parameter_doc.all",
+                      "the file committed in anu-tub (`e413708c`)",
+                      "/scratch/<your-project>/$USER/mom6/archive/anu-tub-zstar/output000/MOM_parameter_doc.all"),
+    "isomip-plus-ocean0": ("isomip-plus/input-repo/docs/MOM_parameter_doc.all",
+                           "https://github.com/claireyung/isomip-test-mom6-for-iom3-configs/blob/3b86dc0bcb4b7a38156bdb3b94952fe47bb51887/docs/MOM_parameter_doc.all",
+                           "Claire Yung's own run (`3b86dc0b`)",
+                           "/scratch/<your-project>/$USER/mom6/archive/isomip-plus-ocean0/output000/MOM_parameter_doc.all"),
+}
+
+
+def param_section(name, s, ex=None, level=2):
+    """The "Parameters compared with the reference" section (lib/param_diff.py), or nothing."""
+    run_file = os.path.join(s.get("output_dir") or "", "MOM_parameter_doc.all")
+    work_root = environment.get("work_root", "")
+    if ex is not None:
+        ref_file = os.path.join(work_root, "MOM6-examples", ex["example"], "MOM_parameter_doc.all")
+        ref_url = f"{UPSTREAM}/blob/{commit}/{ex['example']}/MOM_parameter_doc.all"
+        label = f"GFDL's file in MOM6-examples (`{commit[:8]}`)"
+        gadi = f"/scratch/<your-project>/$USER/mom6-examples/archive/{name}/output000/MOM_parameter_doc.all"
+    else:
+        rel, ref_url, label, gadi = COMMUNITY_REF[name]
+        ref_file = os.path.join(work_root, rel)
+    if not (os.path.exists(run_file) and os.path.exists(ref_file)):
+        return []
+    return param_diff.section(ref_file, run_file, ref_url, label, gadi, level=level)
+
+
 STANDALONE = {   # run name -> (page that includes the fragment, rows describing the config source)
     "anu-tub-zstar": ["| Configuration | [ACCESS-Community-Hub/anu-tub](https://github.com/ACCESS-Community-Hub/anu-tub) "
                       "`e413708c`, `zstar` coordinate |"],

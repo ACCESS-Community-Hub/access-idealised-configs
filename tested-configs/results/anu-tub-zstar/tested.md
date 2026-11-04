@@ -96,6 +96,13 @@ From `ocean.stats.nc`: 32 records; time axis in days.
     
 ![png](../../assets/tested-configs/notebooks/anu-tub-zstar/notebook_16_1.png)
 
+### Parameters compared with the reference
+
+<span class="chip a">A</span> the file committed in anu-tub (`e413708c`): [`MOM_parameter_doc.all`](https://github.com/ACCESS-Community-Hub/anu-tub/blob/e413708c4b1446e267b42f2f0da95d6ab48ae0e0/docs/MOM_parameter_doc.all)  
+<span class="chip b">B</span> this run: `MOM_parameter_doc.all` in the run's output, `/scratch/<your-project>/$USER/mom6/archive/anu-tub-zstar/output000/MOM_parameter_doc.all` when you run the script
+
+**0** parameter values differ; **0** parameters exist only in this run's MOM6 version and **0** only in the reference (new, removed or renamed parameters). Values are compared ignoring quotes, case and number formatting. Parameter names link to a search of the MOM6 source; reference values link to their line on GitHub.
+
 ### Provenance
 
 | What | Value |
@@ -120,10 +127,6 @@ From `ocean.stats.nc`: 32 records; time axis in days.
     | `INPUT/forcing.nc` | `aa75509526935276ef3f5346b3ad15b8` | `anu-tub/input/forcing.nc` |
     | `INPUT/sst.nc` | `3bb095f47357de92d5a8e743e3e1a1f4` | `anu-tub/input/sst.nc` |
     | `INPUT/topog.nc` | `53582824d67e2420f52498cfdff1d593` | `anu-tub/input/topog.nc` |
-
-??? info "Parameters differing from the `docs/MOM_parameter_doc.all` committed in anu-tub (0)"
-    Comparison of this run's `MOM_parameter_doc.all` with the `docs/MOM_parameter_doc.all` committed in anu-tub.
-    Differences show where the ACCESS-OM3 MOM6 version adds, drops or changes default parameters.
 
 ??? info "Run-time environment (selected variables from payu's `env.yaml`)"
     | Variable | Value |
@@ -182,16 +185,16 @@ From `ocean.stats.nc`: 32 records; time axis in days.
     ```
 
 ??? info "Output files"
-    | File | Size |
-    |---|---|
-    | `Depth_list.nc` | 0.13 MB |
-    | `MOM_IC.nc` | 1165.61 MB |
-    | `Vertical_coordinate.nc` | 0.00 MB |
-    | `ocean.stats.nc` | 0.09 MB |
-    | `ocean_daily.nc` | 63.64 MB |
-    | `ocean_geometry.nc` | 19.56 MB |
-    | `ocean_month.nc` | 158.77 MB |
-    | `ocean_month_rho2.nc` | 71.85 MB |
-    | `ocean_month_z.nc` | 230.73 MB |
-    | `ocean_static.nc` | 12.88 MB |
+    | File | Size | What it is |
+    |---|---|---|
+    | `Depth_list.nc` | 0.13 MB | Ocean area and volume as a function of depth, used for the energy diagnostics |
+    | `MOM_IC.nc` | 1165.61 MB | Initial state written by MOM6 at the start of the run |
+    | `Vertical_coordinate.nc` | 0.00 MB | The vertical coordinate: target values of the layers or levels |
+    | `ocean.stats.nc` | 0.09 MB | Domain totals at each energy-save time (energy, mass, heat, salt, maximum CFL); the netCDF form of `ocean.stats` |
+    | `ocean_daily.nc` | 63.64 MB | Diagnostics set in `diag_table`: time averages of `zos`, `tos`, `umo_2d`, `vmo_2d`, every 1 days |
+    | `ocean_geometry.nc` | 19.56 MB | Static grid: coordinates, cell sizes and areas, bottom depth `D`, Coriolis parameter, land mask |
+    | `ocean_month.nc` | 158.77 MB | Diagnostics set in `diag_table`: time averages of `volcello`, `pbo`, `pso`, `thkcello`, `zos`, `thetao`, `tob`, `rhopot2` and 6 more, every 1 months |
+    | `ocean_month_rho2.nc` | 71.85 MB | Diagnostics set in `diag_table`: time averages of `volcello`, `thkcello`, `umo`, `vmo`, every 1 months |
+    | `ocean_month_z.nc` | 230.73 MB | Diagnostics set in `diag_table`: time averages of `volcello`, `thetao`, `rhopot2`, `agessc`, `uo`, `vo`, every 1 months |
+    | `ocean_static.nc` | 12.88 MB | Diagnostics set in `diag_table`: snapshots of `areacello`, `deptho`, `hfgeou`, `sftof`, `Coriolis`, `geolon`, `geolat`, `geolon_c` and 18 more, written once (static) |
 

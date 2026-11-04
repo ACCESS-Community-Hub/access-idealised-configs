@@ -193,6 +193,7 @@ extra_css:
   - fontello/css/fontello-ie7.css
   - fontello/css/fontello.css
   - css/custom.css
+  - css/config_diff.css   # parameter comparison tables (from access-om3-live)
 
 extra_javascript:
   - javascripts/mathjax.js # For pymdownx.arithmatex extension

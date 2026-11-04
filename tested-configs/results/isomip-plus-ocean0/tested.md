@@ -102,6 +102,16 @@ From `ocean.stats.nc`: 721 records; time axis in days.
     
 ![png](../../assets/tested-configs/notebooks/isomip-plus-ocean0/notebook_16_1.png)
 
+### Parameters compared with the reference
+
+<span class="chip a">A</span> Claire Yung's own run (`3b86dc0b`): [`MOM_parameter_doc.all`](https://github.com/claireyung/isomip-test-mom6-for-iom3-configs/blob/3b86dc0bcb4b7a38156bdb3b94952fe47bb51887/docs/MOM_parameter_doc.all)  
+<span class="chip b">B</span> this run: `MOM_parameter_doc.all` in the run's output, `/scratch/<your-project>/$USER/mom6/archive/isomip-plus-ocean0/output000/MOM_parameter_doc.all` when you run the script
+
+**0** parameter values differ; **5** parameters exist only in this run's MOM6 version and **2** only in the reference (new, removed or renamed parameters). Values are compared ignoring quotes, case and number formatting. Parameter names link to a search of the MOM6 source; reference values link to their line on GitHub.
+
+??? note "Parameters in only one of the two files (7)"
+    <table class="diff"><thead><tr><th>Parameter</th><th>Units</th><th>A: reference</th><th>B: this run</th></tr></thead><tbody><tr class="mod"><td colspan="4">MOM</td></tr><tr class="param"><td><a href="https://github.com/mom-ocean/MOM6/search?q=NONBLOCKING_P_SURF_BUG" target="_blank" rel="noopener">NONBLOCKING_P_SURF_BUG</a></td><td class="units">Boolean</td><td class="val a unset" data-label="A: reference">(not in this version)</td><td class="val b" data-label="B: this run">True<span class="ln"> line 147</span></td></tr><tr class="mod"><td colspan="4">MOM_ice_shelf</td></tr><tr class="param"><td><a href="https://github.com/mom-ocean/MOM6/search?q=ICE_SHELF_BUOYANCY_FLUX_ITT_BUG" target="_blank" rel="noopener">ICE_SHELF_BUOYANCY_FLUX_ITT_BUG</a></td><td class="units">Boolean</td><td class="val a unset" data-label="A: reference">(not in this version)</td><td class="val b" data-label="B: this run">True<span class="ln"> line 717</span></td></tr><tr class="param"><td><a href="https://github.com/mom-ocean/MOM6/search?q=ICE_SHELF_BUOYANCY_FLUX_ITT_BUGFIX" target="_blank" rel="noopener">ICE_SHELF_BUOYANCY_FLUX_ITT_BUGFIX</a></td><td class="units">Boolean</td><td class="val a" data-label="A: reference"><a href="https://github.com/claireyung/isomip-test-mom6-for-iom3-configs/blob/3b86dc0bcb4b7a38156bdb3b94952fe47bb51887/docs/MOM_parameter_doc.all#L706" target="_blank" rel="noopener">True</a></td><td class="val b unset" data-label="B: this run">(not in this version)</td></tr><tr class="param"><td><a href="https://github.com/mom-ocean/MOM6/search?q=ICE_SHELF_SALT_FLUX_ITT_BUG" target="_blank" rel="noopener">ICE_SHELF_SALT_FLUX_ITT_BUG</a></td><td class="units">Boolean</td><td class="val a unset" data-label="A: reference">(not in this version)</td><td class="val b" data-label="B: this run">True<span class="ln"> line 719</span></td></tr><tr class="param"><td><a href="https://github.com/mom-ocean/MOM6/search?q=ICE_SHELF_SALT_FLUX_ITT_BUGFIX" target="_blank" rel="noopener">ICE_SHELF_SALT_FLUX_ITT_BUGFIX</a></td><td class="units">Boolean</td><td class="val a" data-label="A: reference"><a href="https://github.com/claireyung/isomip-test-mom6-for-iom3-configs/blob/3b86dc0bcb4b7a38156bdb3b94952fe47bb51887/docs/MOM_parameter_doc.all#L708" target="_blank" rel="noopener">True</a></td><td class="val b unset" data-label="B: this run">(not in this version)</td></tr><tr class="mod"><td colspan="4">MOM_tracer_flow_control</td></tr><tr class="param"><td><a href="https://github.com/mom-ocean/MOM6/search?q=USE_FILE_DYES" target="_blank" rel="noopener">USE_FILE_DYES</a></td><td class="units">Boolean</td><td class="val a unset" data-label="A: reference">(not in this version)</td><td class="val b" data-label="B: this run">False<span class="ln"> line 458</span></td></tr><tr class="mod"><td colspan="4">MOM_verticalGrid</td></tr><tr class="param"><td><a href="https://github.com/mom-ocean/MOM6/search?q=ADVECTION_SCHEME_VARIANCE_UNDERFLOW" target="_blank" rel="noopener">ADVECTION_SCHEME_VARIANCE_UNDERFLOW</a></td><td class="units">Conc2 (tracer dependent)</td><td class="val a unset" data-label="A: reference">(not in this version)</td><td class="val b" data-label="B: this run">1.0E-23<span class="ln"> line 360</span></td></tr></tbody></table>
+
 ### Provenance
 
 | What | Value |
@@ -125,14 +135,6 @@ From `ocean.stats.nc`: 721 records; time axis in days.
     | File | md5 | Comes from |
     |---|---|---|
     | `INPUT/Ocean0_3D_Claire.nc` | `a9e43676e2c0acbfe1d48ce856d2ff84` | `isomip-plus/input-repo/INPUT/Ocean0_3D_Claire.nc` |
-
-??? info "Parameters differing from Claire Yung's own run (`docs/` in isomip-test-mom6-for-iom3-configs) (7)"
-    Comparison of this run's `MOM_parameter_doc.all` with Claire Yung's own run (`docs/` in isomip-test-mom6-for-iom3-configs).
-    Differences show where the ACCESS-OM3 MOM6 version adds, drops or changes default parameters.
-
-    New in this run: `ADVECTION_SCHEME_VARIANCE_UNDERFLOW`, `ICE_SHELF_BUOYANCY_FLUX_ITT_BUG`, `ICE_SHELF_SALT_FLUX_ITT_BUG`, `NONBLOCKING_P_SURF_BUG`, `USE_FILE_DYES`
-
-    Only upstream: `ICE_SHELF_BUOYANCY_FLUX_ITT_BUGFIX`, `ICE_SHELF_SALT_FLUX_ITT_BUGFIX`
 
 ??? info "Run-time environment (selected variables from payu's `env.yaml`)"
     | Variable | Value |
@@ -173,14 +175,14 @@ From `ocean.stats.nc`: 721 records; time axis in days.
     ```
 
 ??? info "Output files"
-    | File | Size |
-    |---|---|
-    | `ISOMIP_IC.nc` | 39.91 MB |
-    | `MOM_Shelf_IC.nc` | 0.25 MB |
-    | `Vertical_coordinate.nc` | 0.00 MB |
-    | `ave_prog.nc` | 175.63 MB |
-    | `forcing.nc` | 27.77 MB |
-    | `ice.nc` | 51.97 MB |
-    | `ocean.stats.nc` | 0.93 MB |
-    | `ocean_geometry.nc` | 1.50 MB |
+    | File | Size | What it is |
+    |---|---|---|
+    | `ISOMIP_IC.nc` | 39.91 MB |  |
+    | `MOM_Shelf_IC.nc` | 0.25 MB |  |
+    | `Vertical_coordinate.nc` | 0.00 MB | The vertical coordinate: target values of the layers or levels |
+    | `ave_prog.nc` | 175.63 MB | Diagnostics set in `diag_table`: time averages of `u`, `v`, `h`, `e`, `temp`, `salt`, every 5 days |
+    | `forcing.nc` | 27.77 MB | Diagnostics set in `diag_table`: snapshots of `taux`, `tauy`, `ustar`, `PRCmE`, `LwLatSens`, `p_surf`, `salt_flux`, `sensible`, every 1 days |
+    | `ice.nc` | 51.97 MB | Diagnostics set in `diag_table`: snapshots of `area_shelf_h`, `shelf_mass`, `h_shelf`, `mass_flux`, `melt_rate`, `thermal_driving`, `haline_driving`, `sbdry` and 7 more, every 1 days |
+    | `ocean.stats.nc` | 0.93 MB | Domain totals at each energy-save time (energy, mass, heat, salt, maximum CFL); the netCDF form of `ocean.stats` |
+    | `ocean_geometry.nc` | 1.50 MB | Static grid: coordinates, cell sizes and areas, bottom depth `D`, Coriolis parameter, land mask |
 

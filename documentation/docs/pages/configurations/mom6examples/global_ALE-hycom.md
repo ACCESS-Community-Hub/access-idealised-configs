@@ -1,6 +1,6 @@
 # global_ALE / hycom
 
-!!! success ":white_check_mark: This configuration ran successfully"
+!!! success "Run status: :white_check_mark: ran successfully"
     Tested on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`): 64 cores, walltime used 00:00:47, 1.67 SU. Details further down this page.
 
 
@@ -139,6 +139,18 @@ From `ocean.stats.nc`: 3 records; time axis in days.
     
 ![png](../../../assets/tested-configs/notebooks/global_ALE-hycom/notebook_16_1.png)
 
+## Parameters compared with the reference
+
+<span class="chip a">A</span> GFDL's file in MOM6-examples (`c1730b8e`): [`MOM_parameter_doc.all`](https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/global_ALE/hycom/MOM_parameter_doc.all)  
+<span class="chip b">B</span> this run: `MOM_parameter_doc.all` in the run's output, `/scratch/<your-project>/$USER/mom6-examples/archive/global_ALE-hycom/output000/MOM_parameter_doc.all` when you run the script
+
+**1** parameter values differ; **5** parameters exist only in this run's MOM6 version and **13** only in the reference (new, removed or renamed parameters). Values are compared ignoring quotes, case and number formatting. Parameter names link to a search of the MOM6 source; reference values link to their line on GitHub.
+
+<table class="diff"><thead><tr><th>Parameter</th><th>Units</th><th>A: reference</th><th>B: this run</th></tr></thead><tbody><tr class="mod"><td colspan="4">MOM_set_visc</td></tr><tr class="param"><td><a href="https://github.com/mom-ocean/MOM6/search?q=SET_VISC_ANSWER_DATE" target="_blank" rel="noopener">SET_VISC_ANSWER_DATE</a></td><td class="units"></td><td class="val a" data-label="A: reference"><a href="https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/global_ALE/hycom/MOM_parameter_doc.all#L1123" target="_blank" rel="noopener">20260703</a></td><td class="val b" data-label="B: this run">99991231<span class="ln"> line 1112</span></td></tr></tbody></table>
+
+??? note "Parameters in only one of the two files (18)"
+    <table class="diff"><thead><tr><th>Parameter</th><th>Units</th><th>A: reference</th><th>B: this run</th></tr></thead><tbody><tr class="mod"><td colspan="4">MOM</td></tr><tr class="param"><td><a href="https://github.com/mom-ocean/MOM6/search?q=NONBLOCKING_P_SURF_BUG" target="_blank" rel="noopener">NONBLOCKING_P_SURF_BUG</a></td><td class="units">Boolean</td><td class="val a unset" data-label="A: reference">(not in this version)</td><td class="val b" data-label="B: this run">True<span class="ln"> line 152</span></td></tr><tr class="param"><td><a href="https://github.com/mom-ocean/MOM6/search?q=USE_UH_PARTICLES" target="_blank" rel="noopener">USE_UH_PARTICLES</a></td><td class="units">Boolean</td><td class="val a unset" data-label="A: reference">(not in this version)</td><td class="val b" data-label="B: this run">False<span class="ln"> line 207</span></td></tr><tr class="mod"><td colspan="4">MOM_barotropic</td></tr><tr class="param"><td><a href="https://github.com/mom-ocean/MOM6/search?q=DTBT_RESTART_BUG" target="_blank" rel="noopener">DTBT_RESTART_BUG</a></td><td class="units">Boolean</td><td class="val a" data-label="A: reference"><a href="https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/global_ALE/hycom/MOM_parameter_doc.all#L1831" target="_blank" rel="noopener">True</a></td><td class="val b unset" data-label="B: this run">(not in this version)</td></tr><tr class="mod"><td colspan="4">MOM_continuity_PPM</td></tr><tr class="param"><td><a href="https://github.com/mom-ocean/MOM6/search?q=CONT_USE_H_MARG_MIN" target="_blank" rel="noopener">CONT_USE_H_MARG_MIN</a></td><td class="units">Boolean</td><td class="val a" data-label="A: reference"><a href="https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/global_ALE/hycom/MOM_parameter_doc.all#L1361" target="_blank" rel="noopener">False</a></td><td class="val b unset" data-label="B: this run">(not in this version)</td></tr><tr class="mod"><td colspan="4">MOM_coord_initialization</td></tr><tr class="param"><td><a href="https://github.com/mom-ocean/MOM6/search?q=REGRID_USE_DEPTH_BASED_TIME_FILTER" target="_blank" rel="noopener">REGRID_USE_DEPTH_BASED_TIME_FILTER</a></td><td class="units">Boolean</td><td class="val a" data-label="A: reference"><a href="https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/global_ALE/hycom/MOM_parameter_doc.all#L681" target="_blank" rel="noopener">True</a></td><td class="val b unset" data-label="B: this run">(not in this version)</td></tr><tr class="param"><td><a href="https://github.com/mom-ocean/MOM6/search?q=USE_ADJUST_INTERFACE_MOTION" target="_blank" rel="noopener">USE_ADJUST_INTERFACE_MOTION</a></td><td class="units">Boolean</td><td class="val a" data-label="A: reference"><a href="https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/global_ALE/hycom/MOM_parameter_doc.all#L601" target="_blank" rel="noopener">True</a></td><td class="val b unset" data-label="B: this run">(not in this version)</td></tr><tr class="mod"><td colspan="4">MOM_diag_mediator</td></tr><tr class="param"><td><a href="https://github.com/mom-ocean/MOM6/search?q=NUM_DIAG_DOWNSAMP_LEV" target="_blank" rel="noopener">NUM_DIAG_DOWNSAMP_LEV</a></td><td class="units"></td><td class="val a" data-label="A: reference"><a href="https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/global_ALE/hycom/MOM_parameter_doc.all#L820" target="_blank" rel="noopener">0</a></td><td class="val b unset" data-label="B: this run">(not in this version)</td></tr><tr class="param"><td><a href="https://github.com/mom-ocean/MOM6/search?q=SYMMETRIC_DOWNSAMPLE_SUMS" target="_blank" rel="noopener">SYMMETRIC_DOWNSAMPLE_SUMS</a></td><td class="units">Boolean</td><td class="val a" data-label="A: reference"><a href="https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/global_ALE/hycom/MOM_parameter_doc.all#L809" target="_blank" rel="noopener">False</a></td><td class="val b unset" data-label="B: this run">(not in this version)</td></tr><tr class="mod"><td colspan="4">MOM_geothermal</td></tr><tr class="param"><td><a href="https://github.com/mom-ocean/MOM6/search?q=GEOTHERMAL_MIN_COLUMN_THICKNESS" target="_blank" rel="noopener">GEOTHERMAL_MIN_COLUMN_THICKNESS</a></td><td class="units">m</td><td class="val a" data-label="A: reference"><a href="https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/global_ALE/hycom/MOM_parameter_doc.all#L2007" target="_blank" rel="noopener">0.0</a></td><td class="val b unset" data-label="B: this run">(not in this version)</td></tr><tr class="mod"><td colspan="4">MOM_grid_init</td></tr><tr class="param"><td><a href="https://github.com/mom-ocean/MOM6/search?q=READ_MEAN_SEA_LEVEL" target="_blank" rel="noopener">READ_MEAN_SEA_LEVEL</a></td><td class="units">Boolean</td><td class="val a" data-label="A: reference"><a href="https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/global_ALE/hycom/MOM_parameter_doc.all#L255" target="_blank" rel="noopener">False</a></td><td class="val b unset" data-label="B: this run">(not in this version)</td></tr><tr class="mod"><td colspan="4">MOM_PressureForce_FV</td></tr><tr class="param"><td><a href="https://github.com/mom-ocean/MOM6/search?q=RHO_PGF_REF_BUG" target="_blank" rel="noopener">RHO_PGF_REF_BUG</a></td><td class="units">Boolean</td><td class="val a unset" data-label="A: reference">(not in this version)</td><td class="val b" data-label="B: this run">True<span class="ln"> line 1455</span></td></tr><tr class="mod"><td colspan="4">MOM_restart</td></tr><tr class="param"><td><a href="https://github.com/mom-ocean/MOM6/search?q=ENSEMBLE_APPENDIX_PREFIX" target="_blank" rel="noopener">ENSEMBLE_APPENDIX_PREFIX</a></td><td class="units"></td><td class="val a" data-label="A: reference"><a href="https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/global_ALE/hycom/MOM_parameter_doc.all#L404" target="_blank" rel="noopener">&quot;&quot;</a></td><td class="val b unset" data-label="B: this run">(not in this version)</td></tr><tr class="mod"><td colspan="4">MOM_set_visc</td></tr><tr class="param"><td><a href="https://github.com/mom-ocean/MOM6/search?q=CDRAG_MAP" target="_blank" rel="noopener">CDRAG_MAP</a></td><td class="units">Boolean</td><td class="val a" data-label="A: reference"><a href="https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/global_ALE/hycom/MOM_parameter_doc.all#L1159" target="_blank" rel="noopener">False</a></td><td class="val b unset" data-label="B: this run">(not in this version)</td></tr><tr class="param"><td><a href="https://github.com/mom-ocean/MOM6/search?q=CHANNEL_DRAG_SHELFBREAK_DEPTH" target="_blank" rel="noopener">CHANNEL_DRAG_SHELFBREAK_DEPTH</a></td><td class="units">m</td><td class="val a" data-label="A: reference"><a href="https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/global_ALE/hycom/MOM_parameter_doc.all#L1141" target="_blank" rel="noopener">0.0</a></td><td class="val b unset" data-label="B: this run">(not in this version)</td></tr><tr class="mod"><td colspan="4">MOM_thickness_diffuse</td></tr><tr class="param"><td><a href="https://github.com/mom-ocean/MOM6/search?q=USE_THICKNESS_DIFFUSE_ANN" target="_blank" rel="noopener">USE_THICKNESS_DIFFUSE_ANN</a></td><td class="units">Boolean</td><td class="val a" data-label="A: reference"><a href="https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/global_ALE/hycom/MOM_parameter_doc.all#L1211" target="_blank" rel="noopener">False</a></td><td class="val b unset" data-label="B: this run">(not in this version)</td></tr><tr class="mod"><td colspan="4">MOM_tracer_flow_control</td></tr><tr class="param"><td><a href="https://github.com/mom-ocean/MOM6/search?q=USE_FILE_DYES" target="_blank" rel="noopener">USE_FILE_DYES</a></td><td class="units">Boolean</td><td class="val a unset" data-label="A: reference">(not in this version)</td><td class="val b" data-label="B: this run">False<span class="ln"> line 439</span></td></tr><tr class="mod"><td colspan="4">MOM_verticalGrid</td></tr><tr class="param"><td><a href="https://github.com/mom-ocean/MOM6/search?q=ADVECTION_SCHEME_VARIANCE_UNDERFLOW" target="_blank" rel="noopener">ADVECTION_SCHEME_VARIANCE_UNDERFLOW</a></td><td class="units">Conc2 (tracer dependent)</td><td class="val a unset" data-label="A: reference">(not in this version)</td><td class="val b" data-label="B: this run">1.0E-23<span class="ln"> line 359</span></td></tr><tr class="mod"><td colspan="4">ocean_stochastics_init</td></tr><tr class="param"><td><a href="https://github.com/mom-ocean/MOM6/search?q=STOCHASTICS_ANSWER_DATE" target="_blank" rel="noopener">STOCHASTICS_ANSWER_DATE</a></td><td class="units"></td><td class="val a" data-label="A: reference"><a href="https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/global_ALE/hycom/MOM_parameter_doc.all#L2600" target="_blank" rel="noopener">20250101</a></td><td class="val b unset" data-label="B: this run">(not in this version)</td></tr></tbody></table>
+
 ## Provenance
 
 | What | Value |
@@ -198,18 +210,6 @@ From `ocean.stats.nc`: 3 records; time axis in days.
     | `INPUT/vgrid.cdl` | `5a93ca59f7f4d4807eeaef83ebce0297` | MOM6-examples: `ocean_only/global_ALE/common/INPUT/vgrid.cdl` |
     | `INPUT/vgrid.nc` | `36555c9866ffd1f20b9d1954f3dd24b4` | MOM6-examples: `ocean_only/global_ALE/common/INPUT/vgrid.nc` |
 
-??? info "Parameters differing from the upstream MOM_parameter_doc.all (19)"
-    Comparison of this run's `MOM_parameter_doc.all` with the upstream MOM_parameter_doc.all.
-    Differences show where the ACCESS-OM3 MOM6 version adds, drops or changes default parameters.
-
-    | Parameter | reference | this run |
-    |---|---|---|
-    | `SET_VISC_ANSWER_DATE` | `20260703` | `99991231` |
-
-    New in this run: `ADVECTION_SCHEME_VARIANCE_UNDERFLOW`, `NONBLOCKING_P_SURF_BUG`, `RHO_PGF_REF_BUG`, `USE_FILE_DYES`, `USE_UH_PARTICLES`
-
-    Only upstream: `CDRAG_MAP`, `CHANNEL_DRAG_SHELFBREAK_DEPTH`, `CONT_USE_H_MARG_MIN`, `DTBT_RESTART_BUG`, `ENSEMBLE_APPENDIX_PREFIX`, `GEOTHERMAL_MIN_COLUMN_THICKNESS`, `NUM_DIAG_DOWNSAMP_LEV`, `READ_MEAN_SEA_LEVEL`, `REGRID_USE_DEPTH_BASED_TIME_FILTER`, `STOCHASTICS_ANSWER_DATE`, `SYMMETRIC_DOWNSAMPLE_SUMS`, `USE_ADJUST_INTERFACE_MOTION`, `USE_THICKNESS_DIFFUSE_ANN`
-
 ??? info "Run-time environment (selected variables from payu's `env.yaml`)"
     | Variable | Value |
     |---|---|
@@ -254,27 +254,27 @@ From `ocean.stats.nc`: 3 records; time axis in days.
     ```
 
 ??? info "Output files"
-    | File | Size |
-    |---|---|
-    | `MOM_IC.nc` | 461.20 MB |
-    | `Vertical_coordinate.nc` | 0.00 MB |
-    | `ave_prog.nc` | 76.05 MB |
-    | `cmor.nc` | 159.83 MB |
-    | `cmor2.nc` | 3.66 MB |
-    | `cmor_scalar.nc` | 0.02 MB |
-    | `cmor_z.nc` | 61.88 MB |
-    | `cont.nc` | 229.95 MB |
-    | `forcing.nc` | 36.34 MB |
-    | `layer.nc` | 0.02 MB |
-    | `ocean.stats.nc` | 0.01 MB |
-    | `ocean_geometry.nc` | 11.56 MB |
-    | `ocean_static.nc` | 5.79 MB |
-    | `ocean_static_cmor.nc` | 0.32 MB |
-    | `prog.nc` | 106.29 MB |
-    | `prog_z.nc` | 41.23 MB |
-    | `scalar.nc` | 0.02 MB |
-    | `sfc_ave.nc` | 3.66 MB |
-    | `surface.nc` | 7.90 MB |
-    | `tracer.nc` | 243.92 MB |
-    | `visc.nc` | 78.35 MB |
+    | File | Size | What it is |
+    |---|---|---|
+    | `MOM_IC.nc` | 461.20 MB | Initial state written by MOM6 at the start of the run |
+    | `Vertical_coordinate.nc` | 0.00 MB | The vertical coordinate: target values of the layers or levels |
+    | `ave_prog.nc` | 76.05 MB | Diagnostics set in `diag_table`: time averages of `u`, `v`, `h`, `e`, every 1 days |
+    | `cmor.nc` | 159.83 MB | Diagnostics set in `diag_table`: snapshots and averages of `pso`, `tauuo`, `tauvo`, `wfo`, `rsntds`, `rlntds`, `hfibthermds`, `hfrunoffds` and 27 more, every 1 days |
+    | `cmor2.nc` | 3.66 MB | Diagnostics set in `diag_table`: snapshots and averages of `hfgeou`, `hfrainds`, `hfevapds`, `hfrunoffds`, `hfsnthermds`, `hfsifrazil`, `hfibthermds`, `rlntds` and 2 more, every 1 days |
+    | `cmor_scalar.nc` | 0.02 MB | Diagnostics set in `diag_table`: time averages of `masso`, `thetaoga`, `soga`, `tosga`, `sosga`, `volo`, every 1 days |
+    | `cmor_z.nc` | 61.88 MB | Diagnostics set in `diag_table`: time averages of `uo`, `vo`, `so`, `thetao`, `umo`, `vmo`, every 1 days |
+    | `cont.nc` | 229.95 MB | Diagnostics set in `diag_table`: time averages of `wd`, `uh`, `vh`, `h_rho`, `uh_rho`, `vh_rho`, `uhGM_rho`, `vhGM_rho` and 11 more, every 1 days |
+    | `forcing.nc` | 36.34 MB | Diagnostics set in `diag_table`: time averages of `taux`, `tauy`, `ustar`, `p_surf`, `PRCmE`, `net_massin`, `net_massout`, `lrunoff` and 55 more, every 12 hours |
+    | `layer.nc` | 0.02 MB | Diagnostics set in `diag_table`: time averages of `temp_layer_ave`, `salt_layer_ave`, every 1 days |
+    | `ocean.stats.nc` | 0.01 MB | Domain totals at each energy-save time (energy, mass, heat, salt, maximum CFL); the netCDF form of `ocean.stats` |
+    | `ocean_geometry.nc` | 11.56 MB | Static grid: coordinates, cell sizes and areas, bottom depth `D`, Coriolis parameter, land mask |
+    | `ocean_static.nc` | 5.79 MB | Diagnostics set in `diag_table`: snapshots of `geolon`, `geolat`, `geolon_c`, `geolat_c`, `geolon_u`, `geolat_u`, `geolon_v`, `geolat_v` and 7 more, written once (static) |
+    | `ocean_static_cmor.nc` | 0.32 MB | Diagnostics set in `diag_table`: snapshots of `areacello`, written once (static) |
+    | `prog.nc` | 106.29 MB | Diagnostics set in `diag_table`: snapshots of `u`, `v`, `h`, `e`, `temp`, `salt`, every 1 days |
+    | `prog_z.nc` | 41.23 MB | Diagnostics set in `diag_table`: time averages of `u`, `v`, `temp`, `temp_xyave`, `salt`, every 1 days |
+    | `scalar.nc` | 0.02 MB | Diagnostics set in `diag_table`: time averages of `masso`, `thetaoga`, `soga`, `tosga`, `sosga`, `volo`, `ssh_ga`, `prcme_ga` and 9 more, every 1 days |
+    | `sfc_ave.nc` | 3.66 MB | Diagnostics set in `diag_table`: time averages of `SSH`, `SST`, `SSS`, `speed`, `SSU`, `SSV`, every 12 hours |
+    | `surface.nc` | 7.90 MB | Diagnostics set in `diag_table`: snapshots of `mass_wt`, `opottempmint`, `somint`, `SSH`, `SST`, `SSS`, `speed`, `SSU` and 1 more, every 12 hours |
+    | `tracer.nc` | 243.92 MB | Diagnostics set in `diag_table`: time averages of `T_adx`, `T_ady`, `T_diffx`, `T_diffy`, `S_adx`, `S_ady`, `S_diffx`, `S_diffy` and 13 more, every 1 days |
+    | `visc.nc` | 78.35 MB | Diagnostics set in `diag_table`: time averages of `Kd_interface`, `Kd_layer`, `Kd_effective`, `Kd_itides`, `Kd_shear`, `Kd_BBL`, `MLD_003`, `subML_N2` and 3 more, every 1 days |
 
