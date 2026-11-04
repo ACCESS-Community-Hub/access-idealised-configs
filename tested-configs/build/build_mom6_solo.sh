@@ -87,3 +87,4 @@ MOM6_SOLO=$(spack -e "$ENV_DIR" location -i access-mom6)/bin/mom6-solo
 ls -l "$MOM6_SOLO"
 echo "Built: $MOM6_SOLO"
 echo "In a payu config.yaml use:   exe: $MOM6_SOLO"
+echo "Check it matches the release: bash $(dirname "$0")/compare_with_release.sh $MOM6_SOLO"

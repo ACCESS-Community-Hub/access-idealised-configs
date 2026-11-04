@@ -31,44 +31,68 @@ The script `build_mom6_solo.sh` (shown in full below):
 - reuses the release's dependencies (FMS, netCDF, MPI, ...), so it compiles only MOM6 and the
   small `access-generic-tracers` library it links to.
 
-The build needs two things that a single Gadi node usually does not have together:
+### Build it
 
-- **internet access**, to download the recipe and source code (login nodes have it; PBS
-  compute nodes do not);
-- **a CPU with AVX-512**, because the release and its build tools are compiled for
-  `x86_64_v4` (`normalsr` Sapphire Rapids nodes have it).
+From a Gadi login node, copy `build_mom6_solo.sh` (below) and run it:
 
-So run the script in two steps:
+```bash
+PROJECT=<your-project> bash build_mom6_solo.sh
+```
 
-1. On a login node, download everything without compiling:
+It works in `/g/data/<your-project>/$USER/mom6-solo-build` and prints the path of your new
+`mom6-solo` at the end. It needs a CPU with AVX-512, because the release and its build tools
+are compiled for `x86_64_v4`; the script checks this and stops if the CPU lacks it.
 
-    ```bash
-    FETCH_ONLY=1 bash build_mom6_solo.sh
-    ```
+!!! warning "Not yet tested on a login node"
+    Our tested build (below) ran as a PBS job on a `normalsr` (Sapphire Rapids) node, after
+    downloading the sources on a login node. If the script stops on your login node because
+    of AVX-512, use the two-step route below.
 
-2. Compile in a PBS job on a Sapphire Rapids node:
+??? note "Two-step build (download on a login node, compile in a PBS job)"
+    1. On a login node, download everything without compiling:
 
-    ```bash
-    qsub -q normalsr -l wd -l ncpus=8,mem=32GB,walltime=1:30:00,jobfs=20GB \
-         -l storage=gdata/vk83+gdata/$PROJECT -- /bin/bash -l build_mom6_solo.sh
-    ```
+        ```bash
+        FETCH_ONLY=1 PROJECT=<your-project> bash build_mom6_solo.sh
+        ```
 
-If your login node has AVX-512 (`grep -c avx512f /proc/cpuinfo` prints a number above 0), a
-single `bash build_mom6_solo.sh` there does both steps.
+    2. Compile in a PBS job on a Sapphire Rapids node:
+
+        ```bash
+        qsub -q normalsr -l wd -l ncpus=8,mem=32GB,walltime=1:30:00,jobfs=20GB \
+             -l storage=gdata/vk83+gdata/$PROJECT -- /bin/bash -l build_mom6_solo.sh
+        ```
+
+    Don't use Broadwell nodes (`normalbw`): without AVX-512 Spack cannot reuse any of the
+    release's packages and starts compiling everything, and the release's own `cmake` crashes
+    there with an illegal instruction.
 
 ??? example "build_mom6_solo.sh"
     ```bash
     --8<-- "tested-configs/build/build_mom6_solo.sh"
     ```
 
---8<-- "tested-configs/build/tested.md"
+### Check it matches the release
 
-!!! warning "Which node you build on matters"
-    We first tried on a Broadwell node (a `normalbw` job, no AVX-512). There Spack
-    targets `x86_64_v3`, cannot reuse any of the release's `x86_64_v4` packages and
-    starts compiling *everything*, which takes hours. Forcing it to target `x86_64_v4`
-    gets further, but then the release's own `cmake` crashes (`exited with status -4`,
-    illegal instruction). The script therefore stops early on CPUs without AVX-512.
+A plain `md5sum` of your `mom6-solo` will never match the release's, because each executable
+records where it is installed, and that shifts every address in the file. Instead, compare
+what does not depend on the install location, the symbol table and the machine code
+(about a minute):
+
+```bash
+bash compare_with_release.sh /path/to/your/bin/mom6-solo
+```
+
+It prints `MATCH` if your build has the same functions and the same instructions as the
+release. To also check the answers, run double_gyre with your executable
+(`test_own_build.sh`, below) and compare its `ocean.stats` with the
+[tested run](../configurations/mom6examples/double_gyre.md).
+
+??? example "compare_with_release.sh"
+    ```bash
+    --8<-- "tested-configs/build/compare_with_release.sh"
+    ```
+
+--8<-- "tested-configs/build/tested.md"
 
 !!! info "Where Spack puts things"
     By default, installs go to `/g/data/$PROJECT/$USER/spack/1.1/release` and caches to

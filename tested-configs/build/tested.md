@@ -8,8 +8,11 @@
       dependencies from the release and compiled only `access-mom6` (2 min) and
       `access-generic-tracers`.
     - Result: `.../linux-x86_64_v4/access-mom6-2026.05.003-zvhf6um.../bin/mom6-solo`
-      (md5 `1bfa03e94c085862049e6513f37bc79c`; the release's is `4785d157c76c30d8d01baf7d0f69d218`.
-      The md5s differ, presumably because the install paths (RPATHs) are embedded in the binary.)
+      (file md5 `1bfa03e94c085862049e6513f37bc79c`; the release's is `4785d157c76c30d8d01baf7d0f69d218`).
+    - `compare_with_release.sh` on the two executables: **MATCH**. The symbol tables (md5
+      `6afa1279eb4eb58a7122f8a7f074fc9b`) and the address-masked machine code (md5
+      `a052e1c20fbdb1ae9e1a1b0f12cc51c4`) are identical; the file md5s differ only because the
+      install path shifts the addresses.
     - We ran [double_gyre](../configurations/mom6examples/double_gyre.md) with it
       (`tested-configs/build/test_own_build.sh`). Its `ocean.stats` is **byte-for-byte
       identical** to the run with the released executable.
