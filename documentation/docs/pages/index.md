@@ -14,7 +14,7 @@ you don't need to compile MOM6. The website has:
 - **Configurations**
     - [Overview](configurations/Overview.md): every configuration with whether it ran, its
       prerequisites and links to its page.
-    - [How the configurations were run](configurations/how-they-were-run.md): the versions, scripts and
+    - [How this website is generated](configurations/how-they-were-run.md): the versions, scripts and
       checks used for every run.
     - One page per configuration: the COSIMA community configurations (ANU-TUB,
       ISOMIP+ Ocean0) and the MOM6 examples, each with its run script and results.
@@ -23,10 +23,13 @@ you don't need to compile MOM6. The website has:
       configurations; this page shows how to build your own `mom6-solo` with ACCESS-NRI's Spack.
 - **[Contributing](contributing.md)**: report a bug, add a configuration or improve these pages.
 
-## How the configurations were run
+## How this website is generated (mostly by Claude Code)
 
-Every configuration on this website, both the COSIMA community ones and the MOM6 examples,
-was run in the same way:
+This website documents itself. Every configuration page, run script, status table and figure is
+produced by the same scripts in
+[`tested-configs/`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs),
+written mostly by Claude Code, and is regenerated each time the configurations are re-tested.
+Every configuration, both the COSIMA community ones and the MOM6 examples, was run in the same way:
 
 - on NCI Gadi, with the prebuilt MOM6 ocean-only executable `mom6-solo` from the ACCESS-OM3
   release ([`access-om3/2026.05.004`](https://github.com/ACCESS-NRI/ACCESS-OM3/releases)), so
@@ -37,7 +40,7 @@ was run in the same way:
 
 --8<-- "tested-configs/results/status-summary.md"
 The status of every run is in the tables on the [Overview](configurations/Overview.md).
-Details: [How the configurations were run](configurations/how-they-were-run.md).
+Details: [How this website is generated](configurations/how-they-were-run.md).
 
 ## Quick start
 

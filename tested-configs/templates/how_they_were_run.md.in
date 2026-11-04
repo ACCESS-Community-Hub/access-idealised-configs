@@ -1,4 +1,4 @@
-# How the configurations were run
+# How this website is generated
 
 Every configuration on this website, both the COSIMA community ones and the MOM6 examples,
 was run in the same way:

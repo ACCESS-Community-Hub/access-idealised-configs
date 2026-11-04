@@ -475,7 +475,7 @@ index = (index
 open(os.path.join(DOCS, "pages", "configurations", "how-they-were-run.md"), "w").write(index)
 # This page used to describe the MOM6 examples only; keep its URL working for old links.
 open(PAGES + ".md", "w").write("# MOM6 examples\n\nThis page has moved: see "
-                               "[How the configurations were run](how-they-were-run.md).\n")
+                               "[How this website is generated](how-they-were-run.md).\n")
 
 # ---- navigation block in mkdocs.yml ---------------------------------------------------
 nav = ["        - MOM6 examples:"]

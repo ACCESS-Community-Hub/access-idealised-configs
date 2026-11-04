@@ -102,7 +102,7 @@ nav:
   - Home:                  pages/index.md
   - Configurations:
         - Overview: pages/configurations/Overview.md
-        - How the configurations were run: pages/configurations/how-they-were-run.md
+        - How this website is generated: pages/configurations/how-they-were-run.md
         - COSIMA community configurations:
             - ANU-TUB:  pages/configurations/anu-tub.md
             - ISOMIP+ Ocean0: pages/configurations/isomip-plus.md

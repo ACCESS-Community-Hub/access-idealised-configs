@@ -1,3 +1,3 @@
 # MOM6 examples
 
-This page has moved: see [How the configurations were run](how-they-were-run.md).
+This page has moved: see [How this website is generated](how-they-were-run.md).
