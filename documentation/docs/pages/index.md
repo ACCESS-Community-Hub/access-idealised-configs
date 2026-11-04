@@ -2,7 +2,7 @@
     This website and the workflow behind it are **not officially supported by ACCESS-NRI**.
     The workflows shown here may break or be removed at any time. Community contributions are
     very welcome, however: see [Contributing](contributing.md). Similarly, pull requests that update
-    the website for new ACCESS-OM3 releases are welcome: change `tested-configs/versions.env` and
+    the website for new ACCESS-OM3 releases are great: change `tested-configs/versions.env` and
     run `tested-configs/regenerate_all.sh` (see
     [How this website is generated](configurations/how-they-were-run.md)).
 
