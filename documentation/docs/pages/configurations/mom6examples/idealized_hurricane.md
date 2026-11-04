@@ -1,16 +1,14 @@
 # idealized_hurricane
 
+!!! success ":white_check_mark: This configuration ran successfully"
+    Tested on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`): 32 cores, walltime used 00:00:32, 0.57 SU. Details further down this page.
+
+
 300 x 180 x 80 cartesian grid, `Z*` coordinate, topography `flat`, wind `ideal_hurr`, buoyancy `const`, 0.05 days ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/idealized_hurricane))
 
-Upstream configuration: [`ocean_only/idealized_hurricane`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/idealized_hurricane) (MOM6-examples commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802)).
+Configuration files: [`ocean_only/idealized_hurricane`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/idealized_hurricane) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under Provenance.)
 
 GFDL excludes this example from its own automated test suite (`EXCLUDE` in [`ocean_only/Makefile`](https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/Makefile)).
-
-!!! success "Tested: this example runs"
-    Ran on Gadi on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`) and `payu/1.3.6_1` on 32 Sapphire Rapids core(s); walltime used 00:00:32, 0.57 SU.
-
-!!! note "Generated with Claude Code"
-    This page, the script and the figure were generated automatically by [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). See [How these pages were made](../mom6examples.md#how-these-pages-were-made).
 
 ## Run it yourself
 
@@ -42,31 +40,95 @@ Last lines of `ocean.stats`:
     14,       0.049,     0, En 2.3304007189865622E-08, CFL  0.00043, SL  0.0000E+00, M 2.23560E+19, S 35.0000, T  6.2974, Me -7.90E-19, Se  1.74E-15, Te -2.11E-15
 ```
 
-Key parameters of this run (from `MOM_parameter_doc.all`):
+## Domain, forcing and output
+
+Made by running the notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) on this run's output folder (code hidden here). It only plots files MOM6 wrote during the run.
+
+### Set-up
+
+
+Values from this run's `MOM_parameter_doc.all`:
 
 | Parameter | Value |
 |---|---|
 | `NIGLOBAL` | `300` |
 | `NJGLOBAL` | `180` |
 | `NK` | `80` |
-| `GRID_CONFIG` | `"cartesian"` |
-| `TOPO_CONFIG` | `"flat"` |
+| `GRID_CONFIG` | `cartesian` |
+| `TOPO_CONFIG` | `flat` |
 | `REENTRANT_X` | `False` |
 | `REENTRANT_Y` | `False` |
 | `USE_REGRIDDING` | `True` |
-| `REGRIDDING_COORDINATE_MODE` | `"Z*"` |
-| `BOUSSINESQ` | `True` |
+| `REGRIDDING_COORDINATE_MODE` | `Z*` |
 | `ENABLE_THERMODYNAMICS` | `True` |
-| `EQN_OF_STATE` | `"LINEAR"` |
-| `THICKNESS_CONFIG` | `"coord"` |
-| `TS_CONFIG` | `"SCM_CVMix_tests"` |
-| `WIND_CONFIG` | `"ideal_hurr"` |
-| `BUOY_CONFIG` | `"const"` |
+| `EQN_OF_STATE` | `LINEAR` |
+| `THICKNESS_CONFIG` | `coord` |
+| `TS_CONFIG` | `SCM_CVMix_tests` |
+| `WIND_CONFIG` | `ideal_hurr` |
+| `BUOY_CONFIG` | `const` |
 | `ICE_SHELF` | `False` |
 | `DT` | `300.0` |
 | `DT_THERM` | `300.0` |
 | `DAYMAX` | `0.05` |
-| `TIMEUNIT` | `8.64E+04` |
+
+
+### Domain and bottom depth
+
+
+Grid: 300 x 180 points (`GRID_CONFIG = cartesian`), x from 5 to 2995 kilometers, y from 5 to 1795 kilometers. Bottom depth `D` from 4000 to 4000 m (`TOPO_CONFIG = flat`).
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/idealized_hurricane/notebook_8_1.png)
+    
+
+
+### Initial state
+
+
+MOM6 did not write an initial-state file for this run (it does when `SAVE_INITIAL_CONDS = True`), so the initial state is not shown here; see the run's `MOM_parameter_doc.all` (`THICKNESS_CONFIG = coord`, `TS_CONFIG = SCM_CVMix_tests`).
+
+
+### Surface forcing
+
+
+Time-mean of the surface forcing saved in the diagnostics: `taux` (Zonal surface stress from ocean interactions with atmos and ice, from `surffluxes.nc`), `tauy` (Meridional surface stress ocean interactions with atmos and ice, from `surffluxes.nc`).
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/idealized_hurricane/notebook_12_1.png)
+    
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/idealized_hurricane/notebook_12_2.png)
+    
+
+
+### Energy and stability through the run
+
+
+    
+![png](../../../assets/tested-configs/notebooks/idealized_hurricane/notebook_14_0.png)
+    
+
+
+
+From `ocean.stats.nc`: 2 records; time axis in days.
+
+
+### Final state
+
+
+`temp` at the last record of `prog.nc` (average over the last output interval).
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/idealized_hurricane/notebook_16_1.png)
 
 ## Provenance
 
@@ -87,10 +149,10 @@ Key parameters of this run (from `MOM_parameter_doc.all`):
 | PBS Memory Used | `13.07GB` |
 
 ??? info "Input files and md5 hashes (from payu `manifests/input.yaml`)"
-    | File | md5 | Path |
+    | File | md5 | Comes from |
     |---|---|---|
-    | `INPUT/vgrid.cdl` | `09773fe41d7e20a6377b0c4465c4ca0f` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/idealized_hurricane/INPUT/vgrid.cdl` |
-    | `INPUT/vgrid.nc` | `8d9fc501755b30f6c6619055834ba8e6` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/idealized_hurricane/INPUT/vgrid.nc` |
+    | `INPUT/vgrid.cdl` | `09773fe41d7e20a6377b0c4465c4ca0f` | MOM6-examples: `ocean_only/idealized_hurricane/INPUT/vgrid.cdl` |
+    | `INPUT/vgrid.nc` | `8d9fc501755b30f6c6619055834ba8e6` | MOM6-examples: `ocean_only/idealized_hurricane/INPUT/vgrid.nc` |
 
 ??? info "Parameters differing from the upstream MOM_parameter_doc.all (88)"
     Comparison of this run's `MOM_parameter_doc.all` with the upstream MOM_parameter_doc.all.

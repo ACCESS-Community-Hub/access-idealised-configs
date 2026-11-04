@@ -3,7 +3,7 @@
 # Run ANU-TUB (github.com/ACCESS-Community-Hub/anu-tub) on NCI Gadi with the
 # prebuilt MOM6 ocean-only ("solo") executable from ACCESS-OM3.
 #
-# Usage (from a Gadi *login node*, NOT from inside an ARE/JupyterLab container):
+# Usage (from a Gadi login node):
 #     PROJECT=<your NCI project> bash anu-tub.sh
 #
 # What it does:

@@ -1,5 +1,7 @@
 # Building MOM6
 
+--8<-- "tested-configs/templates/claude_caveat.md"
+
 !!! tip "Do you need to build MOM6?"
     **To run MOM6 unchanged: no.** Since ACCESS-OM3 `2026.05.x`, the release module provides
     the ocean-only ("solo") executable:
@@ -21,8 +23,10 @@ If you notice anything that is missing or could be improved, please
 
 ## Build your own `mom6-solo` with ACCESS-NRI's Spack
 
-This uses ACCESS-NRI's shared Spack 1.1 instance (`module load spack/1.1`, needs membership
-of `vk83`) and the recipe of an ACCESS-OM3 release. The release builds the full coupled
+This uses ACCESS-NRI's shared Spack 1.1 instance, enabled as in the ACCESS-Hive docs
+([Enable spack](https://docs.access-hive.org.au/getting_started/spack/#enable-spack):
+`module use /g/data/vk83/modules && module load spack`; the default `spack` module is 1.1;
+needs membership of `vk83`) and the recipe of an ACCESS-OM3 release. The release builds the full coupled
 model, so the script swaps the `access-om3` spec for `access-mom6` (`+mom6_solo ~access3`).
 It reuses the release's dependencies (FMS, netCDF, MPI, ...) and compiles only MOM6
 (and the small `access-generic-tracers` library it links to).
@@ -67,7 +71,7 @@ non-zero), a single `bash build_mom6_solo.sh` does everything.
     guide, adapted to `access-mom6`, but we have not run them yet.
 
 ```bash
-module use /g/data/vk83/modules && module load spack/1.1
+module use /g/data/vk83/modules && module load spack
 ENV_DIR=/g/data/$PROJECT/$USER/mom6-solo-build/mom6-solo-env     # made by build_mom6_solo.sh
 git clone --recursive https://github.com/ACCESS-NRI/MOM6.git my-MOM6     # then edit my-MOM6/src/...
 spack -e $ENV_DIR develop --path $PWD/my-MOM6 access-mom6@2026.05.003

@@ -9,7 +9,7 @@
 # Input file (ice-shelf thickness / surface pressure, 160 kB):
 #   github.com/claireyung/isomip-test-mom6-for-iom3-configs  INPUT/Ocean0_3D_Claire.nc
 #
-# Usage (from a Gadi *login node*, NOT from inside an ARE/JupyterLab container):
+# Usage (from a Gadi login node):
 #     PROJECT=<your NCI project> bash isomip-plus-ocean0.sh
 #
 # Written with Claude Code for github.com/ACCESS-Community-Hub/mom6-idealised-configs

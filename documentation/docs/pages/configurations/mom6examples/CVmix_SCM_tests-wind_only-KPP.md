@@ -1,14 +1,12 @@
 # CVmix_SCM_tests / wind_only / KPP
 
+!!! success ":white_check_mark: This configuration ran successfully"
+    Tested on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`): 1 cores, walltime used 00:00:13, 0.01 SU. Details further down this page.
+
+
 2 x 2 x 400 cartesian grid, `Z*` coordinate, topography `flat`, wind `const`, buoyancy `zero`, 5 days ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/CVmix_SCM_tests/wind_only/KPP), [README](https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/CVmix_SCM_tests/README.md))
 
-Upstream configuration: [`ocean_only/CVmix_SCM_tests/wind_only/KPP`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/CVmix_SCM_tests/wind_only/KPP) (MOM6-examples commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802)).
-
-!!! success "Tested: this example runs"
-    Ran on Gadi on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`) and `payu/1.3.6_1` on 1 Sapphire Rapids core(s); walltime used 00:00:13, 0.01 SU.
-
-!!! note "Generated with Claude Code"
-    This page, the script and the figure were generated automatically by [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). See [How these pages were made](../mom6examples.md#how-these-pages-were-made).
+Configuration files: [`ocean_only/CVmix_SCM_tests/wind_only/KPP`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/CVmix_SCM_tests/wind_only/KPP) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under Provenance.)
 
 ## Run it yourself
 
@@ -40,31 +38,101 @@ Last lines of `ocean.stats`:
    360,       5.000,     0, En 5.7941580293799889E-05, CFL  0.00054, SL -3.4106E-13, M 1.98264E+16, S 35.0000, T 13.0000, Me  0.00E+00, Se  0.00E+00, Te  3.31E-15
 ```
 
-Key parameters of this run (from `MOM_parameter_doc.all`):
+## Domain, forcing and output
+
+Made by running the notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) on this run's output folder (code hidden here). It only plots files MOM6 wrote during the run.
+
+### Set-up
+
+
+Values from this run's `MOM_parameter_doc.all`:
 
 | Parameter | Value |
 |---|---|
 | `NIGLOBAL` | `2` |
 | `NJGLOBAL` | `2` |
 | `NK` | `400` |
-| `GRID_CONFIG` | `"cartesian"` |
-| `TOPO_CONFIG` | `"flat"` |
+| `GRID_CONFIG` | `cartesian` |
+| `TOPO_CONFIG` | `flat` |
 | `REENTRANT_X` | `True` |
 | `REENTRANT_Y` | `True` |
 | `USE_REGRIDDING` | `True` |
-| `REGRIDDING_COORDINATE_MODE` | `"Z*"` |
-| `BOUSSINESQ` | `True` |
+| `REGRIDDING_COORDINATE_MODE` | `Z*` |
 | `ENABLE_THERMODYNAMICS` | `True` |
-| `EQN_OF_STATE` | `"LINEAR"` |
-| `THICKNESS_CONFIG` | `"coord"` |
-| `TS_CONFIG` | `"SCM_CVMix_tests"` |
-| `WIND_CONFIG` | `"const"` |
-| `BUOY_CONFIG` | `"zero"` |
+| `EQN_OF_STATE` | `LINEAR` |
+| `THICKNESS_CONFIG` | `coord` |
+| `TS_CONFIG` | `SCM_CVMix_tests` |
+| `WIND_CONFIG` | `const` |
+| `BUOY_CONFIG` | `zero` |
 | `ICE_SHELF` | `False` |
 | `DT` | `1200.0` |
 | `DT_THERM` | `1200.0` |
 | `DAYMAX` | `5.0` |
-| `TIMEUNIT` | `8.64E+04` |
+
+
+### Domain and bottom depth
+
+
+Grid: 2 x 2 points (`GRID_CONFIG = cartesian`), x from 0.5 to 1.5 degrees_east, y from 28.336 to 29.336 degrees_north. Bottom depth `D` from 400 to 400 m (`TOPO_CONFIG = flat`).
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/CVmix_SCM_tests-wind_only-KPP/notebook_8_1.png)
+    
+
+
+### Initial state
+
+
+`Temp` from `MOM_IC.nc`, which MOM6 writes with the initial state.
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/CVmix_SCM_tests-wind_only-KPP/notebook_10_1.png)
+    
+
+
+### Surface forcing
+
+
+Time-mean of the surface forcing saved in the diagnostics: `taux` (Zonal surface stress from ocean interactions with atmos and ice, from `surffluxes.nc`), `ustar` (Surface friction velocity = [(gustiness + tau_magnitude)/rho0]^(1/2), from `surffluxes.nc`).
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/CVmix_SCM_tests-wind_only-KPP/notebook_12_1.png)
+    
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/CVmix_SCM_tests-wind_only-KPP/notebook_12_2.png)
+    
+
+
+### Energy and stability through the run
+
+
+    
+![png](../../../assets/tested-configs/notebooks/CVmix_SCM_tests-wind_only-KPP/notebook_14_0.png)
+    
+
+
+
+From `ocean.stats.nc`: 21 records; time axis in days.
+
+
+### Final state
+
+
+`temp` at the last record of `prog_z.nc` (snapshot).
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/CVmix_SCM_tests-wind_only-KPP/notebook_16_1.png)
 
 ## Provenance
 

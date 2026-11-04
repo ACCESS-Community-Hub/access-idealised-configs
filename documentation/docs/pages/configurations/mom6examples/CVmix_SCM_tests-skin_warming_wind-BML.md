@@ -1,17 +1,15 @@
 # CVmix_SCM_tests / skin_warming_wind / BML
 
-The run stopped before writing its parameters ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/CVmix_SCM_tests/skin_warming_wind/BML), [README](https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/CVmix_SCM_tests/README.md))
+!!! failure ":x: This configuration did not run"
+    Tested on 2026-11-04 with `access-om3/2026.05.004`. The bulk-mixed-layer (BML) cases read `isopyc_coords.nc` from the run directory (`COORD_FILE = "isopyc_coords.nc"`, `INPUTDIR = "."`), but upstream only links that file in `common_BML/`, not in the `*/BML` directories, so MOM6 stops with `set_coord_from_file: Unable to open ./isopyc_coords.nc`.
 
-Upstream configuration: [`ocean_only/CVmix_SCM_tests/skin_warming_wind/BML`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/CVmix_SCM_tests/skin_warming_wind/BML) (MOM6-examples commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802)).
+
+Set-up not recorded (this run failed) ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/CVmix_SCM_tests/skin_warming_wind/BML), [README](https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/CVmix_SCM_tests/README.md))
+
+Configuration files: [`ocean_only/CVmix_SCM_tests/skin_warming_wind/BML`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/CVmix_SCM_tests/skin_warming_wind/BML) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under Provenance.)
 
 !!! failure "Known issue"
     The bulk-mixed-layer (BML) cases read `isopyc_coords.nc` from the run directory (`COORD_FILE = "isopyc_coords.nc"`, `INPUTDIR = "."`), but upstream only links that file in `common_BML/`, not in the `*/BML` directories, so MOM6 stops with `set_coord_from_file: Unable to open ./isopyc_coords.nc`. GFDL's restart-test script (`tools/MRS/setup_restart_test.sh`) copies the file in by hand. The ePBL and KPP versions of the same tests run.
-
-!!! failure "Tested: this example did NOT run successfully"
-    See the details below; the log tail shows where it stopped.
-
-!!! note "Generated with Claude Code"
-    This page, the script and the figure were generated automatically by [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). See [How these pages were made](../mom6examples.md#how-these-pages-were-made).
 
 ## Run it yourself
 

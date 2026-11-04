@@ -3,10 +3,6 @@
 
 ### What we got
 
-![anu-tub-zstar](../../assets/tested-configs/anu-tub-zstar.png)
-
-*Left: `zos` at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
-
 Last lines of `ocean.stats`:
 
 ```text
@@ -16,31 +12,89 @@ Last lines of `ocean.stats`:
   2232,      31.000,     0, En 2.2542865984382882E-05, CFL  0.00961, SL -3.3188E-10, M 1.98038E+20, S 35.0000, T  5.8752, Me  1.46E-19, Se  4.54E-17, Te -1.56E-17
 ```
 
-Key parameters of this run (from `MOM_parameter_doc.all`):
+### Domain, forcing and output
+
+Made by running the notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) on this run's output folder (code hidden here). It only plots files MOM6 wrote during the run.
+
+#### Set-up
+
+
+Values from this run's `MOM_parameter_doc.all`:
 
 | Parameter | Value |
 |---|---|
 | `NIGLOBAL` | `160` |
 | `NJGLOBAL` | `800` |
 | `NK` | `75` |
-| `GRID_CONFIG` | `"mercator"` |
-| `TOPO_CONFIG` | `"file"` |
+| `GRID_CONFIG` | `mercator` |
+| `TOPO_CONFIG` | `file` |
 | `REENTRANT_X` | `True` |
 | `REENTRANT_Y` | `False` |
 | `USE_REGRIDDING` | `True` |
-| `REGRIDDING_COORDINATE_MODE` | `"ZSTAR"` |
-| `BOUSSINESQ` | `True` |
+| `REGRIDDING_COORDINATE_MODE` | `ZSTAR` |
 | `ENABLE_THERMODYNAMICS` | `True` |
-| `EQN_OF_STATE` | `"WRIGHT"` |
-| `THICKNESS_CONFIG` | `"coord"` |
-| `TS_CONFIG` | `"linear"` |
-| `WIND_CONFIG` | `"file"` |
-| `BUOY_CONFIG` | `"file"` |
+| `EQN_OF_STATE` | `WRIGHT` |
+| `THICKNESS_CONFIG` | `coord` |
+| `TS_CONFIG` | `linear` |
+| `WIND_CONFIG` | `file` |
+| `BUOY_CONFIG` | `file` |
 | `ICE_SHELF` | `False` |
 | `DT` | `1200.0` |
 | `DT_THERM` | `3600.0` |
 | `DAYMAX` | `31.0` |
-| `TIMEUNIT` | `8.64E+04` |
+
+
+#### Domain and bottom depth
+
+
+Grid: 160 x 800 points (`GRID_CONFIG = mercator`), x from 0.125 to 39.875 degrees_east, y from -70.151 to 70.151 degrees_north. Bottom depth `D` from 0 to 4000 m (`TOPO_CONFIG = file`).
+
+
+
+    
+![png](../../assets/tested-configs/notebooks/anu-tub-zstar/notebook_8_1.png)
+    
+
+
+#### Initial state
+
+
+`Temp` from `MOM_IC.nc`, which MOM6 writes with the initial state.
+
+
+
+    
+![png](../../assets/tested-configs/notebooks/anu-tub-zstar/notebook_10_1.png)
+    
+
+
+#### Surface forcing
+
+
+No surface forcing is saved in this run's diagnostics. The forcing is set by `WIND_CONFIG = file` and `BUOY_CONFIG = file` (see the MOM6 documentation for these options).
+
+
+#### Energy and stability through the run
+
+
+    
+![png](../../assets/tested-configs/notebooks/anu-tub-zstar/notebook_14_0.png)
+    
+
+
+
+From `ocean.stats.nc`: 32 records; time axis in days.
+
+
+#### Final state
+
+
+`Temp` at the last record of `MOM_IC.nc` (snapshot).
+
+
+
+    
+![png](../../assets/tested-configs/notebooks/anu-tub-zstar/notebook_16_1.png)
 
 ### Provenance
 
@@ -61,11 +115,11 @@ Key parameters of this run (from `MOM_parameter_doc.all`):
 | PBS Memory Used | `90.94GB` |
 
 ??? info "Input files and md5 hashes (from payu `manifests/input.yaml`)"
-    | File | md5 | Path |
+    | File | md5 | Comes from |
     |---|---|---|
-    | `INPUT/forcing.nc` | `aa75509526935276ef3f5346b3ad15b8` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/anu-tub/input/forcing.nc` |
-    | `INPUT/sst.nc` | `3bb095f47357de92d5a8e743e3e1a1f4` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/anu-tub/input/sst.nc` |
-    | `INPUT/topog.nc` | `53582824d67e2420f52498cfdff1d593` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/anu-tub/input/topog.nc` |
+    | `INPUT/forcing.nc` | `aa75509526935276ef3f5346b3ad15b8` | `anu-tub/input/forcing.nc` |
+    | `INPUT/sst.nc` | `3bb095f47357de92d5a8e743e3e1a1f4` | `anu-tub/input/sst.nc` |
+    | `INPUT/topog.nc` | `53582824d67e2420f52498cfdff1d593` | `anu-tub/input/topog.nc` |
 
 ??? info "Parameters differing from the `docs/MOM_parameter_doc.all` committed in anu-tub (0)"
     Comparison of this run's `MOM_parameter_doc.all` with the `docs/MOM_parameter_doc.all` committed in anu-tub.

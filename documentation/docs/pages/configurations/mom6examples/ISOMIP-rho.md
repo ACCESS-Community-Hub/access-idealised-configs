@@ -1,8 +1,12 @@
 # ISOMIP / rho
 
-The run stopped before writing its parameters ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/ISOMIP/rho))
+!!! failure ":x: This configuration did not run"
+    Tested on 2026-11-04 with `access-om3/2026.05.004`. Needs the ice-shelf file `INPUT/Ocean1_3D.nc`, which is not in the repository or in the GFDL input data (`initialize_topography_from_file: Unable to open INPUT/Ocean1_3D.nc`).
 
-Upstream configuration: [`ocean_only/ISOMIP/rho`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/ISOMIP/rho) (MOM6-examples commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802)).
+
+Set-up not recorded (this run failed) ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/ISOMIP/rho))
+
+Configuration files: [`ocean_only/ISOMIP/rho`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/ISOMIP/rho) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under Provenance.)
 
 GFDL excludes this example from its own automated test suite (`EXCLUDE` in [`ocean_only/Makefile`](https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/Makefile)).
 
@@ -11,12 +15,6 @@ GFDL excludes this example from its own automated test suite (`EXCLUDE` in [`oce
 
 !!! info "Workaround used: no restart files"
     This example switches restart files off (`RESTART_CONTROL = -1`). payu 1.3.6 then fails while archiving (`FileNotFoundError: .../work/<name>/RESTART`), because it always moves `work/RESTART` and deletes empty directories first. The run script works around this with a payu `run` userscript that creates `RESTART/` with a placeholder file.
-
-!!! failure "Tested: this example did NOT run successfully"
-    See the details below; the log tail shows where it stopped.
-
-!!! note "Generated with Claude Code"
-    This page, the script and the figure were generated automatically by [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). See [How these pages were made](../mom6examples.md#how-these-pages-were-made).
 
 ## Run it yourself
 

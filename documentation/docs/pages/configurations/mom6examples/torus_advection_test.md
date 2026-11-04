@@ -1,17 +1,15 @@
 # torus_advection_test
 
+!!! success ":white_check_mark: This configuration ran successfully"
+    Tested on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`): 2 cores, walltime used 00:00:12, 0.01 SU. Details further down this page.
+
+
 48 x 48 x 5 cartesian grid, layer mode (no regridding), topography `flat`, wind `zero`, buoyancy `NONE`, 2 days ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/torus_advection_test))
 
-Upstream configuration: [`ocean_only/torus_advection_test`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/torus_advection_test) (MOM6-examples commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802)).
+Configuration files: [`ocean_only/torus_advection_test`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/torus_advection_test) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under Provenance.)
 
 !!! info "Workaround used: no restart files"
     This example switches restart files off (`RESTART_CONTROL = -1`). payu 1.3.6 then fails while archiving (`FileNotFoundError: .../work/<name>/RESTART`), because it always moves `work/RESTART` and deletes empty directories first. The run script works around this with a payu `run` userscript that creates `RESTART/` with a placeholder file.
-
-!!! success "Tested: this example runs"
-    Ran on Gadi on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`) and `payu/1.3.6_1` on 2 Sapphire Rapids core(s); walltime used 00:00:12, 0.01 SU.
-
-!!! note "Generated with Claude Code"
-    This page, the script and the figure were generated automatically by [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). See [How these pages were made](../mom6examples.md#how-these-pages-were-made).
 
 ## Run it yourself
 
@@ -43,30 +41,88 @@ Last lines of `ocean.stats`:
     48,       2.000,     0, En 4.0000000000000008E-02, CFL  0.20000, SL  0.0000E+00, M 5.97197E+15, S 35.0000, T 19.1949, Me  0.00E+00, Se  0.00E+00, Te  0.00E+00
 ```
 
-Key parameters of this run (from `MOM_parameter_doc.all`):
+## Domain, forcing and output
+
+Made by running the notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) on this run's output folder (code hidden here). It only plots files MOM6 wrote during the run.
+
+### Set-up
+
+
+Values from this run's `MOM_parameter_doc.all`:
 
 | Parameter | Value |
 |---|---|
 | `NIGLOBAL` | `48` |
 | `NJGLOBAL` | `48` |
 | `NK` | `5` |
-| `GRID_CONFIG` | `"cartesian"` |
-| `TOPO_CONFIG` | `"flat"` |
+| `GRID_CONFIG` | `cartesian` |
+| `TOPO_CONFIG` | `flat` |
 | `REENTRANT_X` | `True` |
 | `REENTRANT_Y` | `True` |
 | `USE_REGRIDDING` | `False` |
-| `BOUSSINESQ` | `True` |
 | `ENABLE_THERMODYNAMICS` | `True` |
-| `EQN_OF_STATE` | `"LINEAR"` |
-| `THICKNESS_CONFIG` | `"uniform"` |
-| `TS_CONFIG` | `"fit"` |
-| `WIND_CONFIG` | `"zero"` |
-| `BUOY_CONFIG` | `"NONE"` |
+| `EQN_OF_STATE` | `LINEAR` |
+| `THICKNESS_CONFIG` | `uniform` |
+| `TS_CONFIG` | `fit` |
+| `WIND_CONFIG` | `zero` |
+| `BUOY_CONFIG` | `NONE` |
 | `ICE_SHELF` | `False` |
 | `DT` | `3600.0` |
 | `DT_THERM` | `3600.0` |
 | `DAYMAX` | `2.0` |
-| `TIMEUNIT` | `8.64E+04` |
+
+
+### Domain and bottom depth
+
+
+Grid: 48 x 48 points (`GRID_CONFIG = cartesian`), x from 1.8 to 171 kilometers, y from 1.8 to 171 kilometers. Bottom depth `D` from 200 to 200 m (`TOPO_CONFIG = flat`).
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/torus_advection_test/notebook_8_1.png)
+    
+
+
+### Initial state
+
+
+`Temp` from `GOLD_IC.nc`, which MOM6 writes with the initial state.
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/torus_advection_test/notebook_10_1.png)
+    
+
+
+### Surface forcing
+
+
+No surface forcing is saved in this run's diagnostics. The forcing is set by `WIND_CONFIG = zero` and `BUOY_CONFIG = NONE` (see the MOM6 documentation for these options).
+
+
+### Energy and stability through the run
+
+
+    
+![png](../../../assets/tested-configs/notebooks/torus_advection_test/notebook_14_0.png)
+    
+
+
+
+From `ocean.stats.nc`: 5 records; time axis in days.
+
+
+### Final state
+
+
+`Temp` at the last record of `GOLD_IC.nc` (snapshot).
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/torus_advection_test/notebook_16_1.png)
 
 ## Provenance
 

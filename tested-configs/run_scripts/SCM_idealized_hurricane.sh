@@ -3,7 +3,7 @@
 # Run the MOM6-examples test case "ocean_only/SCM_idealized_hurricane" on NCI Gadi
 # with the prebuilt MOM6 ocean-only ("solo") executable from ACCESS-OM3.
 #
-# Usage (from a Gadi *login node*, NOT from inside an ARE/JupyterLab container):
+# Usage (from a Gadi login node):
 #     PROJECT=<your NCI project> bash SCM_idealized_hurricane.sh
 #
 # What it does:

@@ -1,5 +1,7 @@
 # ISOMIP+ Ocean0 (ice-shelf cavity)
 
+--8<-- "tested-configs/results/isomip-plus-ocean0/status.md"
+
 An idealised ice-shelf cavity configuration in the spirit of the
 [ISOMIP+](https://doi.org/10.5194/gmd-9-2471-2016) **Ocean0** (warm) experiment, set up by
 [Claire Yung](https://github.com/claireyung) (ANU). It is modified from the MOM6-examples
@@ -22,12 +24,13 @@ of this repository (it may become its own repository). The input file is in
 which also has a [plotting notebook](https://github.com/claireyung/isomip-test-mom6-for-iom3-configs/blob/master/plot.ipynb).
 To plot in depth coordinates under the ice shelf you need the interface heights `e`.
 
-!!! note "Tested with Claude Code"
-    The script and results below were produced with
-    [`tested-configs/`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs)
-    (written with Claude Code). The configuration was originally run by Claire with her own
-    MOM6 build; here it is run unchanged with the **released ACCESS-OM3 `mom6-solo`
-    executable**, so nobody needs to compile MOM6 to use it.
+The configuration was originally run by Claire with her own MOM6 build; here it is run
+unchanged with the **released ACCESS-OM3 `mom6-solo` executable**, so nobody needs to
+compile MOM6 to use it.
+
+## The tested run at a glance
+
+--8<-- "tested-configs/results/isomip-plus-ocean0/figure.md"
 
 ## Run it yourself
 

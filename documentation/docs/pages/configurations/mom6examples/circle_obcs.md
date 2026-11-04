@@ -1,14 +1,12 @@
 # circle_obcs
 
+!!! success ":white_check_mark: This configuration ran successfully"
+    Tested on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`): 2 cores, walltime used 00:00:12, 0.01 SU. Details further down this page.
+
+
 25 x 25 x 10 cartesian grid, layer mode (no regridding), topography `flat`, wind `zero`, buoyancy `zero`, 0.0833333 days ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/circle_obcs))
 
-Upstream configuration: [`ocean_only/circle_obcs`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/circle_obcs) (MOM6-examples commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802)).
-
-!!! success "Tested: this example runs"
-    Ran on Gadi on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`) and `payu/1.3.6_1` on 2 Sapphire Rapids core(s); walltime used 00:00:12, 0.01 SU.
-
-!!! note "Generated with Claude Code"
-    This page, the script and the figure were generated automatically by [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). See [How these pages were made](../mom6examples.md#how-these-pages-were-made).
+Configuration files: [`ocean_only/circle_obcs`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/circle_obcs) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under Provenance.)
 
 ## Run it yourself
 
@@ -40,28 +38,86 @@ Last lines of `ocean.stats`:
     60,       2.000,     0, En 4.3567986453925392E-03, CFL  0.01050, SL  4.2954E-03, Mass 6.18604E+15, Me -4.72E-07
 ```
 
-Key parameters of this run (from `MOM_parameter_doc.all`):
+## Domain, forcing and output
+
+Made by running the notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) on this run's output folder (code hidden here). It only plots files MOM6 wrote during the run.
+
+### Set-up
+
+
+Values from this run's `MOM_parameter_doc.all`:
 
 | Parameter | Value |
 |---|---|
 | `NIGLOBAL` | `25` |
 | `NJGLOBAL` | `25` |
 | `NK` | `10` |
-| `GRID_CONFIG` | `"cartesian"` |
-| `TOPO_CONFIG` | `"flat"` |
+| `GRID_CONFIG` | `cartesian` |
+| `TOPO_CONFIG` | `flat` |
 | `REENTRANT_X` | `False` |
 | `REENTRANT_Y` | `False` |
 | `USE_REGRIDDING` | `False` |
-| `BOUSSINESQ` | `True` |
 | `ENABLE_THERMODYNAMICS` | `False` |
-| `THICKNESS_CONFIG` | `"circle_obcs"` |
-| `WIND_CONFIG` | `"zero"` |
-| `BUOY_CONFIG` | `"zero"` |
+| `THICKNESS_CONFIG` | `circle_obcs` |
+| `WIND_CONFIG` | `zero` |
+| `BUOY_CONFIG` | `zero` |
 | `ICE_SHELF` | `False` |
 | `DT` | `120.0` |
 | `DT_THERM` | `120.0` |
 | `DAYMAX` | `2.0` |
-| `TIMEUNIT` | `3600.0` |
+
+
+### Domain and bottom depth
+
+
+Grid: 25 x 25 points (`GRID_CONFIG = cartesian`), x from 2 to 98 kilometers, y from 2 to 98 kilometers. Bottom depth `D` from 600 to 600 m (`TOPO_CONFIG = flat`).
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/circle_obcs/notebook_8_1.png)
+    
+
+
+### Initial state
+
+
+`h` from `GOLD_IC.nc`, which MOM6 writes with the initial state.
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/circle_obcs/notebook_10_1.png)
+    
+
+
+### Surface forcing
+
+
+No surface forcing is saved in this run's diagnostics. The forcing is set by `WIND_CONFIG = zero` and `BUOY_CONFIG = zero` (see the MOM6 documentation for these options).
+
+
+### Energy and stability through the run
+
+
+    
+![png](../../../assets/tested-configs/notebooks/circle_obcs/notebook_14_0.png)
+    
+
+
+
+From `ocean.stats.nc`: 5 records; time axis in hours.
+
+
+### Final state
+
+
+`h` at the last record of `prog.nc` (snapshot).
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/circle_obcs/notebook_16_1.png)
 
 ## Provenance
 

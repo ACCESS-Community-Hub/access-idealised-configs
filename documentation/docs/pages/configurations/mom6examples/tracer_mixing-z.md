@@ -1,14 +1,12 @@
 # tracer_mixing / z
 
+!!! success ":white_check_mark: This configuration ran successfully"
+    Tested on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`): 2 cores, walltime used 00:00:10, 0.01 SU. Details further down this page.
+
+
 20 x 4 x 10 cartesian grid, `Z*` coordinate, topography `flat`, wind `zero`, buoyancy `NONE`, 20 days ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/tracer_mixing/z))
 
-Upstream configuration: [`ocean_only/tracer_mixing/z`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/tracer_mixing/z) (MOM6-examples commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802)).
-
-!!! success "Tested: this example runs"
-    Ran on Gadi on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`) and `payu/1.3.6_1` on 2 Sapphire Rapids core(s); walltime used 00:00:10, 0.01 SU.
-
-!!! note "Generated with Claude Code"
-    This page, the script and the figure were generated automatically by [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). See [How these pages were made](../mom6examples.md#how-these-pages-were-made).
+Configuration files: [`ocean_only/tracer_mixing/z`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/tracer_mixing/z) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under Provenance.)
 
 ## Run it yourself
 
@@ -40,31 +38,89 @@ Last lines of `ocean.stats`:
    480,      20.000,     0, En 0.0000000000000000E+00, CFL  0.00000, SL  0.0000E+00, M 8.00000E+14, S 35.0000, T 10.0000, Me  0.00E+00, Se  0.00E+00, Te  3.25E-14
 ```
 
-Key parameters of this run (from `MOM_parameter_doc.all`):
+## Domain, forcing and output
+
+Made by running the notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) on this run's output folder (code hidden here). It only plots files MOM6 wrote during the run.
+
+### Set-up
+
+
+Values from this run's `MOM_parameter_doc.all`:
 
 | Parameter | Value |
 |---|---|
 | `NIGLOBAL` | `20` |
 | `NJGLOBAL` | `4` |
 | `NK` | `10` |
-| `GRID_CONFIG` | `"cartesian"` |
-| `TOPO_CONFIG` | `"flat"` |
+| `GRID_CONFIG` | `cartesian` |
+| `TOPO_CONFIG` | `flat` |
 | `REENTRANT_X` | `False` |
 | `REENTRANT_Y` | `True` |
 | `USE_REGRIDDING` | `True` |
-| `REGRIDDING_COORDINATE_MODE` | `"Z*"` |
-| `BOUSSINESQ` | `True` |
+| `REGRIDDING_COORDINATE_MODE` | `Z*` |
 | `ENABLE_THERMODYNAMICS` | `True` |
-| `EQN_OF_STATE` | `"LINEAR"` |
-| `THICKNESS_CONFIG` | `"uniform"` |
-| `TS_CONFIG` | `"baroclinic_zone"` |
-| `WIND_CONFIG` | `"zero"` |
-| `BUOY_CONFIG` | `"NONE"` |
+| `EQN_OF_STATE` | `LINEAR` |
+| `THICKNESS_CONFIG` | `uniform` |
+| `TS_CONFIG` | `baroclinic_zone` |
+| `WIND_CONFIG` | `zero` |
+| `BUOY_CONFIG` | `NONE` |
 | `ICE_SHELF` | `False` |
 | `DT` | `3600.0` |
 | `DT_THERM` | `3600.0` |
 | `DAYMAX` | `20.0` |
-| `TIMEUNIT` | `8.64E+04` |
+
+
+### Domain and bottom depth
+
+
+Grid: 20 x 4 points (`GRID_CONFIG = cartesian`), x from 5 to 195 kilometers, y from 5 to 35 kilometers. Bottom depth `D` from 100 to 100 m (`TOPO_CONFIG = flat`).
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/tracer_mixing-z/notebook_8_1.png)
+    
+
+
+### Initial state
+
+
+`Temp` from `Initial_state.nc`, which MOM6 writes with the initial state.
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/tracer_mixing-z/notebook_10_1.png)
+    
+
+
+### Surface forcing
+
+
+No surface forcing is saved in this run's diagnostics. The forcing is set by `WIND_CONFIG = zero` and `BUOY_CONFIG = NONE` (see the MOM6 documentation for these options).
+
+
+### Energy and stability through the run
+
+
+    
+![png](../../../assets/tested-configs/notebooks/tracer_mixing-z/notebook_14_0.png)
+    
+
+
+
+From `ocean.stats.nc`: 5 records; time axis in days.
+
+
+### Final state
+
+
+`temp` at the last record of `prog_z.nc` (snapshot).
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/tracer_mixing-z/notebook_16_1.png)
 
 ## Provenance
 

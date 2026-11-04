@@ -9,6 +9,7 @@
 #   run        submit every run script (payu run); old archives are moved aside, not deleted
 #   wait       wait until all our PBS jobs have finished
 #   summarise  write results/<name>/{summary.json,figure.png,ocean.stats} + results/environment.json
+#   notebooks  run notebooks/explore_run.ipynb on each successful run (domain, forcing, output)
 #   pages      write the website pages (documentation/docs/pages/configurations/...)
 #
 # To test a new ACCESS-OM3 release: edit versions.env, then run this script.
@@ -35,7 +36,7 @@ export LAB=$WORK_ROOT/lab
 export TUB_DIR=$WORK_ROOT/anu-tub
 export WORK_DIR=$WORK_ROOT/isomip-plus
 mkdir -p "$WORK_ROOT/logs"
-STAGES=${*:-scripts run wait summarise pages}
+STAGES=${*:-scripts run wait summarise notebooks pages}
 
 # ---- The list of runs: "name|control dir|reference dir for MOM_parameter_doc" ----
 # MOM6-examples (from examples.txt), then the stand-alone configurations.
@@ -114,6 +115,17 @@ summarise)
             2> >(grep -v PROJ >&2) || echo "   summarise failed for $name"
     done
     bash lib/record_environment.sh > results/environment.json
+    ;;
+
+notebooks)
+    module use /g/data/xp65/public/modules
+    module load conda/analysis3-26.10
+    names=()
+    for f in results/*/summary.json; do
+        name=$(basename "$(dirname "$f")")
+        selected "$name" && names+=("$name")
+    done
+    bash lib/run_notebooks.sh "${names[@]}"
     ;;
 
 pages)

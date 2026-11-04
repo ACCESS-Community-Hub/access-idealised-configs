@@ -100,16 +100,14 @@ markdown_extensions:
 # Navigation
 nav:
   - Home:                  pages/index.md
-  - Infrastructure:
-        - Building MOM6: pages/infrastructure/Building.md
   - Configurations:
-        - pages/configurations/Overview.md
-        - Australian community:
+        - Overview: pages/configurations/Overview.md
+        - How the configurations were run: pages/configurations/how-they-were-run.md
+        - COSIMA community configurations:
             - ANU-TUB:  pages/configurations/anu-tub.md
             - ISOMIP+ Ocean0: pages/configurations/isomip-plus.md
         # BEGIN generated mom6examples nav (written by tested-configs/lib/make_pages.py)
         - MOM6 examples:
-            - pages/configurations/mom6examples.md
             - Basins and channels:
                 - double_gyre: pages/configurations/mom6examples/double_gyre.md
                 - double_gyre-10yr: pages/configurations/mom6examples/double_gyre-10yr.md
@@ -173,6 +171,9 @@ nav:
                 - MESO_025_63L: pages/configurations/mom6examples/MESO_025_63L.md
                 - tides_025: pages/configurations/mom6examples/tides_025.md
         # END generated mom6examples nav
+  - Infrastructure:
+        - Building MOM6: pages/infrastructure/Building.md
+  - Contributing:          pages/contributing.md
 
 # Footer
 extra:

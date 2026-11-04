@@ -3,7 +3,7 @@
 # Run the MOM6-examples test case "ocean_only/ISOMIP/rho" on NCI Gadi
 # with the prebuilt MOM6 ocean-only ("solo") executable from ACCESS-OM3.
 #
-# Usage (from a Gadi *login node*, NOT from inside an ARE/JupyterLab container):
+# Usage (from a Gadi login node):
 #     PROJECT=<your NCI project> bash ISOMIP-rho.sh
 #
 # What it does:

@@ -29,7 +29,8 @@ cd "$BUILD_DIR"
 
 # ---- 1. Enable ACCESS-NRI's shared Spack -----------------------------------------
 module use /g/data/vk83/modules
-module load spack/1.1
+module load spack          # the default is Spack 1.1 (tested with spack/1.1); see
+                           # https://docs.access-hive.org.au/getting_started/spack/#enable-spack
 # Note: Spack keeps small cache files in /g/data/$PROJECT/$USER/spack/1.1 even with
 # LOCAL_SPACK_DIRS=1 (the module sets the user-cache path, and the first env commands
 # run before our env-level settings exist). We redirect what we can:

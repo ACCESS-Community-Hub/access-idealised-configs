@@ -1,5 +1,7 @@
 # ANU-TUB, an idealised sector model
 
+--8<-- "tested-configs/results/anu-tub-zstar/status.md"
+
 [ANU-TUB](https://github.com/ACCESS-Community-Hub/anu-tub) is a MOM6 configuration that aims to
 
 > produce the simplest configuration that incorporates buoyancy and wind forcing, gyre
@@ -31,11 +33,12 @@ The model has $160 \times 800$ grid points and a $6 \times 52$ tile layout, so i
 312 cores (three Sapphire Rapids nodes). With a 1200 s timestep, the z* case takes about
 1:20 hours per model year (~18 years/day) and uses ~800 SU per model year.
 
-!!! note "Tested with Claude Code"
-    The script and results below were produced with
-    [`tested-configs/`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs)
-    (written with Claude Code), using the **released** ACCESS-OM3 `mom6-solo` executable
-    rather than the pre-release one named in the repository.
+The script and results below use the **released** ACCESS-OM3 `mom6-solo` executable rather
+than the pre-release one named in the repository.
+
+## The tested run at a glance
+
+--8<-- "tested-configs/results/anu-tub-zstar/figure.md"
 
 ## Run it yourself
 

@@ -4,7 +4,10 @@
     python lib/make_pages.py            (run from anywhere; paths are relative to this file)
 
 Writes (all generated, do not edit by hand):
-  documentation/docs/pages/configurations/mom6examples.md         how the MOM6 examples were run
+  documentation/docs/pages/configurations/how-they-were-run.md    how every configuration was run
+  documentation/docs/pages/configurations/mom6examples.md         stub pointing there (keeps old URL)
+  tested-configs/results/<name>/status.md                         status banner (top of each page)
+  tested-configs/results/status-summary.md                        one sentence: how many ran (Overview)
   tested-configs/results/table-community.md                       the two tables at the top of the
   tested-configs/results/table-mom6examples.md                    Configurations page (Overview.md);
                                                                   tags become filter buttons
@@ -80,7 +83,7 @@ for line in open(os.path.join(HERE, "examples.txt")):
 
 def setup_line(s):
     """Set-up summary read from the run's own MOM_parameter_doc.all (summary.json key_params),
-    so it is correct by construction. Empty if the run stopped before writing parameters."""
+    so it is correct by construction. Empty if none were recorded (failed runs)."""
     k = (s or {}).get("key_params") or {}
     if not k:
         return ""
@@ -121,7 +124,7 @@ def upstream_links(ex):
 def describe(name, ex):
     """Description shown in the table and at the top of each example page."""
     s = load_summary(name)
-    text = setup_line(s) or "The run stopped before writing its parameters"
+    text = setup_line(s) or "Set-up not recorded (this run failed)"
     if ex["variant"]:
         changes = ", ".join(f"`{c}`" for c in ex["variant"][1].split(","))
         text = f"Variant of `{ex['base']}` with {changes}. " + text
@@ -136,6 +139,20 @@ SECTION_TAGS = {"Basins and channels": "Basin", "Vertical-coordinate tests": "Co
 
 def section_tag(section):
     return next((tag for key, tag in SECTION_TAGS.items() if section.startswith(key)), section)
+
+
+def input_source(fullpath):
+    """Short description of where an input file lives (instead of the full test-area path)."""
+    real = os.path.realpath(fullpath)
+    datasets = os.path.realpath(versions["DATASETS"])
+    work_root = environment.get("work_root", "")
+    if real.startswith(datasets + "/"):
+        return f"`ol01` data: `{os.path.relpath(real, datasets)}`"
+    if work_root and real.startswith(os.path.join(work_root, "MOM6-examples") + "/"):
+        return f"MOM6-examples: `{os.path.relpath(real, os.path.join(work_root, 'MOM6-examples'))}`"
+    if work_root and real.startswith(work_root + "/"):
+        return f"`{os.path.relpath(real, work_root)}`"
+    return f"`{real}`"
 
 
 def needs_ol01(s):
@@ -170,17 +187,52 @@ def status_badge(s):
 
 
 # ---------------------------------------------------------------------------------
+NOTEBOOK_URL = ("https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/"
+                "tested-configs/notebooks/explore_run.ipynb")
+
+
+def notebook_section(name, assets, level=2):
+    """The rendered explore_run notebook for this run (results/<name>/notebook.md, written by
+    lib/run_notebooks.sh), with its headings put `level` deep and figure paths made relative."""
+    path = os.path.join(HERE, "results", name, "notebook.md")
+    if not os.path.exists(path):
+        return []
+    body = open(path).read().replace("@ASSETS@", assets).strip().splitlines()
+    body = [("#" * level) + l[1:] if l.startswith("## ") else l for l in body]
+    return ["#" * level + " Domain, forcing and output", "",
+            f"Made by running the notebook [`explore_run.ipynb`]({NOTEBOOK_URL}) on this run's "
+            "output folder (code hidden here). It only plots files MOM6 wrote during the run.", ""] + body + [""]
+
+
+def status_banner(name, s):
+    """Admonition at the top of a configuration's page saying whether its tested run worked."""
+    if s is None:
+        return '!!! warning ":grey_question: Not tested yet"\n    No test run has been recorded for this configuration.\n'
+    if s["ok"]:
+        pbs = s.get("pbs", {})
+        return (f'!!! success ":white_check_mark: This configuration ran successfully"\n'
+                f"    Tested on {environment['date']} with `{versions['ACCESS_OM3_MODULE']}` (`mom6-solo`): "
+                f"{pbs.get('NCPUs Requested', '?')} cores, walltime used {pbs.get('Walltime Used', '?')}, "
+                f"{pbs.get('Service Units', '?')} SU. Details further down this page.\n")
+    issue = known_issues.get(name, "")
+    reason = (issue.split(". ")[0].rstrip(".") + ".") if issue else "See the error log further down this page."
+    return (f'!!! failure ":x: This configuration did not run"\n'
+            f"    Tested on {environment['date']} with `{versions['ACCESS_OM3_MODULE']}`. {reason}\n")
+
+
 def example_page(ex, s):
     name, example = ex["name"], ex["example"]
     lines = [f"# {name.replace('-', ' / ')}", ""]
+    lines += [status_banner(name, s), ""]
     lines += [describe(name, ex), ""]
     if ex["variant"]:
         lines += [f"This is a copy of [{ex['base']}]({ex['base']}.md) with these lines added to "
                   "`MOM_override`, e.g. to run long enough to see a spun-up state:", "", "```text"]
         lines += [f"#override {c.replace('=', ' = ')}" for c in ex["variant"][1].split(",")]
         lines += ["```", ""]
-    lines += [f"Upstream configuration: [`{example}`]({UPSTREAM}/tree/{commit}/{example}) "
-              f"(MOM6-examples commit [`{commit[:8]}`]({UPSTREAM}/commit/{commit})).", ""]
+    lines += [f"Configuration files: [`{example}`]({UPSTREAM}/tree/{commit}/{example}) in "
+              f"NOAA-GFDL/MOM6-examples, at commit [`{commit[:8]}`]({UPSTREAM}/commit/{commit}): the version "
+              "this run used. (The model itself is the `mom6-solo` listed under Provenance.)", ""]
     if is_excluded(example):
         lines += ["GFDL excludes this example from its own automated test suite (`EXCLUDE` in "
                   f"[`ocean_only/Makefile`]({UPSTREAM}/blob/{commit}/ocean_only/Makefile)).", ""]
@@ -191,24 +243,7 @@ def example_page(ex, s):
         lines += ['!!! info "Workaround used: no restart files"',
                   indent(" ".join(known_issues["_restart_control"].split())), ""]
 
-    if s is None:
-        lines += ['!!! warning "Not yet tested"', "    This example has not been run yet.", ""]
-    elif s["ok"]:
-        pbs = s.get("pbs", {})
-        lines += ['!!! success "Tested: this example runs"',
-                  f"    Ran on Gadi on {environment['date']} with `{versions['ACCESS_OM3_MODULE']}` "
-                  f"(`mom6-solo`) and `{versions['PAYU_MODULE']}` on {ex['ncpus']} Sapphire Rapids "
-                  f"core(s); walltime used {pbs.get('Walltime Used', '?')}, "
-                  f"{pbs.get('Service Units', '?')} SU.", ""]
-    else:
-        lines += ['!!! failure "Tested: this example did NOT run successfully"',
-                  "    See the details below; the log tail shows where it stopped.", ""]
-
-    lines += ['!!! note "Generated with Claude Code"',
-              "    This page, the script and the figure were generated automatically by "
-              "[`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/"
-              "mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). "
-              "See [How these pages were made](../mom6examples.md#how-these-pages-were-made).", ""]
+    # (whether it ran is the status banner at the top of the page; how pages are made is on the Overview)
 
     lines += ["## Run it yourself", "",
               "From a Gadi **login node** (membership of NCI project `vk83` needed"
@@ -230,24 +265,34 @@ def example_page(ex, s):
                                               "the upstream MOM_parameter_doc.all"))
 
 
-def results_section(name, s, assets, config_rows, reference_label):
-    """Markdown lines for "What we got" + "Provenance" of one run.
-    assets: path from the page to docs/assets; config_rows: table rows naming the config source."""
+def figure_lines(name, s, assets):
+    """The run's summary figure with its caption (empty if there is none)."""
+    if not s.get("figure"):
+        return []
+    return [f"![{name}]({assets}/tested-configs/{name}.png)", "", f"*{s.get('figure_note', '')}.*", ""]
+
+
+def results_section(name, s, assets, config_rows, reference_label, show_figure=True):
+    """Markdown lines for "What we got", the notebook section (if any) and "Provenance" of one run.
+    assets: path from the page to docs/assets; config_rows: table rows naming the config source;
+    show_figure=False when the page shows the figure higher up (community pages)."""
     lines = []
+    notebook = notebook_section(name, assets)
     if not s["ok"] and s.get("failure_log"):
         lines += ['??? failure "End of the error log"', "    ```text",
                   indent("\n".join(s["failure_log"])), "    ```", ""]
     lines += ["## What we got", ""]
-    if s.get("figure"):
-        lines += [f"![{name}]({assets}/tested-configs/{name}.png)", "",
-                  f"*{s.get('figure_note', '')}.*", ""]
+    if show_figure:
+        lines += figure_lines(name, s, assets)
     if s.get("ocean_stats_tail"):
         lines += [f"Last lines of `{s.get('stats_file', 'ocean.stats')}`:", "", "```text"] + s["ocean_stats_tail"] + ["```", ""]
-    if s.get("key_params"):
+    if s.get("key_params") and not notebook:          # the notebook shows the same table
         lines += ["Key parameters of this run (from `MOM_parameter_doc.all`):", "",
                   "| Parameter | Value |", "|---|---|"]
         lines += [f"| `{k}` | `{v}` |" for k, v in s["key_params"].items()]
         lines += [""]
+
+    lines += notebook
 
     # ---- provenance --------------------------------------------------------------
     lines += ["## Provenance", "",
@@ -265,8 +310,8 @@ def results_section(name, s, assets, config_rows, reference_label):
 
     if s.get("inputs"):
         lines += ['??? info "Input files and md5 hashes (from payu `manifests/input.yaml`)"',
-                  "    | File | md5 | Path |", "    |---|---|---|"]
-        lines += [f"    | `{k}` | `{v['md5']}` | `{v['fullpath']}` |"
+                  "    | File | md5 | Comes from |", "    |---|---|---|"]
+        lines += [f"    | `{k}` | `{v['md5']}` | {input_source(v['fullpath'])} |"
                   for k, v in sorted(s["inputs"].items())]
         lines += [""]
     else:
@@ -326,9 +371,9 @@ def standalone_fragment(name, s):
                 f"walltime used {pbs.get('Walltime Used', '?')}, {pbs.get('Service Units', '?')} SU.", ""]
     else:
         head = ['!!! failure "Tested: this configuration did NOT run successfully"', ""]
-    body = results_section(name, s, "../../assets", STANDALONE[name], REFERENCE_LABEL[name])
+    body = results_section(name, s, "../../assets", STANDALONE[name], REFERENCE_LABEL[name], show_figure=False)
     # demote headings one level so they sit under the page's "Tested run" section
-    body = [("#" + l) if l.startswith("## ") else l for l in body]
+    body = [("#" + l) if l.startswith("##") else l for l in body]
     return "\n".join(head + body)
 
 
@@ -347,7 +392,7 @@ def write_table(filename, table_rows):
         ['<div class="config-table" markdown>', ""] + TABLE_HEAD + table_rows + ["", "</div>", ""]))
 
 
-# The Australian community configurations (pages written by hand, results generated).
+# The COSIMA community configurations (pages written by hand, results generated).
 # Descriptions are quoted from each configuration's README, which is linked.
 COMMUNITY = [
     ("anu-tub-zstar", "[ANU-TUB](anu-tub.md)", ["Basin", "Coordinates"],
@@ -385,6 +430,13 @@ for name in STANDALONE:
     if s and s.get("figure"):
         shutil.copy(os.path.join(HERE, "results", name, "figure.png"),
                     os.path.join(ASSETS, name + ".png"))
+    fig = figure_lines(name, s, "../../assets") if s else []
+    if fig:
+        days = (s.get("key_params") or {}).get("DAYMAX", "?")
+        fig[-2] = fig[-2].rstrip("*").rstrip(".") + (f", from the tested {float(days):g}-day run (see "
+                  "[Tested run](#tested-run)). The run is short, so this shows the model early in its "
+                  "spin-up, not an equilibrated state.*")
+    open(os.path.join(HERE, "results", name, "figure.md"), "w").write("\n".join(fig) + "\n")
     text = standalone_fragment(name, s) if s else '!!! warning "Not yet tested"\n    No test run has been recorded yet.'
     open(os.path.join(HERE, "results", name, "tested.md"), "w").write(text + "\n")
 
@@ -397,9 +449,17 @@ for name, link, tags, prereq, text in COMMUNITY:
                                     text + (f" Tested set-up: {setup}." if setup else "")))
 write_table("table-community.md", community_rows)
 write_table("table-mom6examples.md", rows)
+for name, *_ in COMMUNITY:
+    open(os.path.join(HERE, "results", name, "status.md"), "w").write(status_banner(name, load_summary(name)))
+
+n_comm_ok = sum(1 for name, *_ in COMMUNITY if (load_summary(name) or {}).get("ok"))
+n_ex_ok = sum(1 for ex in examples if (load_summary(ex["name"]) or {}).get("ok"))
+text = (f"In the last test ({environment['date']}), {n_comm_ok}/{len(COMMUNITY)} COSIMA community "
+        f"configurations and {n_ex_ok}/{len(examples)} MOM6-example runs ran successfully.")
+open(os.path.join(HERE, "results", "status-summary.md"), "w").write(text + "\n")
 
 n_ok = sum(1 for ex in examples if (load_summary(ex["name"]) or {}).get("ok"))
-index = open(os.path.join(HERE, "templates", "mom6examples_index.md.in")).read()
+index = open(os.path.join(HERE, "templates", "how_they_were_run.md.in")).read()
 index = (index
               .replace("@N_OK@", str(n_ok)).replace("@N_TOTAL@", str(len(examples)))
               .replace("@DATE@", environment["date"])
@@ -412,10 +472,13 @@ index = (index
               .replace("@MOM6_SOURCE@", environment.get("mom6_source", ""))
               .replace("@WORK_ROOT@", environment.get("work_root", "?"))
               .replace("@WEBSITE_COMMIT@", environment.get("website_commit", "")))
-open(PAGES + ".md", "w").write(index)
+open(os.path.join(DOCS, "pages", "configurations", "how-they-were-run.md"), "w").write(index)
+# This page used to describe the MOM6 examples only; keep its URL working for old links.
+open(PAGES + ".md", "w").write("# MOM6 examples\n\nThis page has moved: see "
+                               "[How the configurations were run](how-they-were-run.md).\n")
 
 # ---- navigation block in mkdocs.yml ---------------------------------------------------
-nav = ["        - MOM6 examples:", "            - pages/configurations/mom6examples.md"]
+nav = ["        - MOM6 examples:"]
 for i, ex in enumerate(examples):
     if i == 0 or ex["section"] != examples[i - 1]["section"]:
         nav.append(f"            - {ex['section']}:")

@@ -1,19 +1,17 @@
 # tides_025
 
-The run stopped before writing its parameters ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/tides_025))
+!!! failure ":x: This configuration did not run"
+    Tested on 2026-11-04 with `access-om3/2026.05.004`. Needs the OM4 1/4° grid files (`ocean_hgrid.nc`, `ocean_topog.nc`, `All_edits.nc`) in `INPUT/`, which the repository does not link (`set_grid_metrics_from_mosaic: Unable to open INPUT/ocean_hgrid.nc`).
 
-Upstream configuration: [`ocean_only/tides_025`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/tides_025) (MOM6-examples commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802)).
+
+Set-up not recorded (this run failed) ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/tides_025))
+
+Configuration files: [`ocean_only/tides_025`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/tides_025) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under Provenance.)
 
 GFDL excludes this example from its own automated test suite (`EXCLUDE` in [`ocean_only/Makefile`](https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/Makefile)).
 
 !!! failure "Known issue"
     Needs the OM4 1/4° grid files (`ocean_hgrid.nc`, `ocean_topog.nc`, `All_edits.nc`) in `INPUT/`, which the repository does not link (`set_grid_metrics_from_mosaic: Unable to open INPUT/ocean_hgrid.nc`). GFDL also excludes this example from its own test suite.
-
-!!! failure "Tested: this example did NOT run successfully"
-    See the details below; the log tail shows where it stopped.
-
-!!! note "Generated with Claude Code"
-    This page, the script and the figure were generated automatically by [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). See [How these pages were made](../mom6examples.md#how-these-pages-were-made).
 
 ## Run it yourself
 
@@ -86,10 +84,10 @@ where `tides_025.sh` is the script below (click to expand; copy button top-right
 | PBS Memory Used | `104.09GB` |
 
 ??? info "Input files and md5 hashes (from payu `manifests/input.yaml`)"
-    | File | md5 | Path |
+    | File | md5 | Comes from |
     |---|---|---|
-    | `INPUT/MOM_channels_global_025` | `1370f6237715504e67d36784f0d6f47b` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/tides_025/INPUT/MOM_channels_global_025` |
-    | `INPUT/interface_IC_2layer.cdl` | `c851a96db606df249b191e56aaca33a8` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/tides_025/INPUT/interface_IC_2layer.cdl` |
+    | `INPUT/MOM_channels_global_025` | `1370f6237715504e67d36784f0d6f47b` | MOM6-examples: `ocean_only/tides_025/INPUT/MOM_channels_global_025` |
+    | `INPUT/interface_IC_2layer.cdl` | `c851a96db606df249b191e56aaca33a8` | MOM6-examples: `ocean_only/tides_025/INPUT/interface_IC_2layer.cdl` |
 
 ??? info "Parameters differing from the upstream MOM_parameter_doc.all (367)"
     Comparison of this run's `MOM_parameter_doc.all` with the upstream MOM_parameter_doc.all.

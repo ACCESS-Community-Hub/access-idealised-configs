@@ -1,14 +1,12 @@
 # nonBous_global
 
+!!! success ":white_check_mark: This configuration ran successfully"
+    Tested on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`): 60 cores, walltime used 00:00:34, 1.13 SU. Details further down this page.
+
+
 360 x 210 x 63 mosaic grid, layer mode (no regridding), topography `file`, wind `file`, buoyancy `file`, 1 days ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/nonBous_global))
 
-Upstream configuration: [`ocean_only/nonBous_global`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/nonBous_global) (MOM6-examples commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802)).
-
-!!! success "Tested: this example runs"
-    Ran on Gadi on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`) and `payu/1.3.6_1` on 60 Sapphire Rapids core(s); walltime used 00:00:34, 1.13 SU.
-
-!!! note "Generated with Claude Code"
-    This page, the script and the figure were generated automatically by [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). See [How these pages were made](../mom6examples.md#how-these-pages-were-made).
+Configuration files: [`ocean_only/nonBous_global`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/nonBous_global) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under Provenance.)
 
 ## Run it yourself
 
@@ -40,30 +38,88 @@ Last lines of `ocean.stats`:
     24,       1.000,     0, En 7.1013908980524310E-01, CFL  0.15031, SL -2.8818E-04, M 1.38293E+21, S 34.7201, T  3.5937, Me  4.04E-16, Se  1.37E-14, Te  2.70E-15
 ```
 
-Key parameters of this run (from `MOM_parameter_doc.all`):
+## Domain, forcing and output
+
+Made by running the notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) on this run's output folder (code hidden here). It only plots files MOM6 wrote during the run.
+
+### Set-up
+
+
+Values from this run's `MOM_parameter_doc.all`:
 
 | Parameter | Value |
 |---|---|
 | `NIGLOBAL` | `360` |
 | `NJGLOBAL` | `210` |
 | `NK` | `63` |
-| `GRID_CONFIG` | `"mosaic"` |
-| `TOPO_CONFIG` | `"file"` |
+| `GRID_CONFIG` | `mosaic` |
+| `TOPO_CONFIG` | `file` |
 | `REENTRANT_X` | `True` |
 | `REENTRANT_Y` | `False` |
 | `USE_REGRIDDING` | `False` |
-| `BOUSSINESQ` | `False` |
 | `ENABLE_THERMODYNAMICS` | `True` |
-| `EQN_OF_STATE` | `"WRIGHT"` |
-| `THICKNESS_CONFIG` | `"file"` |
-| `TS_CONFIG` | `"file"` |
-| `WIND_CONFIG` | `"file"` |
-| `BUOY_CONFIG` | `"file"` |
+| `EQN_OF_STATE` | `WRIGHT` |
+| `THICKNESS_CONFIG` | `file` |
+| `TS_CONFIG` | `file` |
+| `WIND_CONFIG` | `file` |
+| `BUOY_CONFIG` | `file` |
 | `ICE_SHELF` | `False` |
 | `DT` | `3600.0` |
 | `DT_THERM` | `7200.0` |
 | `DAYMAX` | `1.0` |
-| `TIMEUNIT` | `8.64E+04` |
+
+
+### Domain and bottom depth
+
+
+Grid: 360 x 210 points (`GRID_CONFIG = mosaic`), x from -279.5 to 79.5 degrees_east, y from -76.75 to 89.75 degrees_north. Bottom depth `D` from 0.25 to 6000 m (`TOPO_CONFIG = file`).
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/nonBous_global/notebook_8_1.png)
+    
+
+
+### Initial state
+
+
+`Temp` from `GOLD_IC.nc`, which MOM6 writes with the initial state.
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/nonBous_global/notebook_10_1.png)
+    
+
+
+### Surface forcing
+
+
+No surface forcing is saved in this run's diagnostics. The forcing is set by `WIND_CONFIG = file` and `BUOY_CONFIG = file` (see the MOM6 documentation for these options).
+
+
+### Energy and stability through the run
+
+
+    
+![png](../../../assets/tested-configs/notebooks/nonBous_global/notebook_14_0.png)
+    
+
+
+
+From `ocean.stats.nc`: 5 records; time axis in days.
+
+
+### Final state
+
+
+`SSH` at the last record of `surface__0001_001.nc` (snapshot).
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/nonBous_global/notebook_16_1.png)
 
 ## Provenance
 
@@ -84,35 +140,35 @@ Key parameters of this run (from `MOM_parameter_doc.all`):
 | PBS Memory Used | `21.73GB` |
 
 ??? info "Input files and md5 hashes (from payu `manifests/input.yaml`)"
-    | File | md5 | Path |
+    | File | md5 | Comes from |
     |---|---|---|
-    | `INPUT/31Layer_zgrid.nc` | `2d1b8673dc763a835081ab6d0e13d6d2` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/31Layer_zgrid.nc` |
-    | `INPUT/GOLD_IC.2010.11.15.nc` | `bf6ba441e98ff5c1b04b635b0ad84dac` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/GOLD_IC.2010.11.15.nc` |
-    | `INPUT/OM3_zgrid.nc` | `0830d67f80834fe2796b219a84b3ba8d` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/OM3_zgrid.nc` |
-    | `INPUT/README` | `da6049145ac9dd6aa8c4fd19da61a98f` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/README` |
-    | `INPUT/atmos_hgrid.nc` | `a4d8a2cc7554b265f53da1f91a48fee1` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/atmos_hgrid.nc` |
-    | `INPUT/atmos_mosaic.nc` | `ed209f7d19cc856ec1a257c0ca63af90` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/atmos_mosaic.nc` |
-    | `INPUT/atmos_mosaic_tile1Xland_mosaic_tile1.nc` | `6025fff17ee89d0ef6f4ac530c4a833b` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/atmos_mosaic_tile1Xland_mosaic_tile1.nc` |
-    | `INPUT/atmos_mosaic_tile1Xocean_mosaic_tile1.nc` | `c4ee9d91f1b2146d8e0c60827670fee6` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/atmos_mosaic_tile1Xocean_mosaic_tile1.nc` |
-    | `INPUT/geothermal_heating_cm2g.nc` | `2604459298a435e292be908e6059a89f` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/geothermal_heating_cm2g.nc` |
-    | `INPUT/grid_spec.nc` | `a2d3b842655c6ee2e0213db46154dc22` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/grid_spec.nc` |
-    | `INPUT/gustiness_qscat.nc` | `2fbcc31e266329ddb4dd1cd8c8d221f7` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/gustiness_qscat.nc` |
-    | `INPUT/land_hgrid.nc` | `a4d8a2cc7554b265f53da1f91a48fee1` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/land_hgrid.nc` |
-    | `INPUT/land_mask.nc` | `d5caa6ffe6379a31e692f10ec65af033` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/land_mask.nc` |
-    | `INPUT/land_mosaic.nc` | `5aeb9c82ad3a1c2ecc3d7988aa641ad2` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/land_mosaic.nc` |
-    | `INPUT/land_mosaic_tile1Xocean_mosaic_tile1.nc` | `56c455a11d61a23e19f056bf6c99cb7c` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/land_mosaic_tile1Xocean_mosaic_tile1.nc` |
-    | `INPUT/mosaic.nc` | `a2d3b842655c6ee2e0213db46154dc22` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/mosaic.nc` |
-    | `INPUT/ocean_forcing_daily.nc` | `7065687a13038c404173d8c19525794b` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/ocean_forcing_daily.nc` |
-    | `INPUT/ocean_forcing_monthly.nc` | `b26fd7fb52928bbfea285f87479c15f0` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/ocean_forcing_monthly.nc` |
-    | `INPUT/ocean_hgrid.nc` | `c4782f49333b46f9ea53322ac1eff53a` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/ocean_hgrid.nc` |
-    | `INPUT/ocean_mask.nc` | `b49dce31f5a9cd53a8ebbb47518e238c` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/ocean_mask.nc` |
-    | `INPUT/ocean_mosaic.nc` | `1263df68b94e7a256be52283df611e94` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/ocean_mosaic.nc` |
-    | `INPUT/ocean_precip_monthly.nc` | `12031a11fbcd3ca1a0534d7feb9193fc` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/ocean_precip_monthly.nc` |
-    | `INPUT/ocean_vgrid.nc` | `34d06772f261d0ef502b4e3998109c28` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/ocean_vgrid.nc` |
-    | `INPUT/seawifs_1998-2006_GOLD_smoothed_2X.nc` | `7217a6bb87ebdf4570bbf8940e8b3c72` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/seawifs_1998-2006_GOLD_smoothed_2X.nc` |
-    | `INPUT/sgs_h2.nc` | `5f3897a97a4366edba744f35cea97d7d` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/sgs_h2.nc` |
-    | `INPUT/tideamp.nc` | `8136b3e8b8f587734fc5b0abcb338702` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/tideamp.nc` |
-    | `INPUT/topog.nc` | `bd19baefec0f42e89e90870fbee5a7e3` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/nonBous_global/INPUT/topog.nc` |
+    | `INPUT/31Layer_zgrid.nc` | `2d1b8673dc763a835081ab6d0e13d6d2` | `ol01` data: `global/siena_201204/INPUT/31Layer_zgrid.nc` |
+    | `INPUT/GOLD_IC.2010.11.15.nc` | `bf6ba441e98ff5c1b04b635b0ad84dac` | `ol01` data: `global/siena_201204/INPUT/GOLD_IC.2010.11.15.nc` |
+    | `INPUT/OM3_zgrid.nc` | `0830d67f80834fe2796b219a84b3ba8d` | `ol01` data: `global/siena_201204/INPUT/OM3_zgrid.nc` |
+    | `INPUT/README` | `da6049145ac9dd6aa8c4fd19da61a98f` | `ol01` data: `global/siena_201204/mosaic.unpacked/README` |
+    | `INPUT/atmos_hgrid.nc` | `a4d8a2cc7554b265f53da1f91a48fee1` | `ol01` data: `global/siena_201204/mosaic.unpacked/atmos_hgrid.nc` |
+    | `INPUT/atmos_mosaic.nc` | `ed209f7d19cc856ec1a257c0ca63af90` | `ol01` data: `global/siena_201204/mosaic.unpacked/atmos_mosaic.nc` |
+    | `INPUT/atmos_mosaic_tile1Xland_mosaic_tile1.nc` | `6025fff17ee89d0ef6f4ac530c4a833b` | `ol01` data: `global/siena_201204/mosaic.unpacked/atmos_mosaic_tile1Xland_mosaic_tile1.nc` |
+    | `INPUT/atmos_mosaic_tile1Xocean_mosaic_tile1.nc` | `c4ee9d91f1b2146d8e0c60827670fee6` | `ol01` data: `global/siena_201204/mosaic.unpacked/atmos_mosaic_tile1Xocean_mosaic_tile1.nc` |
+    | `INPUT/geothermal_heating_cm2g.nc` | `2604459298a435e292be908e6059a89f` | `ol01` data: `global/siena_201204/INPUT/geothermal_heating_cm2g.nc` |
+    | `INPUT/grid_spec.nc` | `a2d3b842655c6ee2e0213db46154dc22` | `ol01` data: `global/siena_201204/mosaic.unpacked/grid_spec.nc` |
+    | `INPUT/gustiness_qscat.nc` | `2fbcc31e266329ddb4dd1cd8c8d221f7` | `ol01` data: `global/siena_201204/INPUT/gustiness_qscat.nc` |
+    | `INPUT/land_hgrid.nc` | `a4d8a2cc7554b265f53da1f91a48fee1` | `ol01` data: `global/siena_201204/mosaic.unpacked/land_hgrid.nc` |
+    | `INPUT/land_mask.nc` | `d5caa6ffe6379a31e692f10ec65af033` | `ol01` data: `global/siena_201204/mosaic.unpacked/land_mask.nc` |
+    | `INPUT/land_mosaic.nc` | `5aeb9c82ad3a1c2ecc3d7988aa641ad2` | `ol01` data: `global/siena_201204/mosaic.unpacked/land_mosaic.nc` |
+    | `INPUT/land_mosaic_tile1Xocean_mosaic_tile1.nc` | `56c455a11d61a23e19f056bf6c99cb7c` | `ol01` data: `global/siena_201204/mosaic.unpacked/land_mosaic_tile1Xocean_mosaic_tile1.nc` |
+    | `INPUT/mosaic.nc` | `a2d3b842655c6ee2e0213db46154dc22` | `ol01` data: `global/siena_201204/mosaic.unpacked/mosaic.nc` |
+    | `INPUT/ocean_forcing_daily.nc` | `7065687a13038c404173d8c19525794b` | `ol01` data: `global/siena_201204/INPUT/ocean_forcing_daily.nc` |
+    | `INPUT/ocean_forcing_monthly.nc` | `b26fd7fb52928bbfea285f87479c15f0` | `ol01` data: `global/siena_201204/INPUT/ocean_forcing_monthly.nc` |
+    | `INPUT/ocean_hgrid.nc` | `c4782f49333b46f9ea53322ac1eff53a` | `ol01` data: `global/siena_201204/mosaic.unpacked/ocean_hgrid.nc` |
+    | `INPUT/ocean_mask.nc` | `b49dce31f5a9cd53a8ebbb47518e238c` | `ol01` data: `global/siena_201204/mosaic.unpacked/ocean_mask.nc` |
+    | `INPUT/ocean_mosaic.nc` | `1263df68b94e7a256be52283df611e94` | `ol01` data: `global/siena_201204/mosaic.unpacked/ocean_mosaic.nc` |
+    | `INPUT/ocean_precip_monthly.nc` | `12031a11fbcd3ca1a0534d7feb9193fc` | `ol01` data: `global/siena_201204/INPUT/ocean_precip_monthly.nc` |
+    | `INPUT/ocean_vgrid.nc` | `34d06772f261d0ef502b4e3998109c28` | `ol01` data: `global/siena_201204/mosaic.unpacked/ocean_vgrid.nc` |
+    | `INPUT/seawifs_1998-2006_GOLD_smoothed_2X.nc` | `7217a6bb87ebdf4570bbf8940e8b3c72` | `ol01` data: `global/siena_201204/INPUT/seawifs_1998-2006_GOLD_smoothed_2X.nc` |
+    | `INPUT/sgs_h2.nc` | `5f3897a97a4366edba744f35cea97d7d` | `ol01` data: `global/siena_201204/INPUT/sgs_h2.nc` |
+    | `INPUT/tideamp.nc` | `8136b3e8b8f587734fc5b0abcb338702` | `ol01` data: `global/siena_201204/INPUT/tideamp.nc` |
+    | `INPUT/topog.nc` | `bd19baefec0f42e89e90870fbee5a7e3` | `ol01` data: `global/siena_201204/mosaic.unpacked/topog.nc` |
 
 ??? info "Parameters differing from the upstream MOM_parameter_doc.all (17)"
     Comparison of this run's `MOM_parameter_doc.all` with the upstream MOM_parameter_doc.all.

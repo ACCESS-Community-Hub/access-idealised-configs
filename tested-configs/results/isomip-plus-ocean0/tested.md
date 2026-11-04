@@ -3,10 +3,6 @@
 
 ### What we got
 
-![isomip-plus-ocean0](../../assets/tested-configs/isomip-plus-ocean0.png)
-
-*Left: `melt_rate` at the last output time; right: `temp` vertical section (model levels) at the last output time.*
-
 Last lines of `ocean.stats`:
 
 ```text
@@ -16,31 +12,95 @@ Last lines of `ocean.stats`:
  10800,      90.000,     0, En 2.6839108612804527E-04, CFL  0.09253, SL  0.0000E+00, M 1.33984E+16, S 34.2592, T -0.3998, Me -1.06E-14, Se  3.33E-05, Te  1.04E-04
 ```
 
-Key parameters of this run (from `MOM_parameter_doc.all`):
+### Domain, forcing and output
+
+Made by running the notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) on this run's output folder (code hidden here). It only plots files MOM6 wrote during the run.
+
+#### Set-up
+
+
+Values from this run's `MOM_parameter_doc.all`:
 
 | Parameter | Value |
 |---|---|
 | `NIGLOBAL` | `240` |
 | `NJGLOBAL` | `40` |
 | `NK` | `36` |
-| `GRID_CONFIG` | `"cartesian"` |
-| `TOPO_CONFIG` | `"ISOMIP"` |
+| `GRID_CONFIG` | `cartesian` |
+| `TOPO_CONFIG` | `ISOMIP` |
 | `REENTRANT_X` | `False` |
 | `REENTRANT_Y` | `False` |
 | `USE_REGRIDDING` | `True` |
-| `REGRIDDING_COORDINATE_MODE` | `"SIGMA_SHELF_ZSTAR"` |
-| `BOUSSINESQ` | `True` |
+| `REGRIDDING_COORDINATE_MODE` | `SIGMA_SHELF_ZSTAR` |
 | `ENABLE_THERMODYNAMICS` | `True` |
-| `EQN_OF_STATE` | `"LINEAR"` |
-| `THICKNESS_CONFIG` | `"ISOMIP"` |
-| `TS_CONFIG` | `"ISOMIP"` |
-| `WIND_CONFIG` | `"zero"` |
-| `BUOY_CONFIG` | `"NONE"` |
+| `EQN_OF_STATE` | `LINEAR` |
+| `THICKNESS_CONFIG` | `ISOMIP` |
+| `TS_CONFIG` | `ISOMIP` |
+| `WIND_CONFIG` | `zero` |
+| `BUOY_CONFIG` | `NONE` |
 | `ICE_SHELF` | `True` |
 | `DT` | `720.0` |
 | `DT_THERM` | `720.0` |
 | `DAYMAX` | `90.0` |
-| `TIMEUNIT` | `8.64E+04` |
+
+
+#### Domain and bottom depth
+
+
+Grid: 240 x 40 points (`GRID_CONFIG = cartesian`), x from 321 to 799 kilometers, y from 1 to 79 kilometers. Bottom depth `D` from 104.607 to 720 m (`TOPO_CONFIG = ISOMIP`).
+
+
+
+    
+![png](../../assets/tested-configs/notebooks/isomip-plus-ocean0/notebook_8_1.png)
+    
+
+
+#### Initial state
+
+
+MOM6 did not write an initial-state file for this run (it does when `SAVE_INITIAL_CONDS = True`), so the initial state is not shown here; see the run's `MOM_parameter_doc.all` (`THICKNESS_CONFIG = ISOMIP`, `TS_CONFIG = ISOMIP`).
+
+
+#### Surface forcing
+
+
+Time-mean of the surface forcing saved in the diagnostics: `PRCmE` (Net surface water flux (precip+melt+lrunoff+ice calving-evap), from `forcing.nc`), `ustar` (Surface friction velocity = [(gustiness + tau_magnitude)/rho0]^(1/2), from `forcing.nc`).
+
+
+
+    
+![png](../../assets/tested-configs/notebooks/isomip-plus-ocean0/notebook_12_1.png)
+    
+
+
+
+    
+![png](../../assets/tested-configs/notebooks/isomip-plus-ocean0/notebook_12_2.png)
+    
+
+
+#### Energy and stability through the run
+
+
+    
+![png](../../assets/tested-configs/notebooks/isomip-plus-ocean0/notebook_14_0.png)
+    
+
+
+
+From `ocean.stats.nc`: 721 records; time axis in days.
+
+
+#### Final state
+
+
+`temp` at the last record of `ave_prog.nc` (average over the last output interval).
+
+
+
+    
+![png](../../assets/tested-configs/notebooks/isomip-plus-ocean0/notebook_16_1.png)
 
 ### Provenance
 
@@ -62,9 +122,9 @@ Key parameters of this run (from `MOM_parameter_doc.all`):
 | PBS Memory Used | `11.48GB` |
 
 ??? info "Input files and md5 hashes (from payu `manifests/input.yaml`)"
-    | File | md5 | Path |
+    | File | md5 | Comes from |
     |---|---|---|
-    | `INPUT/Ocean0_3D_Claire.nc` | `a9e43676e2c0acbfe1d48ce856d2ff84` | `/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/isomip-plus/input-repo/INPUT/Ocean0_3D_Claire.nc` |
+    | `INPUT/Ocean0_3D_Claire.nc` | `a9e43676e2c0acbfe1d48ce856d2ff84` | `isomip-plus/input-repo/INPUT/Ocean0_3D_Claire.nc` |
 
 ??? info "Parameters differing from Claire Yung's own run (`docs/` in isomip-test-mom6-for-iom3-configs) (7)"
     Comparison of this run's `MOM_parameter_doc.all` with Claire Yung's own run (`docs/` in isomip-test-mom6-for-iom3-configs).

@@ -1,14 +1,12 @@
 # double_gyre
 
+!!! success ":white_check_mark: This configuration ran successfully"
+    Tested on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`): 8 cores, walltime used 00:00:16, 0.07 SU. Details further down this page.
+
+
 44 x 40 x 2 spherical grid, layer mode (no regridding), topography `spoon`, wind `2gyre`, buoyancy `zero`, 10 days ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/double_gyre))
 
-Upstream configuration: [`ocean_only/double_gyre`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/double_gyre) (MOM6-examples commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802)).
-
-!!! success "Tested: this example runs"
-    Ran on Gadi on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`) and `payu/1.3.6_1` on 8 Sapphire Rapids core(s); walltime used 00:00:16, 0.07 SU.
-
-!!! note "Generated with Claude Code"
-    This page, the script and the figure were generated automatically by [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). See [How these pages were made](../mom6examples.md#how-these-pages-were-made).
+Configuration files: [`ocean_only/double_gyre`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/double_gyre) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under Provenance.)
 
 ## Run it yourself
 
@@ -40,28 +38,80 @@ Last lines of `ocean.stats`:
    720,      10.000,     0, En 4.6047288874226238E-05, CFL  0.00100, SL  4.7606E-12, Mass 5.28818E+18, Me  8.17E-18
 ```
 
-Key parameters of this run (from `MOM_parameter_doc.all`):
+## Domain, forcing and output
+
+Made by running the notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) on this run's output folder (code hidden here). It only plots files MOM6 wrote during the run.
+
+### Set-up
+
+
+Values from this run's `MOM_parameter_doc.all`:
 
 | Parameter | Value |
 |---|---|
 | `NIGLOBAL` | `44` |
 | `NJGLOBAL` | `40` |
 | `NK` | `2` |
-| `GRID_CONFIG` | `"spherical"` |
-| `TOPO_CONFIG` | `"spoon"` |
+| `GRID_CONFIG` | `spherical` |
+| `TOPO_CONFIG` | `spoon` |
 | `REENTRANT_X` | `False` |
 | `REENTRANT_Y` | `False` |
 | `USE_REGRIDDING` | `False` |
-| `BOUSSINESQ` | `True` |
 | `ENABLE_THERMODYNAMICS` | `False` |
-| `THICKNESS_CONFIG` | `"uniform"` |
-| `WIND_CONFIG` | `"2gyre"` |
-| `BUOY_CONFIG` | `"zero"` |
+| `THICKNESS_CONFIG` | `uniform` |
+| `WIND_CONFIG` | `2gyre` |
+| `BUOY_CONFIG` | `zero` |
 | `ICE_SHELF` | `False` |
 | `DT` | `1200.0` |
 | `DT_THERM` | `2400.0` |
 | `DAYMAX` | `10.0` |
-| `TIMEUNIT` | `8.64E+04` |
+
+
+### Domain and bottom depth
+
+
+Grid: 44 x 40 points (`GRID_CONFIG = spherical`), x from 0.25 to 21.75 degrees_east, y from 30.25 to 49.75 degrees_north. Bottom depth `D` from 105.179 to 2000 m (`TOPO_CONFIG = spoon`).
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/double_gyre/notebook_8_1.png)
+    
+
+
+### Initial state
+
+
+MOM6 did not write an initial-state file for this run (it does when `SAVE_INITIAL_CONDS = True`), so the initial state is not shown here; see the run's `MOM_parameter_doc.all` (`THICKNESS_CONFIG = uniform`, `TS_CONFIG = n/a`).
+
+
+### Surface forcing
+
+
+No surface forcing is saved in this run's diagnostics. The forcing is set by `WIND_CONFIG = 2gyre` and `BUOY_CONFIG = zero` (see the MOM6 documentation for these options).
+
+
+### Energy and stability through the run
+
+
+    
+![png](../../../assets/tested-configs/notebooks/double_gyre/notebook_14_0.png)
+    
+
+
+
+From `ocean.stats.nc`: 11 records; time axis in days.
+
+
+### Final state
+
+
+`e` at the last record of `prog__0001_006.nc` (snapshot).
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/double_gyre/notebook_16_1.png)
 
 ## Provenance
 

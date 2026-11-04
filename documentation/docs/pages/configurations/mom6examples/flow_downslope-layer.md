@@ -1,17 +1,15 @@
 # flow_downslope / layer
 
+!!! success ":white_check_mark: This configuration ran successfully"
+    Tested on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`): 2 cores, walltime used 00:00:12, 0.01 SU. Details further down this page.
+
+
 80 x 4 x 40 cartesian grid, layer mode (no regridding), topography `DOME2D`, wind `zero`, buoyancy `NONE`, 0.5 days ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/flow_downslope/layer))
 
-Upstream configuration: [`ocean_only/flow_downslope/layer`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/flow_downslope/layer) (MOM6-examples commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802)).
+Configuration files: [`ocean_only/flow_downslope/layer`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/flow_downslope/layer) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under Provenance.)
 
 !!! info "Workaround used: no restart files"
     This example switches restart files off (`RESTART_CONTROL = -1`). payu 1.3.6 then fails while archiving (`FileNotFoundError: .../work/<name>/RESTART`), because it always moves `work/RESTART` and deletes empty directories first. The run script works around this with a payu `run` userscript that creates `RESTART/` with a placeholder file.
-
-!!! success "Tested: this example runs"
-    Ran on Gadi on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`) and `payu/1.3.6_1` on 2 Sapphire Rapids core(s); walltime used 00:00:12, 0.01 SU.
-
-!!! note "Generated with Claude Code"
-    This page, the script and the figure were generated automatically by [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). See [How these pages were made](../mom6examples.md#how-these-pages-were-made).
 
 ## Run it yourself
 
@@ -43,30 +41,88 @@ Last lines of `ocean.stats`:
    144,      12.000,     0, En 4.1159362094337909E-01, CFL  0.07226, SL  1.9361E-10, M 9.00864E+16, S 34.4303, T  0.0294, Me  6.77E-15, Se  2.32E-13, Te  1.37E-18
 ```
 
-Key parameters of this run (from `MOM_parameter_doc.all`):
+## Domain, forcing and output
+
+Made by running the notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) on this run's output folder (code hidden here). It only plots files MOM6 wrote during the run.
+
+### Set-up
+
+
+Values from this run's `MOM_parameter_doc.all`:
 
 | Parameter | Value |
 |---|---|
 | `NIGLOBAL` | `80` |
 | `NJGLOBAL` | `4` |
 | `NK` | `40` |
-| `GRID_CONFIG` | `"cartesian"` |
-| `TOPO_CONFIG` | `"DOME2D"` |
+| `GRID_CONFIG` | `cartesian` |
+| `TOPO_CONFIG` | `DOME2D` |
 | `REENTRANT_X` | `False` |
 | `REENTRANT_Y` | `False` |
 | `USE_REGRIDDING` | `False` |
-| `BOUSSINESQ` | `True` |
 | `ENABLE_THERMODYNAMICS` | `True` |
-| `EQN_OF_STATE` | `"LINEAR"` |
-| `THICKNESS_CONFIG` | `"DOME2D"` |
-| `TS_CONFIG` | `"DOME2D"` |
-| `WIND_CONFIG` | `"zero"` |
-| `BUOY_CONFIG` | `"NONE"` |
+| `EQN_OF_STATE` | `LINEAR` |
+| `THICKNESS_CONFIG` | `DOME2D` |
+| `TS_CONFIG` | `DOME2D` |
+| `WIND_CONFIG` | `zero` |
+| `BUOY_CONFIG` | `NONE` |
 | `ICE_SHELF` | `False` |
 | `DT` | `300.0` |
 | `DT_THERM` | `900.0` |
 | `DAYMAX` | `12.0` |
-| `TIMEUNIT` | `3600.0` |
+
+
+### Domain and bottom depth
+
+
+Grid: 80 x 4 points (`GRID_CONFIG = cartesian`), x from 5 to 795 kilometers, y from 35 to 65 kilometers. Bottom depth `D` from 800 to 4000 m (`TOPO_CONFIG = DOME2D`).
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/flow_downslope-layer/notebook_8_1.png)
+    
+
+
+### Initial state
+
+
+`Temp` from `Initial_state.nc`, which MOM6 writes with the initial state.
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/flow_downslope-layer/notebook_10_1.png)
+    
+
+
+### Surface forcing
+
+
+No surface forcing is saved in this run's diagnostics. The forcing is set by `WIND_CONFIG = zero` and `BUOY_CONFIG = NONE` (see the MOM6 documentation for these options).
+
+
+### Energy and stability through the run
+
+
+    
+![png](../../../assets/tested-configs/notebooks/flow_downslope-layer/notebook_14_0.png)
+    
+
+
+
+From `ocean.stats.nc`: 13 records; time axis in hours.
+
+
+### Final state
+
+
+`temp` at the last record of `prog.nc` (snapshot).
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/flow_downslope-layer/notebook_16_1.png)
 
 ## Provenance
 

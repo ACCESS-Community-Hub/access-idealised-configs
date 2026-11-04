@@ -1,14 +1,12 @@
 # benchmark
 
+!!! success ":white_check_mark: This configuration ran successfully"
+    Tested on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`): 72 cores, walltime used 00:00:29, 1.16 SU. Details further down this page.
+
+
 360 x 180 x 22 mercator grid, layer mode (no regridding), topography `benchmark`, wind `gyres`, buoyancy `linear`, 1 days ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/benchmark))
 
-Upstream configuration: [`ocean_only/benchmark`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/benchmark) (MOM6-examples commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802)).
-
-!!! success "Tested: this example runs"
-    Ran on Gadi on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`) and `payu/1.3.6_1` on 72 Sapphire Rapids core(s); walltime used 00:00:29, 1.16 SU.
-
-!!! note "Generated with Claude Code"
-    This page, the script and the figure were generated automatically by [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). See [How these pages were made](../mom6examples.md#how-these-pages-were-made).
+Configuration files: [`ocean_only/benchmark`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/benchmark) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under Provenance.)
 
 ## Run it yourself
 
@@ -40,30 +38,88 @@ Last lines of `ocean.stats`:
     96,       1.000,     0, En 5.4682695888234778E-01, CFL  0.01838, SL -2.8966E-07, M 7.90973E+19, S 35.0000, T  5.0640, Me  5.76E-16, Se  2.01E-14, Te  1.02E-14
 ```
 
-Key parameters of this run (from `MOM_parameter_doc.all`):
+## Domain, forcing and output
+
+Made by running the notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) on this run's output folder (code hidden here). It only plots files MOM6 wrote during the run.
+
+### Set-up
+
+
+Values from this run's `MOM_parameter_doc.all`:
 
 | Parameter | Value |
 |---|---|
 | `NIGLOBAL` | `360` |
 | `NJGLOBAL` | `180` |
 | `NK` | `22` |
-| `GRID_CONFIG` | `"mercator"` |
-| `TOPO_CONFIG` | `"benchmark"` |
+| `GRID_CONFIG` | `mercator` |
+| `TOPO_CONFIG` | `benchmark` |
 | `REENTRANT_X` | `True` |
 | `REENTRANT_Y` | `False` |
 | `USE_REGRIDDING` | `False` |
-| `BOUSSINESQ` | `True` |
 | `ENABLE_THERMODYNAMICS` | `True` |
-| `EQN_OF_STATE` | `"WRIGHT"` |
-| `THICKNESS_CONFIG` | `"benchmark"` |
-| `TS_CONFIG` | `"benchmark"` |
-| `WIND_CONFIG` | `"gyres"` |
-| `BUOY_CONFIG` | `"linear"` |
+| `EQN_OF_STATE` | `WRIGHT` |
+| `THICKNESS_CONFIG` | `benchmark` |
+| `TS_CONFIG` | `benchmark` |
+| `WIND_CONFIG` | `gyres` |
+| `BUOY_CONFIG` | `linear` |
 | `ICE_SHELF` | `False` |
 | `DT` | `900.0` |
 | `DT_THERM` | `3600.0` |
 | `DAYMAX` | `1.0` |
-| `TIMEUNIT` | `8.64E+04` |
+
+
+### Domain and bottom depth
+
+
+Grid: 360 x 180 points (`GRID_CONFIG = mercator`), x from 0.125 to 89.875 degrees_east, y from -40.8855 to -0.125 degrees_north. Bottom depth `D` from 0.5 to 5454.72 m (`TOPO_CONFIG = benchmark`).
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/benchmark/notebook_8_1.png)
+    
+
+
+### Initial state
+
+
+`Temp` from `GOLD_IC.nc`, which MOM6 writes with the initial state.
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/benchmark/notebook_10_1.png)
+    
+
+
+### Surface forcing
+
+
+No surface forcing is saved in this run's diagnostics. The forcing is set by `WIND_CONFIG = gyres` and `BUOY_CONFIG = linear` (see the MOM6 documentation for these options).
+
+
+### Energy and stability through the run
+
+
+    
+![png](../../../assets/tested-configs/notebooks/benchmark/notebook_14_0.png)
+    
+
+
+
+From `ocean.stats.nc`: 5 records; time axis in days.
+
+
+### Final state
+
+
+`Temp` at the last record of `GOLD_IC.nc` (snapshot).
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/benchmark/notebook_16_1.png)
 
 ## Provenance
 

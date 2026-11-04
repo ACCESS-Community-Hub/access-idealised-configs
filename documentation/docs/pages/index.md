@@ -1,19 +1,60 @@
+--8<-- "tested-configs/templates/claude_caveat.md"
 
 Welcome to the documentation for the [mom6-idealised ocean model configurations](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs)! 
 
-The purpose of this repository is to encourage community users to both use and share _idealised_ ocean model configurations.
+This website collects _idealised_ ocean model configurations for MOM6, from the COSIMA community
+and from GFDL's MOM6 examples, so that the community can run, check and share them. Each one comes
+with a tested script that runs it on NCI Gadi with the prebuilt `mom6-solo` from ACCESS-OM3, so
+you don't need to compile MOM6. The website has:
 
-!!! tip "Tested configurations, one script each"
-    You don't need to compile MOM6 to run these configurations: the ACCESS-OM3 release
-    (`module load access-om3/2026.05.004`) ships the ocean-only executable `mom6-solo`.
-    Each [configuration page](configurations/Overview.md) has one script that sets the
-    case up and runs it with payu on Gadi, and shows what that script produced. This
-    includes [ANU-TUB](configurations/anu-tub.md), [ISOMIP+ Ocean0](configurations/isomip-plus.md)
-    and [GFDL's MOM6 examples](configurations/mom6examples.md).
+- **Configurations**
+    - [Overview](configurations/Overview.md): every configuration with whether it ran, its
+      prerequisites and links to its page.
+    - [How the configurations were run](configurations/how-they-were-run.md): the versions, scripts and
+      checks used for every run.
+    - One page per configuration: the COSIMA community configurations (ANU-TUB,
+      ISOMIP+ Ocean0) and the MOM6 examples, each with its run script and results.
+- **Infrastructure**
+    - [Building MOM6](infrastructure/Building.md): you don't need to build MOM6 to run these
+      configurations; this page shows how to build your own `mom6-solo` with ACCESS-NRI's Spack.
+- **[Contributing](contributing.md)**: report a bug, add a configuration or improve these pages.
 
-    These scripts and results were made with [Claude Code](https://claude.com/claude-code)
-    and are regenerated with `tested-configs/regenerate_all.sh`. Every page states the
-    exact versions, input hashes and environment used.
+## How the configurations were run
+
+Every configuration on this website, both the COSIMA community ones and the MOM6 examples,
+was run in the same way:
+
+- on NCI Gadi, with the prebuilt MOM6 ocean-only executable `mom6-solo` from the ACCESS-OM3
+  release ([`access-om3/2026.05.004`](https://github.com/ACCESS-NRI/ACCESS-OM3/releases)), so
+  nobody has to compile MOM6;
+- with [payu](https://payu.readthedocs.io), from one script per configuration, shown in full on
+  that configuration's page;
+- then checked, summarised and written up by the same scripts.
+
+--8<-- "tested-configs/results/status-summary.md"
+The status of every run is in the tables on the [Overview](configurations/Overview.md).
+Details: [How the configurations were run](configurations/how-they-were-run.md).
+
+## Quick start
+
+You don't need to compile MOM6: the ACCESS-OM3 release (`module load access-om3/2026.05.004`)
+ships the ocean-only executable `mom6-solo`. Every configuration on the
+[Overview](configurations/Overview.md) has one script that sets it up and runs it with
+[payu](https://payu.readthedocs.io) on NCI Gadi.
+
+1. Make sure you are a member of the NCI project **`vk83`**
+   ([join vk83](https://my.nci.org.au/mancini/project/vk83/join)) and of a project to charge
+   the run to. Some configurations need other projects too (the Prerequisites column on the
+   [Overview](configurations/Overview.md)).
+2. Open a configuration's page, for example [double_gyre](configurations/mom6examples/double_gyre.md),
+   and copy its script (copy button at the top right of the code block).
+3. From a Gadi **login node**, run it:
+
+    ```bash
+    PROJECT=<your-project> bash double_gyre.sh
+    ```
+
+    Output appears under `/scratch/<your-project>/$USER/` (each page says exactly where).
 
 ## Getting involved in mom6-idealised
 
@@ -21,57 +62,5 @@ The purpose of this repository is to encourage community users to both use and s
 
 Contributors so far include: Christopher Bull (ACCESS-NRI), Claire Yung (Australian National University), Josef Bisits (University of New South Wales), Andy Hogg (Australian National University).
 
-### Report a bug or make a suggestion
-
-Technical issues related to mom6-idealised are best posted to [github.com/ACCESS-Community-Hub/mom6-idealised-configs/issues](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/issues). If you would like to discuss the issue first, feel free to post it on the [access hive forum](https://forum.access-hive.org.au/c/cosima/29).
-
-### Add a new configuration
-
-There are several different ways to do this depending on the kind of contribution. Best to get in touch on the [access hive forum](https://forum.access-hive.org.au/c/cosima/29), ping `ACCESS-NRI/ocean` on GitHub or email `chris.bull@anu.edu.au`.
-
-### mom6-idealised documentation
-
-We appreciate contributions, typo and bugs fixes to this documentation. To make suggestions please see steps below.
-
-#### Quick contributions 
-!!! tip
-    This method has the advantage is that it's *very quick* (<1 minute!). The caveat is that, unless you have write access to the `mom6-idealised-configs` repository, you will not be able to preview the changes rendered into a website or create whole new pages. <br>
-
-The simplest and fastest way to make a change to an _existing_ page is to click the edit "pencil" on the top-right corner. This will go to the relevant GitHub markdown file and clicking the _top-right pencil again_ on GitHub will allow you to edit the file. Once complete, click `Commit changes...`. There are then _two_ possibilities, depending on whether you have  write access to [`mom6-idealised-configs`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs): 
-
-1.  **No write access**: this will prompt you to make a fork and then a pull request (less than 1 minute!). 
-1.  **You have write access**: please commit changes on a new branch and then use a pull request (this relates to the next option). 
-
-#### Larger contributions (online PR-previews)
-!!! tip
-    This method allows you create whole new pages, and to preview the changes rendered into a website. It does not require you to install any software, but is **only available for people with write access to [`mom6-idealised-configs`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs)**.<br>
-
-Create a new branch, e.g. `jblogs/doc-update`, make doc changes (the documentation sources are in [github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/documentation](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/documentation)), then open a related PR and a GitHub preview will be made automatically.
-
-#### Larger contributions (`mkdocs` offline)
-!!! tip
-    Similar to the above, this method allows you create whole new pages and to preview the changes rendered into a website. It works whether or not you have write access to [`mom6-idealised-configs`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs), but requires you to install `mkdocs` and takes the longest to set up.<br>
-
-Fork and clone [github.com/ACCESS-Community-Hub/mom6-idealised-configs](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs), install the requirements and serve the site from the `documentation` directory:
-
-```bash
-git clone git@github.com:<your-username>/mom6-idealised-configs.git
-cd mom6-idealised-configs/documentation
-python -m venv ~/venv-docs && ~/venv-docs/bin/pip install -r requirements.txt
-~/venv-docs/bin/python -m mkdocs serve      # then open http://127.0.0.1:8000
-```
-
-!!! tip
-    Use `python -m mkdocs` rather than plain `mkdocs`: one of the requirements
-    (`mkdocs_include_configuration_stubs_plugin`) installs its own `mkdocs` command, which
-    needs the GitHub CLI `gh` and fails with `No such file or directory: 'gh'` without it.
-
-The general ACCESS-Hive [contribution guide](https://docs.access-hive.org.au/about/contribute/) has more on writing documentation.
-
-
-If you want to add a new page, then you need to add another markdown file in the folder (or sub-folder as appropriate):
-[github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/documentation/docs/pages](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/documentation/docs/pages)
-
-Once done, update the documentation navigation in [github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/documentation/mkdocs.yml](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/documentation/mkdocs.yml) by adding an entry under the `nav:` section. Note you'll need to add the sub-folder paths as appropriate.
-
-
+To report a bug, suggest a change, add a configuration or improve this documentation, see
+[Contributing](contributing.md).

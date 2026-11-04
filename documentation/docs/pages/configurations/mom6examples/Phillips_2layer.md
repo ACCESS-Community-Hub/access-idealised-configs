@@ -1,14 +1,12 @@
 # Phillips_2layer
 
+!!! success ":white_check_mark: This configuration ran successfully"
+    Tested on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`): 64 cores, walltime used 00:00:25, 0.89 SU. Details further down this page.
+
+
 60 x 80 x 2 cartesian grid, layer mode (no regridding), topography `flat`, wind `zero`, buoyancy `zero`, 20 days ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/Phillips_2layer))
 
-Upstream configuration: [`ocean_only/Phillips_2layer`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/Phillips_2layer) (MOM6-examples commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802)).
-
-!!! success "Tested: this example runs"
-    Ran on Gadi on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`) and `payu/1.3.6_1` on 64 Sapphire Rapids core(s); walltime used 00:00:25, 0.89 SU.
-
-!!! note "Generated with Claude Code"
-    This page, the script and the figure were generated automatically by [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). See [How these pages were made](../mom6examples.md#how-these-pages-were-made).
+Configuration files: [`ocean_only/Phillips_2layer`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/Phillips_2layer) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under Provenance.)
 
 ## Run it yourself
 
@@ -40,28 +38,86 @@ Last lines of `ocean.stats`:
   2880,      20.000,     0, En 3.1393739104963225E-01, CFL  0.00913, SL  2.2737E-13, Mass 3.95904E+18, Me -6.78E-18
 ```
 
-Key parameters of this run (from `MOM_parameter_doc.all`):
+## Domain, forcing and output
+
+Made by running the notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) on this run's output folder (code hidden here). It only plots files MOM6 wrote during the run.
+
+### Set-up
+
+
+Values from this run's `MOM_parameter_doc.all`:
 
 | Parameter | Value |
 |---|---|
 | `NIGLOBAL` | `60` |
 | `NJGLOBAL` | `80` |
 | `NK` | `2` |
-| `GRID_CONFIG` | `"cartesian"` |
-| `TOPO_CONFIG` | `"flat"` |
+| `GRID_CONFIG` | `cartesian` |
+| `TOPO_CONFIG` | `flat` |
 | `REENTRANT_X` | `True` |
 | `REENTRANT_Y` | `False` |
 | `USE_REGRIDDING` | `False` |
-| `BOUSSINESQ` | `True` |
 | `ENABLE_THERMODYNAMICS` | `False` |
-| `THICKNESS_CONFIG` | `"phillips"` |
-| `WIND_CONFIG` | `"zero"` |
-| `BUOY_CONFIG` | `"zero"` |
+| `THICKNESS_CONFIG` | `phillips` |
+| `WIND_CONFIG` | `zero` |
+| `BUOY_CONFIG` | `zero` |
 | `ICE_SHELF` | `False` |
 | `DT` | `600.0` |
 | `DT_THERM` | `1800.0` |
 | `DAYMAX` | `20.0` |
-| `TIMEUNIT` | `8.64E+04` |
+
+
+### Domain and bottom depth
+
+
+Grid: 60 x 80 points (`GRID_CONFIG = cartesian`), x from 10 to 1190 kilometers, y from 10 to 1590 kilometers. Bottom depth `D` from 2000 to 2000 m (`TOPO_CONFIG = flat`).
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/Phillips_2layer/notebook_8_1.png)
+    
+
+
+### Initial state
+
+
+`h` from `MOM_IC.nc`, which MOM6 writes with the initial state.
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/Phillips_2layer/notebook_10_1.png)
+    
+
+
+### Surface forcing
+
+
+No surface forcing is saved in this run's diagnostics. The forcing is set by `WIND_CONFIG = zero` and `BUOY_CONFIG = zero` (see the MOM6 documentation for these options).
+
+
+### Energy and stability through the run
+
+
+    
+![png](../../../assets/tested-configs/notebooks/Phillips_2layer/notebook_14_0.png)
+    
+
+
+
+From `ocean.stats.nc`: 21 records; time axis in days.
+
+
+### Final state
+
+
+`h` at the last record of `prog.nc` (snapshot).
+
+
+
+    
+![png](../../../assets/tested-configs/notebooks/Phillips_2layer/notebook_16_1.png)
 
 ## Provenance
 
