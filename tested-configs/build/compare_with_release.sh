@@ -13,7 +13,7 @@
 #   2. the disassembled machine code, with all addresses replaced by "X".
 # If both match, the two executables run the same instructions.
 # Takes about a minute. Written with Claude Code for
-# github.com/ACCESS-Community-Hub/mom6-idealised-configs
+# github.com/ACCESS-Community-Hub/access-idealised-configs
 #==============================================================================
 set -euo pipefail
 OWN=${1:?"usage: bash compare_with_release.sh /path/to/your/bin/mom6-solo"}

@@ -13,7 +13,7 @@
 
     Read from this run's `MOM_parameter_doc.all`. Source: [upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/single_column/EPBL).
 
-Configuration files: [`ocean_only/single_column/EPBL`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/single_column/EPBL) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under Provenance.)
+Configuration files: [`ocean_only/single_column/EPBL`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/single_column/EPBL) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under [Provenance](#provenance).)
 
 ## Run it yourself
 
@@ -32,10 +32,6 @@ where `single_column-EPBL.sh` is the script below (click to expand; copy button 
 
 ## What we got
 
-![single_column-EPBL](../../../assets/tested-configs/single_column-EPBL.png)
-
-*Left: `temp` time-depth evolution; right: total energy (`En`) from `ocean.stats.nc`.*
-
 Last lines of `ocean.stats`:
 
 ```text
@@ -47,7 +43,7 @@ Last lines of `ocean.stats`:
 
 ## Domain, forcing and output
 
-Made by running the notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) on this run's output folder; it only plots files MOM6 wrote during the run. **[See the notebook with its code](../notebooks/single_column-EPBL.md)**.
+Made by running the notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) on this run's output folder; it only plots files MOM6 wrote during the run. **[See the notebook with its code](../notebooks/single_column-EPBL.md)**.
 
 ### Set-up
 

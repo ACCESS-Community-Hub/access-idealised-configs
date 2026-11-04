@@ -227,12 +227,12 @@ def status_badge(s):
 
 
 # ---------------------------------------------------------------------------------
-NOTEBOOK_URL = ("https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/"
+NOTEBOOK_URL = ("https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/main/"
                 "tested-configs/notebooks/explore_run.ipynb")
 
 
 NOTEBOOK_PAGES = os.path.join(DOCS, "pages", "configurations", "notebooks")
-SUMMARISE_URL = ("https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/"
+SUMMARISE_URL = ("https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/main/"
                  "tested-configs/lib/summarise_run.py")
 
 
@@ -251,6 +251,24 @@ def notebook_section(name, assets, nb_link, level=2):
             f"**[See the notebook with its code]({nb_link})**.", ""] + body + [""]
 
 
+def glance_lines(name, s):
+    """"The tested run at a glance" on a COSIMA page: the "Final state" part of the run's notebook."""
+    path = os.path.join(HERE, "results", name, "notebook.md")
+    if not (s and os.path.exists(path)):
+        return ["No figure: the run has no notebook output."]
+    text = open(path).read().replace("@ASSETS@", "../../assets")
+    m = re.search(r"^## Final state\n(.*?)(?=^## |\Z)", text, flags=re.S | re.M)
+    if not m:
+        return ["No figure: the run's notebook has no final-state plot."]
+    try:
+        days = f"{float((s.get('key_params') or {}).get('DAYMAX', '')):g}-day "
+    except ValueError:
+        days = ""
+    return [m.group(1).strip(), "",
+            f"*From the tested {days}run's notebook (see [Domain, forcing and output](#domain-forcing-and-output) "
+            "below). The run is short, so this shows the model early in its spin-up, not an equilibrated state.*"]
+
+
 def write_notebook_page(name, back_link, back_title):
     """pages/configurations/notebooks/<name>.md: the executed notebook with its code
     (results/<name>/notebook_full.md, written by lib/run_notebooks.sh)."""
@@ -262,9 +280,8 @@ def write_notebook_page(name, back_link, back_title):
     body = [("#" + l) if l.startswith("#") else l for l in body]      # page has its own title
     head = [f"# {back_title}: notebook", "",
             f"The notebook [`explore_run.ipynb`]({NOTEBOOK_URL}) as it ran on the output folder of "
-            f"the tested run, with its code and output. It made the figures in the \"Domain, forcing "
-            f"and output\" section of [{back_title}]({back_link}); the \"What we got\" figure on that "
-            f"page is made by [`lib/summarise_run.py`]({SUMMARISE_URL}).", ""]
+            f"the tested run, with its code and output. It made every figure on the "
+            f"[{back_title}]({back_link}) page.", ""]
     open(os.path.join(NOTEBOOK_PAGES, name + ".md"), "w").write("\n".join(head + body) + "\n")
 
 
@@ -296,7 +313,7 @@ def example_page(ex, s):
         lines += ["```", ""]
     lines += [f"Configuration files: [`{example}`]({UPSTREAM}/tree/{commit}/{example}) in "
               f"NOAA-GFDL/MOM6-examples, at commit [`{commit[:8]}`]({UPSTREAM}/commit/{commit}): the version "
-              "this run used. (The model itself is the `mom6-solo` listed under Provenance.)", ""]
+              "this run used. (The model itself is the `mom6-solo` listed under [Provenance](#provenance).)", ""]
     if is_excluded(example):
         lines += ["GFDL excludes this example from its own automated test suite (`EXCLUDE` in "
                   f"[`ocean_only/Makefile`]({UPSTREAM}/blob/{commit}/ocean_only/Makefile)).", ""]
@@ -394,7 +411,7 @@ def output_description(fname, files):
            f"Diagnostics set in `diag_table`, {info['freq']}"
 
 
-def results_section(name, s, assets, config_rows, reference_label, show_figure=True, nb_prefix="../notebooks/",
+def results_section(name, s, assets, config_rows, reference_label, show_figure=False, nb_prefix="../notebooks/",
                     ex=None):
     """Markdown lines for "What we got", the notebook section (if any) and "Provenance" of one run.
     assets: path from the page to docs/assets; config_rows: table rows naming the config source;
@@ -405,7 +422,7 @@ def results_section(name, s, assets, config_rows, reference_label, show_figure=T
         lines += ['??? failure "End of the error log"', "    ```text",
                   indent("\n".join(s["failure_log"])), "    ```", ""]
     lines += ["## What we got", ""]
-    if show_figure:
+    if show_figure:          # (not used: every figure now comes from the run's notebook)
         lines += figure_lines(name, s, assets)
     if s.get("ocean_stats_tail"):
         lines += [f"Last lines of `{s.get('stats_file', 'ocean.stats')}`:", "", "```text"] + s["ocean_stats_tail"] + ["```", ""]
@@ -469,6 +486,10 @@ COMMUNITY_REF = {
                            "https://github.com/claireyung/isomip-test-mom6-for-iom3-configs/blob/3b86dc0bcb4b7a38156bdb3b94952fe47bb51887/docs/MOM_parameter_doc.all",
                            "Claire Yung's own run (`3b86dc0b`)",
                            "/scratch/<your-project>/$USER/mom6/archive/isomip-plus-ocean0/output000/MOM_parameter_doc.all"),
+    "om3-mom6-single-column": ("om3-mom6-single-column/docs/MOM_parameter_doc.all",
+                               "https://github.com/ACCESS-Community-Hub/om3-mom6-single-column/blob/9a8310b09bd4b97c676ccbd0b54ddf4dfe686b5f/docs/MOM_parameter_doc.all",
+                               "the file committed in om3-mom6-single-column (`9a8310b0`)",
+                               "/scratch/<your-project>/$USER/access-om3/archive/om3-mom6-single-column/output000/MOM_parameter_doc.all"),
 }
 
 
@@ -492,14 +513,19 @@ def param_section(name, s, ex=None, level=2):
 STANDALONE = {   # run name -> (page that includes the fragment, rows describing the config source)
     "anu-tub-zstar": ["| Configuration | [ACCESS-Community-Hub/anu-tub](https://github.com/ACCESS-Community-Hub/anu-tub) "
                       "`e413708c`, `zstar` coordinate |"],
-    "isomip-plus-ocean0": ["| Configuration | [mom6-idealised-configs branch `isomip-plus-ocean0-sigmashelfzstar`]"
-                           "(https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/"
+    "isomip-plus-ocean0": ["| Configuration | [access-idealised-configs branch `isomip-plus-ocean0-sigmashelfzstar`]"
+                           "(https://github.com/ACCESS-Community-Hub/access-idealised-configs/tree/"
                            "isomip-plus-ocean0-sigmashelfzstar) `094d9177` |",
                            "| Input file | [claireyung/isomip-test-mom6-for-iom3-configs]"
                            "(https://github.com/claireyung/isomip-test-mom6-for-iom3-configs) `3b86dc0b` |"],
+    "om3-mom6-single-column": ["| Configuration | [ACCESS-Community-Hub/om3-mom6-single-column]"
+                               "(https://github.com/ACCESS-Community-Hub/om3-mom6-single-column) "
+                               "`9a8310b0` (branch `jra_ryf+wombatlite`) |",
+                               "| Executable | `access-om3-MOM6` (coupled ACCESS-OM3, not `mom6-solo`) |"],
 }
 REFERENCE_LABEL = {"anu-tub-zstar": "the `docs/MOM_parameter_doc.all` committed in anu-tub",
-                   "isomip-plus-ocean0": "Claire Yung's own run (`docs/` in isomip-test-mom6-for-iom3-configs)"}
+                   "isomip-plus-ocean0": "Claire Yung's own run (`docs/` in isomip-test-mom6-for-iom3-configs)",
+                   "om3-mom6-single-column": "the `docs/MOM_parameter_doc.all` committed in om3-mom6-single-column"}
 
 
 def standalone_fragment(name, s):
@@ -544,8 +570,14 @@ COMMUNITY = [
     ("isomip-plus-ocean0", "[ISOMIP+ Ocean0](isomip-plus.md)", ["Ice shelf"],
      "`vk83`; the input file comes from Claire Yung's input repository (the script clones it)",
      '"Idealised ISOMIP+ like config" that "resembles the Ocean0 warm test case" '
-     "([README](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/"
+     "([README](https://github.com/ACCESS-Community-Hub/access-idealised-configs/tree/"
      "isomip-plus-ocean0-sigmashelfzstar#readme)). By Claire Yung."),
+    ("om3-mom6-single-column", "[ACCESS-OM3 single column](om3-mom6-single-column.md)", ["Column"],
+     "`vk83` (inputs are in `/g/data/vk83`); runs the coupled `access-om3-MOM6`, not `mom6-solo`",
+     '"easily-relocatable single-column ACCESS-OM3-MOM6 configurations based on the single-column '
+     'MOM6 configurations in the ocean_only/single_column directory of the MOM6-examples repository", '
+     "with WOMBAT biogeochemistry ([README](https://github.com/ACCESS-Community-Hub/om3-mom6-single-column#readme)). "
+     "Maintained by `dougiesquire` and `anton-seaice`."),
 ]
 
 # ---------------------------------------------------------------------------------
@@ -554,11 +586,10 @@ os.makedirs(ASSETS, exist_ok=True)
 rows = []
 for i, ex in enumerate(examples):
     s = load_summary(ex["name"])
+    # all figures on a page come from its notebook; remove summary figures left by earlier versions
     asset = os.path.join(ASSETS, ex["name"] + ".png")
-    if s and s.get("figure"):
-        shutil.copy(os.path.join(HERE, "results", ex["name"], "figure.png"), asset)
-    elif os.path.exists(asset):
-        os.remove(asset)                     # generated file from an earlier run
+    if os.path.exists(asset):
+        os.remove(asset)
     open(os.path.join(PAGES, ex["name"] + ".md"), "w").write(example_page(ex, s) + "\n")
     write_notebook_page(ex["name"], f"../mom6examples/{ex['name']}.md", ex["name"].replace("-", " / "))
     flag = " &dagger;" if is_excluded(ex["example"]) else ""   # see note under the table
@@ -569,17 +600,11 @@ for i, ex in enumerate(examples):
 for name in STANDALONE:
     s = load_summary(name)
     os.makedirs(os.path.join(HERE, "results", name), exist_ok=True)
-    if s and s.get("figure"):
-        shutil.copy(os.path.join(HERE, "results", name, "figure.png"),
-                    os.path.join(ASSETS, name + ".png"))
-    fig = figure_lines(name, s, "../../assets") if s else []
-    if fig:
-        days = (s.get("key_params") or {}).get("DAYMAX", "?")
-        fig[-2] = fig[-2].rstrip("*").rstrip(".") + (f", from the tested {float(days):g}-day run (see "
-                  "[Tested run](#tested-run)). The run is short, so this shows the model early in its "
-                  "spin-up, not an equilibrated state.*")
-    open(os.path.join(HERE, "results", name, "figure.md"), "w").write("\n".join(fig) + "\n")
-    page = {"anu-tub-zstar": ("../anu-tub.md", "ANU-TUB"), "isomip-plus-ocean0": ("../isomip-plus.md", "ISOMIP+ Ocean0")}[name]
+    if os.path.exists(os.path.join(ASSETS, name + ".png")):
+        os.remove(os.path.join(ASSETS, name + ".png"))   # old summary figure; figures now come from the notebook
+    open(os.path.join(HERE, "results", name, "figure.md"), "w").write("\n".join(glance_lines(name, s)) + "\n")
+    page = {"anu-tub-zstar": ("../anu-tub.md", "ANU-TUB"), "isomip-plus-ocean0": ("../isomip-plus.md", "ISOMIP+ Ocean0"),
+            "om3-mom6-single-column": ("../om3-mom6-single-column.md", "ACCESS-OM3 single column")}[name]
     write_notebook_page(name, *page)
     text = standalone_fragment(name, s) if s else '!!! warning "Not yet tested"\n    No test run has been recorded yet.'
     open(os.path.join(HERE, "results", name, "tested.md"), "w").write(text + "\n")

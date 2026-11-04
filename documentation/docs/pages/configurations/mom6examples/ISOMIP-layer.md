@@ -9,7 +9,7 @@
 
     Read from this run's `MOM_parameter_doc.all`. Source: [upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/ISOMIP/layer).
 
-Configuration files: [`ocean_only/ISOMIP/layer`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/ISOMIP/layer) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under Provenance.)
+Configuration files: [`ocean_only/ISOMIP/layer`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/ISOMIP/layer) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under [Provenance](#provenance).)
 
 GFDL excludes this example from its own automated test suite (`EXCLUDE` in [`ocean_only/Makefile`](https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/Makefile)).
 
@@ -17,7 +17,7 @@ GFDL excludes this example from its own automated test suite (`EXCLUDE` in [`oce
     Needs the ice-shelf file `INPUT/Ocean1_3D.nc`, which is not in the repository or in the GFDL input data (`initialize_topography_from_file: Unable to open INPUT/Ocean1_3D.nc`). GFDL also excludes the ISOMIP examples from its own test suite. For a working ice-shelf cavity case see [ISOMIP+ Ocean0](../isomip-plus.md).
 
 !!! info "Workaround in the payu set-up (the MOM6-examples files are unchanged)"
-    Nothing in the MOM6-examples files is changed: `MOM_input` and `MOM_override` are used as they are at the tested commit, so the model runs exactly as GFDL set it up. This example switches restart files off (`RESTART_CONTROL = -1`), and payu 1.3.6 cannot archive such a run: it deletes empty directories and then tries to move `work/<name>/RESTART`, which fails with `FileNotFoundError`. So the run script adds a payu `run` userscript to the `config.yaml` it writes (see `userscripts:` in the payu config.yaml under Provenance). After the model finishes, the userscript creates `RESTART/` with a one-line `README`, and payu can then archive the run.
+    Nothing in the MOM6-examples files is changed: `MOM_input` and `MOM_override` are used as they are at the tested commit, so the model runs exactly as GFDL set it up. This example switches restart files off (`RESTART_CONTROL = -1`), and payu 1.3.6 cannot archive such a run: it deletes empty directories and then tries to move `work/<name>/RESTART`, which fails with `FileNotFoundError`. So the run script adds a payu `run` userscript to the `config.yaml` it writes (see `userscripts:` in the payu config.yaml under [Provenance](#provenance)). After the model finishes, the userscript creates `RESTART/` with a one-line `README`, and payu can then archive the run.
 
 ## Run it yourself
 

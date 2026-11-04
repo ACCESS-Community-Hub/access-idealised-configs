@@ -1,6 +1,6 @@
 # torus_advection_test: notebook
 
-The notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) as it ran on the output folder of the tested run, with its code and output. It made the figures in the "Domain, forcing and output" section of [torus_advection_test](../mom6examples/torus_advection_test.md); the "What we got" figure on that page is made by [`lib/summarise_run.py`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/lib/summarise_run.py).
+The notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) as it ran on the output folder of the tested run, with its code and output. It made every figure on the [torus_advection_test](../mom6examples/torus_advection_test.md) page.
 
 ## Explore one MOM6 run: domain, initial state, forcing and output
 
@@ -13,10 +13,10 @@ It only reads files that MOM6 itself wrote into the run's output folder:
 | `MOM_parameter_doc.all` | set-up parameters |
 | `ocean_geometry.nc` | grid and bottom depth `D` |
 | `MOM_IC.nc` / `GOLD_IC.nc` / `Initial_state.nc` (if written), else the first diagnostic record | initial state |
-| diagnostic files (`*.nc` with a `Time` axis) | surface forcing (if saved) and final state |
+| diagnostic files (`*.nc` with a `Time` or `time` axis, not the initial-state files) | surface forcing (if saved) and final state |
 | `ocean.stats.nc` (or the file named by `ENERGYFILE`) | energy and CFL time series |
 
-Written with Claude Code for github.com/ACCESS-Community-Hub/mom6-idealised-configs.
+Written with Claude Code for github.com/ACCESS-Community-Hub/access-idealised-configs.
 To use it on your own run: set `run_dir` below to a payu `archive/outputNNN` folder.
 
 
@@ -75,10 +75,18 @@ def open_nc(path):
 
 P = read_params(os.path.join(run_dir, "MOM_parameter_doc.all"))
 geom = open_nc(os.path.join(run_dir, "ocean_geometry.nc"))
+IC_FILES = ("MOM_IC.nc", "GOLD_IC.nc", "Initial_state.nc")
+
+
+def tdim(ds):
+    """Name of the time dimension ("Time" or "time", as set in diag_table), or None."""
+    return next((d for d in ("Time", "time") if d in ds.dims), None)
+
+
 diag_files = sorted(f for f in glob.glob(os.path.join(run_dir, "*.nc"))
-                    if os.path.basename(f) not in ("ocean_geometry.nc", "Vertical_coordinate.nc")
+                    if os.path.basename(f) not in ("ocean_geometry.nc", "Vertical_coordinate.nc") + IC_FILES
                     and not os.path.basename(f).endswith("stats.nc")
-                    and "Time" in xr.open_dataset(f, decode_times=False).dims)
+                    and tdim(xr.open_dataset(f, decode_times=False)))
 ```
 
 
@@ -164,8 +172,13 @@ def plot_field(da, title, ax=None, h=None):
 
 def pick_field(ds):
     """The first of these that exists and is not constant."""
-    for v in ("temp", "Temp", "salt", "Salt", "e", "h", "u", "SSH", "ave_ssh"):
+    # MOM6-examples names first, then the CMOR-style names ACCESS-OM3 writes (thetao, so, zos)
+    for v in ("temp", "Temp", "thetao", "salt", "Salt", "so", "e", "h", "u", "SSH", "ave_ssh", "zos"):
         if v in ds and ds[v].size > 1 and float(ds[v].max() - ds[v].min()) > 0:
+            return v
+    # otherwise the first field on the model grid that varies (e.g. a passive tracer such as tr1)
+    for v, da in ds.data_vars.items():
+        if HORIZ & set(da.dims) and da.size > 1 and da.dtype.kind == "f" and float(da.max() - da.min()) > 0:
             return v
     return None
 ```
@@ -267,7 +280,8 @@ else:
 
 
 ```python
-FORCING = ["taux", "tauy", "ustar", "net_heat_surface", "SW", "LwLatSens", "PRCmE", "evap", "lprec"]
+FORCING = ["taux", "tauy", "ustar", "net_heat_surface", "SW", "LwLatSens", "PRCmE", "evap", "lprec",
+           "tauuo", "tauvo", "hfds", "wfo"]      # last four: CMOR-style names written by ACCESS-OM3
 found = {}
 for f in diag_files:
     ds = open_nc(f)
@@ -275,12 +289,13 @@ for f in diag_files:
         if v in ds and v not in found and float(np.abs(ds[v]).max()) > 0:
             found[v] = (f, ds[v])
 if found:
-    shown = [v for v in ("taux", "net_heat_surface", "tauy", "PRCmE", "ustar", "SW") if v in found][:2]
+    shown = [v for v in ("taux", "tauuo", "net_heat_surface", "hfds", "tauy", "PRCmE", "ustar", "SW") if v in found][:2]
     say("Time-mean of the surface forcing saved in the diagnostics: "
         + ", ".join(f"`{v}` ({found[v][1].attrs.get('long_name', '')}, from `{os.path.basename(found[v][0])}`)" for v in shown) + ".")
     for v in shown:
         da = found[v][1]
-        plot_field(da.mean("Time") if da.sizes.get("Time", 1) > 1 else da, f"Time-mean {v} [{da.attrs.get('units', '')}]")
+        td = next((d for d in ("Time", "time") if d in da.dims), None)
+        plot_field(da.mean(td) if td and da.sizes[td] > 1 else da, f"Time-mean {v} [{da.attrs.get('units', '')}]")
         plt.show()
 else:
     say(f"No surface forcing is saved in this run's diagnostics. The forcing is set by "
@@ -340,14 +355,15 @@ if last:
     f, ds, v = last
     avg = "average over the last output interval" if "average_T1" in ds else "snapshot"
     say(f"`{v}` at the last record of `{os.path.basename(f)}` ({avg}).")
-    plot_field(ds[v].isel(Time=-1), f"Final {v}", h=ds["h"].isel(Time=-1) if "h" in ds else None)
+    td = tdim(ds)
+    plot_field(ds[v].isel({td: -1}), f"Final {v}", h=ds["h"].isel({td: -1}) if "h" in ds else None)
     plt.show()
 else:
     say("No diagnostic output with a varying field was written for this run.")
 ```
 
 
-`Temp` at the last record of `GOLD_IC.nc` (snapshot).
+`tr1` at the last record of `prog.nc` (snapshot).
 
 
 

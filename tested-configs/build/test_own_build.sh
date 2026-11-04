@@ -6,7 +6,7 @@
 #
 # Uses the double_gyre run script from the website, then swaps the executable
 # in its config.yaml before running payu. Run from a Gadi login node.
-# Written with Claude Code for github.com/ACCESS-Community-Hub/mom6-idealised-configs
+# Written with Claude Code for github.com/ACCESS-Community-Hub/access-idealised-configs
 #==============================================================================
 set -euo pipefail
 PROJECT=${PROJECT:?"set PROJECT"}

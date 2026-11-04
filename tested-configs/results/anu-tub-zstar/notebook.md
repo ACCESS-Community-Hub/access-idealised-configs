@@ -54,7 +54,19 @@ Grid: 160 x 800 points (`GRID_CONFIG = mercator`), x from 0.125 to 39.875 degree
 ## Surface forcing
 
 
-No surface forcing is saved in this run's diagnostics. The forcing is set by `WIND_CONFIG = file` and `BUOY_CONFIG = file` (see the MOM6 documentation for these options).
+Time-mean of the surface forcing saved in the diagnostics: `tauuo` (Surface Downward X Stress, from `ocean_month.nc`), `hfds` (Surface ocean heat flux from SW+LW+latent+sensible+masstransfer+frazil+seaice_melt_heat, from `ocean_month.nc`).
+
+
+
+    
+![png](@ASSETS@/tested-configs/notebooks/anu-tub-zstar/notebook_12_1.png)
+    
+
+
+
+    
+![png](@ASSETS@/tested-configs/notebooks/anu-tub-zstar/notebook_12_2.png)
+    
 
 
 ## Energy and stability through the run
@@ -72,7 +84,7 @@ From `ocean.stats.nc`: 32 records; time axis in days.
 ## Final state
 
 
-`Temp` at the last record of `MOM_IC.nc` (snapshot).
+`thetao` at the last record of `ocean_month_z.nc` (average over the last output interval).
 
 
 

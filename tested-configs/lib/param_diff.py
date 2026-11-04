@@ -5,7 +5,7 @@ The parsing and the value comparison follow the "Config Diff" page of access-om3
 parameters are grouped by MOM6 module ("! === module X ==="), values are compared ignoring
 quotes, case and number formatting (1.0E-04 == 0.0001), and the table uses the same classes
 (table.diff, td.a / td.b, tr.mod), styled by documentation/docs/css/config_diff.css.
-Written with Claude Code for github.com/ACCESS-Community-Hub/mom6-idealised-configs
+Written with Claude Code for github.com/ACCESS-Community-Hub/access-idealised-configs
 """
 import html
 import re

@@ -3,8 +3,9 @@
 Every configuration on this website, both the COSIMA community ones and the MOM6 examples,
 was run in the same way:
 
-- on NCI Gadi, with the **prebuilt MOM6 ocean-only executable `mom6-solo` from the
-  ACCESS-OM3 release** (`access-om3/2026.05.004`), so nobody has to compile MOM6;
+- on NCI Gadi, with a **prebuilt executable from the ACCESS-OM3 release**
+  (`access-om3/2026.05.004`): the MOM6 ocean-only `mom6-solo`, or the coupled `access-om3-MOM6` for
+  the ACCESS-OM3 single column; so nobody has to compile MOM6;
 - with [payu](https://payu.readthedocs.io), from **one script per configuration**, shown in
   full on that configuration's page;
 - then checked, summarised and written up by the same scripts.
@@ -37,7 +38,7 @@ manifests), the run-time environment and the PBS resources used.
 ### MOM6 examples
 
 All MOM6 examples use the same script template
-([`templates/run_example.sh.in`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/templates/run_example.sh.in)),
+([`templates/run_example.sh.in`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/main/tested-configs/templates/run_example.sh.in)),
 filled in with the example's name, cores and walltime from `examples.txt`. Each script:
 
 1. clones `MOM6-examples` (configuration files only) at the tested commit;
@@ -70,6 +71,14 @@ pre-release executable. We tested the `zstar` coordinate for 1 month.
 at the tested commits, writes a payu `config.yaml` that uses the ACCESS-OM3 module on the
 `normalsr` queue, and runs `payu run` (3 months).
 
+### ACCESS-OM3 single column
+
+[`om3-mom6-single-column.sh`](om3-mom6-single-column.md#run-it-yourself) clones
+[om3-mom6-single-column](https://github.com/ACCESS-Community-Hub/om3-mom6-single-column) at the
+tested commit and edits its `config.yaml`: the current ACCESS-OM3 module, payu's executable check
+off (the repository's manifest records `access-om3/2026.03.000`), and your project and laboratory.
+It then runs `payu run` for one model year with the coupled `access-om3-MOM6` executable.
+
 ## How each run was checked
 
 **What "ran" means:** the job finished, the energy file (`ocean.stats`) has more than two
@@ -77,20 +86,21 @@ lines and contains no `NaN`.
 
 **Parameters:** we compare every run's `MOM_parameter_doc.all` with a reference: for the
 MOM6 examples, the one GFDL committed for that example; for ANU-TUB, the one committed in
-the anu-tub repository; for ISOMIP+, Claire Yung's own run. The differences (renamed, new
+the anu-tub repository; for ISOMIP+, Claire Yung's own run; for the ACCESS-OM3 single column, the
+one committed in om3-mom6-single-column. The differences (renamed, new
 or removed parameters, changed defaults) are listed on each page, because they show where
 the ACCESS-OM3 MOM6 version behaves differently from the one the configuration was
 written for. We did **not** compare answers bit-for-bit.
 
 **Domain, forcing and output:** each successful run's page shows the output of the notebook
-[`notebooks/explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb),
+[`notebooks/explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb),
 run on that run's output folder. It plots only files MOM6 wrote during the run: the bottom
 depth, the initial state, any surface forcing saved in the diagnostics, the energy and CFL
 number through the run, and the final state.
 
 ## The pipeline
 
-The scripts live in [`tested-configs/`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs):
+The scripts live in [`tested-configs/`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/tree/main/tested-configs):
 
 | File | Purpose |
 |---|---|
@@ -99,7 +109,7 @@ The scripts live in [`tested-configs/`](https://github.com/ACCESS-Community-Hub/
 | `templates/run_example.sh.in` | the commented run script that every MOM6-example page embeds |
 | `run_scripts/anu-tub.sh`, `run_scripts/isomip-plus-ocean0.sh` | the hand-written scripts for the community configurations |
 | `regenerate_all.sh` | does everything: write scripts, run, wait, summarise, run the notebooks, write pages |
-| `lib/summarise_run.py` | checks a run (`ocean.stats`), reads payu manifests (md5 hashes), makes the figure |
+| `lib/summarise_run.py` | checks a run (`ocean.stats`), reads payu manifests (md5 hashes) and the run's parameters |
 | `lib/run_notebooks.sh` | runs `notebooks/explore_run.ipynb` on each successful run (papermill) |
 | `lib/make_pages.py` | writes these pages from `results/*/summary.json` |
 
@@ -115,7 +125,7 @@ scripts ran exactly as shown.
 
 `/g/data/ol01/access-iom3-configs/mom6exampledata/` holds GFDL's MOM6-examples data
 tarballs (downloaded with
-[`scripts/grab_mom6examples_data.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/scripts/grab_mom6examples_data.sh)),
+[`scripts/grab_mom6examples_data.sh`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/main/scripts/grab_mom6examples_data.sh)),
 and its `backup/` sub-directory holds them **unpacked**. The examples' `INPUT/` links expect
 the unpacked layout (e.g. `.datasets/global/siena_201204/INPUT/...`), so `.datasets`
 must point at `.../mom6exampledata/backup`, not at the directory of tarballs. The run

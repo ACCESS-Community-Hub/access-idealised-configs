@@ -11,7 +11,7 @@
 #   results/<name>/notebook_full.md                         rendered with the code (notebook sub-page)
 #   documentation/docs/assets/tested-configs/notebooks/<name>/*.png   its figures
 # lib/make_pages.py then puts notebook.md on the configuration's page.
-# Written with Claude Code for github.com/ACCESS-Community-Hub/mom6-idealised-configs
+# Written with Claude Code for github.com/ACCESS-Community-Hub/access-idealised-configs
 #==============================================================================
 set -uo pipefail
 HERE=$(cd "$(dirname "$0")/.." && pwd)                 # tested-configs/

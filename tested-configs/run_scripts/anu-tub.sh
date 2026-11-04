@@ -13,7 +13,7 @@
 #   3. picks a vertical coordinate (zstar by default) and edits config.yaml;
 #   4. submits the run with `payu run`.
 #
-# Written with Claude Code for github.com/ACCESS-Community-Hub/mom6-idealised-configs
+# Written with Claude Code for github.com/ACCESS-Community-Hub/access-idealised-configs
 #==============================================================================
 set -euo pipefail
 

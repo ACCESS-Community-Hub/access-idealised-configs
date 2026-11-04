@@ -20,7 +20,7 @@ case:
 - domain: 240 x 40 points (2 km), runs for 3 months on 48 cores in about 6 minutes.
 
 The configuration lives on the branch
-[`isomip-plus-ocean0-sigmashelfzstar`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/isomip-plus-ocean0-sigmashelfzstar)
+[`isomip-plus-ocean0-sigmashelfzstar`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/tree/isomip-plus-ocean0-sigmashelfzstar)
 of this repository (it may become its own repository). The input file is in
 [claireyung/isomip-test-mom6-for-iom3-configs](https://github.com/claireyung/isomip-test-mom6-for-iom3-configs/tree/master/INPUT),
 which also has a [plotting notebook](https://github.com/claireyung/isomip-test-mom6-for-iom3-configs/blob/master/plot.ipynb).

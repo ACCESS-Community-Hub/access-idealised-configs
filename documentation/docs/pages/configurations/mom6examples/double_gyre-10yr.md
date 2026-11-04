@@ -21,7 +21,7 @@ This is a copy of [double_gyre](double_gyre.md) with these lines added to `MOM_o
 #override DAYMAX = 3650.0
 ```
 
-Configuration files: [`ocean_only/double_gyre`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/double_gyre) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under Provenance.)
+Configuration files: [`ocean_only/double_gyre`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/double_gyre) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under [Provenance](#provenance).)
 
 ## Run it yourself
 
@@ -40,10 +40,6 @@ where `double_gyre-10yr.sh` is the script below (click to expand; copy button to
 
 ## What we got
 
-![double_gyre-10yr](../../../assets/tested-configs/double_gyre-10yr.png)
-
-*Left: sea-surface height (`e`, top interface) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
-
 Last lines of `ocean.stats`:
 
 ```text
@@ -55,7 +51,7 @@ Last lines of `ocean.stats`:
 
 ## Domain, forcing and output
 
-Made by running the notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) on this run's output folder; it only plots files MOM6 wrote during the run. **[See the notebook with its code](../notebooks/double_gyre-10yr.md)**.
+Made by running the notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) on this run's output folder; it only plots files MOM6 wrote during the run. **[See the notebook with its code](../notebooks/double_gyre-10yr.md)**.
 
 ### Set-up
 

@@ -71,7 +71,7 @@ From `ocean.stats.nc`: 5 records; time axis in days.
 ## Final state
 
 
-`Temp` at the last record of `GOLD_IC.nc` (snapshot).
+`temp` at the last record of `prog.nc` (snapshot).
 
 
 

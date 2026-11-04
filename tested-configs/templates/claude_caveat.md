@@ -4,4 +4,4 @@
     from [&#64;chrisb13](https://github.com/chrisb13). Each configuration page shows the exact script
     that was run and the versions used, so you can re-run it and check the results on Gadi.
     Please check carefully before relying on anything here, and report anything wrong or unclear
-    as an [issue](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/issues).
+    as an [issue](https://github.com/ACCESS-Community-Hub/access-idealised-configs/issues).

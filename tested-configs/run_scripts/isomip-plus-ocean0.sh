@@ -5,14 +5,14 @@
 # ocean-only ("solo") executable from ACCESS-OM3.
 #
 # Configuration: branch isomip-plus-ocean0-sigmashelfzstar of
-#   github.com/ACCESS-Community-Hub/mom6-idealised-configs
+#   github.com/ACCESS-Community-Hub/access-idealised-configs
 # Input file (ice-shelf thickness / surface pressure, 160 kB):
 #   github.com/claireyung/isomip-test-mom6-for-iom3-configs  INPUT/Ocean0_3D_Claire.nc
 #
 # Usage (from a Gadi login node):
 #     PROJECT=<your NCI project> bash isomip-plus-ocean0.sh
 #
-# Written with Claude Code for github.com/ACCESS-Community-Hub/mom6-idealised-configs
+# Written with Claude Code for github.com/ACCESS-Community-Hub/access-idealised-configs
 #==============================================================================
 set -euo pipefail
 
@@ -32,7 +32,7 @@ cd "$WORK_DIR"
 
 # ---- 1. Get the configuration and the input file ------------------------------
 if [ ! -d config/.git ]; then
-    git clone https://github.com/ACCESS-Community-Hub/mom6-idealised-configs.git config
+    git clone https://github.com/ACCESS-Community-Hub/access-idealised-configs.git config
 fi
 git -C config cat-file -e "$CONFIG_COMMIT" 2>/dev/null \
     || git -C config fetch -q origin isomip-plus-ocean0-sigmashelfzstar

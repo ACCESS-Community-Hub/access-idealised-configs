@@ -14,7 +14,7 @@ Last lines of `ocean.stats`:
 
 ### Domain, forcing and output
 
-Made by running the notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) on this run's output folder; it only plots files MOM6 wrote during the run. **[See the notebook with its code](notebooks/isomip-plus-ocean0.md)**.
+Made by running the notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) on this run's output folder; it only plots files MOM6 wrote during the run. **[See the notebook with its code](notebooks/isomip-plus-ocean0.md)**.
 
 #### Set-up
 
@@ -116,7 +116,7 @@ From `ocean.stats.nc`: 721 records; time axis in days.
 
 | What | Value |
 |---|---|
-| Configuration | [mom6-idealised-configs branch `isomip-plus-ocean0-sigmashelfzstar`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/isomip-plus-ocean0-sigmashelfzstar) `094d9177` |
+| Configuration | [access-idealised-configs branch `isomip-plus-ocean0-sigmashelfzstar`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/tree/isomip-plus-ocean0-sigmashelfzstar) `094d9177` |
 | Input file | [claireyung/isomip-test-mom6-for-iom3-configs](https://github.com/claireyung/isomip-test-mom6-for-iom3-configs) `3b86dc0b` |
 | ACCESS-OM3 module | `access-om3/2026.05.004` |
 | MOM6 source code | `ACCESS-NRI/MOM6 2026.05.003 d11a149ccba676d524312328f7eb62560a156dc3` |

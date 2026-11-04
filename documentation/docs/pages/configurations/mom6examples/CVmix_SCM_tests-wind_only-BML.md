@@ -9,7 +9,7 @@
 
     Read from this run's `MOM_parameter_doc.all`. Source: [upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/CVmix_SCM_tests/wind_only/BML), [README](https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/CVmix_SCM_tests/README.md).
 
-Configuration files: [`ocean_only/CVmix_SCM_tests/wind_only/BML`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/CVmix_SCM_tests/wind_only/BML) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under Provenance.)
+Configuration files: [`ocean_only/CVmix_SCM_tests/wind_only/BML`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/CVmix_SCM_tests/wind_only/BML) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under [Provenance](#provenance).)
 
 !!! failure "Known issue"
     The bulk-mixed-layer (BML) cases read `isopyc_coords.nc` from the run directory (`COORD_FILE = "isopyc_coords.nc"`, `INPUTDIR = "."`), but upstream only links that file in `common_BML/`, not in the `*/BML` directories, so MOM6 stops with `set_coord_from_file: Unable to open ./isopyc_coords.nc`. GFDL's restart-test script (`tools/MRS/setup_restart_test.sh`) copies the file in by hand. The ePBL and KPP versions of the same tests run.

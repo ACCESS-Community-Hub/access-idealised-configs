@@ -71,11 +71,5 @@ From `ocean.stats.nc`: 7 records; time axis in hours.
 ## Final state
 
 
-`Temp` at the last record of `MOM_IC.nc` (snapshot).
-
-
-
-    
-![png](@ASSETS@/tested-configs/notebooks/MESO_025_63L/notebook_16_1.png)
-    
+No diagnostic output with a varying field was written for this run.
 

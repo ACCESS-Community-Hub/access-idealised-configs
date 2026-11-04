@@ -1,5 +1,5 @@
 !!! abstract "Description (as on the Overview)"
-    "Idealised ISOMIP+ like config" that "resembles the Ocean0 warm test case" ([README](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/isomip-plus-ocean0-sigmashelfzstar#readme)). By Claire Yung.
+    "Idealised ISOMIP+ like config" that "resembles the Ocean0 warm test case" ([README](https://github.com/ACCESS-Community-Hub/access-idealised-configs/tree/isomip-plus-ocean0-sigmashelfzstar#readme)). By Claire Yung.
 
     Tested set-up, read from this run's `MOM_parameter_doc.all`:
 

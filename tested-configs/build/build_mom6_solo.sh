@@ -12,7 +12,7 @@
 # first run the script on a login node with FETCH_ONLY=1 (clones the recipe, creates
 # the Spack environment and downloads all sources), then run it again in the job.
 #
-# Written with Claude Code for github.com/ACCESS-Community-Hub/mom6-idealised-configs
+# Written with Claude Code for github.com/ACCESS-Community-Hub/access-idealised-configs
 #==============================================================================
 set -euo pipefail
 

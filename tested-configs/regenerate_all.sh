@@ -14,14 +14,14 @@
 #
 # To test a new ACCESS-OM3 release: edit versions.env, then run this script.
 # Optional environment variables:
-#   WORK_ROOT  where clones and the payu laboratory go (default /scratch/$PROJECT/$USER/mom6-idealised-tests)
+#   WORK_ROOT  where clones and the payu laboratory go (default /scratch/$PROJECT/$USER/access-idealised-tests)
 #   ONLY       space-separated list of names to (re)run, e.g. ONLY="double_gyre anu-tub"
 #
 # Run it from a Gadi login node. If you are inside a container (ARE/JupyterLab),
 # the "run" stage is sent to a small PBS job (lib/run_in_pbs.pbs) instead,
 # because payu cannot start from inside another container.
 #
-# Written with Claude Code for github.com/ACCESS-Community-Hub/mom6-idealised-configs
+# Written with Claude Code for github.com/ACCESS-Community-Hub/access-idealised-configs
 #==============================================================================
 set -euo pipefail
 HERE=$(cd "$(dirname "$0")" && pwd)
@@ -29,12 +29,13 @@ cd "$HERE"
 source versions.env
 
 PROJECT=${PROJECT:?"set PROJECT"}
-WORK_ROOT=${WORK_ROOT:-/scratch/$PROJECT/$USER/mom6-idealised-tests}
+WORK_ROOT=${WORK_ROOT:-/scratch/$PROJECT/$USER/access-idealised-tests}
 export PROJECT
 export EXAMPLES_DIR=$WORK_ROOT/MOM6-examples   # read by the run_scripts
 export LAB=$WORK_ROOT/lab
 export TUB_DIR=$WORK_ROOT/anu-tub
 export WORK_DIR=$WORK_ROOT/isomip-plus
+export SCM_DIR=$WORK_ROOT/om3-mom6-single-column
 mkdir -p "$WORK_ROOT/logs"
 STAGES=${*:-scripts run wait summarise notebooks pages}
 
@@ -49,6 +50,7 @@ list_runs() {
     done
     echo "anu-tub-zstar|$TUB_DIR|$TUB_DIR/docs"   # anu-tub.sh runs COORD=zstar by default
     echo "isomip-plus-ocean0|$WORK_DIR/config|$WORK_DIR/input-repo/docs"   # compare with Claire's own run
+    echo "om3-mom6-single-column|$SCM_DIR|$SCM_DIR/docs"   # coupled ACCESS-OM3 single column
 }
 selected() { [ -z "${ONLY:-}" ] || [[ " $ONLY " == *" $1 "* ]]; }
 script_for() {   # run script that produces experiment <name>

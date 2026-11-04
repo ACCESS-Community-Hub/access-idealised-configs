@@ -37,7 +37,7 @@ _restart_control: >-
   files off (`RESTART_CONTROL = -1`), and payu 1.3.6 cannot archive such a run: it deletes empty
   directories and then tries to move `work/<name>/RESTART`, which fails with `FileNotFoundError`.
   So the run script adds a payu `run` userscript to the `config.yaml` it writes (see `userscripts:`
-  in the payu config.yaml under Provenance). After the model finishes, the userscript creates
+  in the payu config.yaml under [Provenance](#provenance)). After the model finishes, the userscript creates
   `RESTART/` with a one-line `README`, and payu can then archive the run.
 
 DOME: >-
@@ -45,3 +45,9 @@ DOME: >-
   while the example runs for only 2 days (`DAYMAX = 2`), so the output files hold one
   empty record and only the energy time series can be plotted. Increase `DAYMAX` (or the
   output frequency) to see the overflow.
+
+MESO_025_63L: >-
+  Not a failure: the run is fine, but it lasts only 6 hours (`DAYMAX = 6` hours) while its
+  `diag_table` writes output every 1 to 10 days, so the output files hold one record of fill values
+  and only the energy time series can be plotted. Increase `DAYMAX` (or the output frequency) to
+  see the flow.

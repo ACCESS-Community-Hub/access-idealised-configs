@@ -1,14 +1,14 @@
 # This file uses the following environment variables set within the build workflow:
 # - SITE_URL: the URL of the site (Falls back to the default URL)
 # For example, for PR-previews, SITE_URL is set to <default_URL>/pr-preview-NUM
-site_name: mom6-idealised-configs
+site_name: access-idealised-configs
  
 # Site URL
-site_url: !ENV [SITE_URL, "http://ACCESS-Community-Hub.github.io/mom6-idealised-configs/"]
+site_url: !ENV [SITE_URL, "http://ACCESS-Community-Hub.github.io/access-idealised-configs/"]
 
 # Git repository (Adds a link to the GitHub repository at the top)
-repo_url: https://github.com/ACCESS-Community-Hub/mom6-idealised-configs
-repo_name: ACCESS-Community-Hub/mom6-idealised-configs
+repo_url: https://github.com/ACCESS-Community-Hub/access-idealised-configs
+repo_name: ACCESS-Community-Hub/access-idealised-configs
 edit_uri: blob/main/documentation/docs/ #hopefully will fix the edit button from 404'ing, https://github.com/mkdocs/mkdocs/issues/2416
 
 # Theme
@@ -106,6 +106,7 @@ nav:
         - COSIMA community configurations:
             - ANU-TUB:  pages/configurations/anu-tub.md
             - ISOMIP+ Ocean0: pages/configurations/isomip-plus.md
+            - ACCESS-OM3 single column: pages/configurations/om3-mom6-single-column.md
         # BEGIN generated mom6examples nav (written by tested-configs/lib/make_pages.py)
         - MOM6 examples:
             - Basins and channels:
