@@ -2,8 +2,8 @@
 
 Welcome to the documentation for the [mom6-idealised ocean model configurations](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs)! 
 
-This website collects _idealised_ ocean model configurations for MOM6, from the COSIMA community
-and from GFDL's MOM6 examples, so that the community can run, check and share them. Each one comes
+This website collects _idealised_ ocean model configurations for MOM6, from the [COSIMA community](configurations/Overview.md#cosima-community-configurations)
+and from [GFDL's MOM6 examples](configurations/Overview.md#global-mom6-community-configurations), so that the community can run, check and share them. Each one comes
 with a tested script that runs it on NCI Gadi with the prebuilt `mom6-solo` from ACCESS-OM3, so
 you don't need to compile MOM6. The website has:
 
