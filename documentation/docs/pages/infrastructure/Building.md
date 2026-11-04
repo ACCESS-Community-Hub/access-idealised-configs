@@ -1,7 +1,5 @@
 # Building MOM6
 
---8<-- "tested-configs/templates/claude_caveat.md"
-
 !!! tip "Do you need to build MOM6?"
     **To run MOM6 unchanged: no.** Since ACCESS-OM3 `2026.05.x`, the release module provides
     the ocean-only ("solo") executable:
