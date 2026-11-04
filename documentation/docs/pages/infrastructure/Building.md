@@ -1,8 +1,7 @@
 # Building MOM6
 
 !!! tip "Do you need to build MOM6?"
-    **Not to run MOM6 as released.** The ACCESS-OM3 release module `access-om3/2026.05.004`
-    includes the MOM6 ocean-only executable, `mom6-solo`. To find it:
+    The ACCESS-OM3 release module `access-om3/2026.05.004` includes the MOM6 ocean-only executable, `mom6-solo`. To find it:
 
     ```bash
     module use /g/data/vk83/modules
@@ -15,8 +14,8 @@
     [configuration pages](../configurations/Overview.md) do both. The executable is built for
     Intel Sapphire Rapids CPUs, so run it on the `normalsr` queue.
 
-    You only need to build MOM6 yourself if you want to **change its source code** or use a
-    different version. The rest of this page shows how.
+You only need to build MOM6 yourself if you want to **change its source code** or use a
+different version. The rest of this page shows how.
 
 ## Build your own `mom6-solo` with Spack
 
