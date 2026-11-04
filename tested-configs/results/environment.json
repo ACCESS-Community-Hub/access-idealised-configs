@@ -1,13 +1,14 @@
 {
  "date": "2026-11-04",
- "host": "gadi-cpu-bdw-0017.gadi.nci.org.au",
- "website_commit": "958cc953bd63140389928448716e1d9297f4369e",
+ "host": "gadi-cpu-bdw-0003.gadi.nci.org.au",
+ "website_commit": "2a1294b16e0728958c89e9dcfe0d5900f12db1ec",
  "mom6_examples_commit": "c1730b8efe16cf7f12fc8db588115cae50f3e802",
  "access_om3_module": "access-om3/2026.05.004",
  "access_mom6_module": "access-mom6/2026.05.003-ld7hklz",
- "modules_loaded": "payu/1.3.6_1 ncview/2.1.7 access3-share/2026.03.002-eale5gm access-cice/CICE6.6.3-2-huasrvo access-mocsy/2025.07.002-saj7rvh access-generic-tracers/2026.09.000-e3zb3ez access-mom6/2026.05.003-ld7hklz access-ww3/2026.03.001-bjzidie access3/2026.03.002-26wbxup access-om3/2026.05.004",
+ "modules_loaded": "singularity conda/analysis3-26.10 access3-share/2026.03.002-eale5gm access-cice/CICE6.6.3-2-huasrvo access-mocsy/2025.07.002-saj7rvh access-generic-tracers/2026.09.000-e3zb3ez access-mom6/2026.05.003-ld7hklz access-ww3/2026.03.001-bjzidie access3/2026.03.002-26wbxup access-om3/2026.05.004",
  "mom6_solo": "/g/data/vk83/apps/spack/1.1/release/linux-x86_64_v4/access-mom6-2026.05.003-ld7hklzo5ajizx5u4yl74i4ijberrpv6/bin/mom6-solo",
  "mom6_solo_md5": "4785d157c76c30d8d01baf7d0f69d218",
+ "mom6_source": "ACCESS-NRI/MOM6 2026.05.003 d11a149ccba676d524312328f7eb62560a156dc3",
  "payu_module": "payu/1.3.6_1",
  "payu_version": "payu 1.3.6_1",
  "datasets": "/g/data/ol01/access-iom3-configs/mom6exampledata/backup"

@@ -118,7 +118,8 @@ def example_page(ex, s):
               "See [How these pages were made](../mom6examples.md#how-these-pages-were-made).", ""]
 
     lines += ["## Run it yourself", "",
-              "From a Gadi **login node** (membership of `vk83` and `ol01` needed):", "",
+              "From a Gadi **login node** (membership of NCI project `vk83` needed"
+              + (", and `ol01` for the input data" if (s or {}).get("inputs") else "") + "):", "",
               "```bash",
               f"PROJECT=<your-project> bash {name}.sh",
               "```", "",

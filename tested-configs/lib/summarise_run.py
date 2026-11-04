@@ -143,9 +143,10 @@ def time_dim(da):
 
 
 def pick_field():
-    """First (file, DataArray) holding one of PREFERRED with a time dimension."""
+    """(file, DataArray) holding one of PREFERRED with a time dimension. Files are
+    searched newest first, so multi-year runs (prog__0010_001.nc, ...) show the end."""
     for var in PREFERRED:
-        for f in ncfiles:
+        for f in reversed(ncfiles):
             if any(s in os.path.basename(f) for s in SKIP):
                 continue
             try:
@@ -209,7 +210,7 @@ try:
     for i, ax in enumerate(axes):
         if i < len(custom):                                   # panel chosen in plots.yaml
             spec = custom[i]
-            f = sorted(glob.glob(os.path.join(out0, spec["file"])))[0]
+            f = sorted(glob.glob(os.path.join(out0, spec["file"])))[-1]   # newest file
             da = xr.open_dataset(f, decode_times=False)[spec["var"]]
             notes.append(field_panel(ax, f, da, spec.get("kind"), spec.get("level", 0), spec.get("cmap")))
         elif i == 0:                                          # automatic choice

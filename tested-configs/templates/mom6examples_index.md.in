@@ -36,9 +36,11 @@ where `double_gyre.sh` is the script on the [double_gyre](mom6examples/double_gy
 4. submits the run with `payu run`. Output appears in
    `/scratch/<your-project>/$USER/mom6-examples/archive/<example>/output000/`.
 
-You need to be a member of the NCI projects **`vk83`** (ACCESS-NRI software:
-[join vk83](https://my.nci.org.au/mancini/project/vk83/join)) and **`ol01`**
-(the MOM6-examples input data: [join ol01](https://my.nci.org.au/mancini/project/ol01/join)).
+You need to be a member of the NCI project **`vk83`** (ACCESS-NRI software:
+[join vk83](https://my.nci.org.au/mancini/project/vk83/join)). The examples that read GFDL's
+input data (marked on their pages) also need read access to `/g/data/ol01`, where an
+unpacked copy of the [MOM6-examples data](https://github.com/NOAA-GFDL/MOM6-examples/wiki/Getting-started#installing-data-sets-on-another-platform)
+is kept.
 
 !!! warning "Run from a login node, not from ARE/JupyterLab"
     `payu` runs inside its own container and **cannot be started from inside another
@@ -93,3 +95,24 @@ committed for that example. The differences (renamed, new or removed parameters,
 changed defaults) are listed on each page, because they show where the ACCESS-OM3 MOM6
 version behaves differently from the GFDL version the example was written for. We did
 **not** compare answers bit-for-bit with GFDL.
+
+### About the input data
+
+`/g/data/ol01/access-iom3-configs/mom6exampledata/` holds GFDL's MOM6-examples data
+tarballs (downloaded with
+[`scripts/grab_mom6examples_data.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/scripts/grab_mom6examples_data.sh)),
+and its `backup/` sub-directory holds them **unpacked**. The examples' `INPUT/` links expect
+the unpacked layout (e.g. `.datasets/global/siena_201204/INPUT/...`), so `.datasets`
+must point at `.../mom6exampledata/backup`, not at the directory of tarballs. The run
+scripts do this for you.
+
+## Learning more
+
+- The MOM6-examples wiki: [Getting started](https://github.com/NOAA-GFDL/MOM6-examples/wiki/Getting-started)
+  and the [FAQ](https://github.com/NOAA-GFDL/MOM6-examples/wiki/FAQ).
+- The [2022 AOS MOM6 tutorial](https://github.com/NOAA-GFDL/MOM6-examples/wiki/Tutorials):
+  "Running and controlling MOM6", "Analyzing MOM6 output" and "Create your own experiment"
+  are good next steps after running an example here.
+- [MOM6 documentation](https://mom6.readthedocs.io): what the run-time parameters in
+  `MOM_input`/`MOM_override` mean. Each run also writes `MOM_parameter_doc.all`,
+  which lists every parameter with its documentation.

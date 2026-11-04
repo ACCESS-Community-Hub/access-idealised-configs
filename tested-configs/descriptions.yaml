@@ -2,7 +2,7 @@
 # Written by Claude from the examples' parameter files (MOM_input/MOM_override);
 # corrections welcome.  Key: payu experiment name (see lib/make_run_scripts.sh).
 double_gyre: >-
-  Wind-driven, adiabatic two-layer-style double gyre in a 22° x 20° spherical box
+  Wind-driven, adiabatic two-layer double gyre in a 22° x 20° spherical box
   (30°N-50°N) with "spoon" bathymetry. A classic test bed for western boundary currents
   (think Gulf Stream/East Australian Current) and their separation.
 DOME: >-
