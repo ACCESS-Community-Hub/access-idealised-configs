@@ -1,6 +1,6 @@
 # double_gyre
 
-Wind-driven, adiabatic two-layer-style double gyre in a 22° x 20° spherical box (30°N-50°N) with "spoon" bathymetry. A classic test bed for western boundary currents (think Gulf Stream/East Australian Current) and their separation.
+Wind-driven, adiabatic two-layer double gyre in a 22° x 20° spherical box (30°N-50°N) with "spoon" bathymetry. A classic test bed for western boundary currents (think Gulf Stream/East Australian Current) and their separation.
 
 Upstream configuration: [`ocean_only/double_gyre`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/double_gyre) (MOM6-examples commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802)).
 
@@ -12,7 +12,7 @@ Upstream configuration: [`ocean_only/double_gyre`](https://github.com/NOAA-GFDL/
 
 ## Run it yourself
 
-From a Gadi **login node** (membership of `vk83` and `ol01` needed):
+From a Gadi **login node** (membership of NCI project `vk83` needed):
 
 ```bash
 PROJECT=<your-project> bash double_gyre.sh
@@ -69,7 +69,7 @@ Key parameters of this run (from `MOM_parameter_doc.all`):
 |---|---|
 | MOM6-examples | [`c1730b8efe16cf7f12fc8db588115cae50f3e802`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802) |
 | ACCESS-OM3 module | `access-om3/2026.05.004` |
-| MOM6 source code | `?` |
+| MOM6 source code | `ACCESS-NRI/MOM6 2026.05.003 d11a149ccba676d524312328f7eb62560a156dc3` |
 | Executable | `/g/data/vk83/apps/spack/1.1/release/linux-x86_64_v4/access-mom6-2026.05.003-ld7hklzo5ajizx5u4yl74i4ijberrpv6/bin/mom6-solo` |
 | Executable md5 | `4785d157c76c30d8d01baf7d0f69d218` |
 | payu | `1.3.6_1` (module `payu/1.3.6_1`) |

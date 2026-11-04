@@ -83,8 +83,13 @@ run)
         script=$(script_for "$name")
         log=$WORK_ROOT/logs/$name.submit.log    # payu prints "Job ID: <id>" here
         echo "== submitting $name ($script)"
-        # anu-tub: 1 month by default here (~70 SU) instead of the repository's 12 months
-        MONTHS=${MONTHS:-1} WALLTIME=${WALLTIME:-01:00:00} bash "$script" > "$log" 2>&1 \
+        # Run a snapshot copy: bash reads scripts while running them, so regenerating
+        # run_scripts/ at the same time would otherwise corrupt a running submission.
+        mkdir -p "$WORK_ROOT/logs/scripts"
+        cp "$script" "$WORK_ROOT/logs/scripts/"
+        # anu-tub: 1 month by default here (~80 SU) instead of the repository's 12 months
+        MONTHS=${MONTHS:-1} WALLTIME=${WALLTIME:-01:00:00} \
+            bash "$WORK_ROOT/logs/scripts/$(basename "$script")" > "$log" 2>&1 \
             || echo "   submission FAILED, see $log"
     done
     ;;

@@ -26,6 +26,7 @@ export MOM6_SOLO_MD5=$(md5sum "$MOM6_SOLO" | cut -d' ' -f1)
 export WEBSITE_COMMIT=$(git -C "$HERE" rev-parse HEAD)
 export DATE=$(date +%Y-%m-%d) HOST=$(hostname)
 export MOM6_EXAMPLES_COMMIT ACCESS_OM3_MODULE PAYU_MODULE DATASETS
+export WORK_ROOT=${WORK_ROOT:-}
 python - <<'PY'
 import json, os
 e = os.environ
@@ -43,5 +44,6 @@ print(json.dumps({
     "payu_module": e["PAYU_MODULE"],
     "payu_version": e["PAYU_VERSION"] or e["PAYU_MODULE"],
     "datasets": e["DATASETS"],
+    "work_root": e["WORK_ROOT"],
 }, indent=1))
 PY

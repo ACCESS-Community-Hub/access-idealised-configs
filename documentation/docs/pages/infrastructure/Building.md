@@ -24,11 +24,20 @@ If you notice anything that is missing or could be improved, please
 This uses ACCESS-NRI's shared Spack 1.1 instance (`module load spack/1.1`, needs membership
 of `vk83`) and the recipe of an ACCESS-OM3 release. The release builds the full coupled
 model, so the script swaps the `access-om3` spec for `access-mom6` (`+mom6_solo ~access3`).
-It reuses the release's dependencies (FMS, netCDF, MPI, ...) and only compiles MOM6.
+It reuses the release's dependencies (FMS, netCDF, MPI, ...) and compiles only MOM6
+(and the small `access-generic-tracers` library it links to).
+
+The build needs a CPU with AVX-512, because the release and its build tools are
+compiled for `x86_64_v4`. PBS compute nodes have no internet, so we built in two steps:
 
 ```bash
-bash build_mom6_solo.sh            # from a Gadi login node
+FETCH_ONLY=1 bash build_mom6_solo.sh   # 1. on a node with internet (e.g. a login node): recipe + sources
+qsub -q normalsr -l wd -l ncpus=8,mem=32GB,walltime=1:30:00,jobfs=20GB \
+     -l storage=gdata/vk83+gdata/$PROJECT -- /bin/bash -l build_mom6_solo.sh   # 2. build on Sapphire Rapids
 ```
+
+On a login node that has both internet and AVX-512 (`grep -c avx512f /proc/cpuinfo` is
+non-zero), a single `bash build_mom6_solo.sh` does everything.
 
 ??? example "build_mom6_solo.sh"
     ```bash
@@ -38,11 +47,11 @@ bash build_mom6_solo.sh            # from a Gadi login node
 --8<-- "tested-configs/build/tested.md"
 
 !!! warning "Which node you build on matters"
-    Spack picks its target CPU from the machine it runs on. On an older Broadwell node
-    (e.g. a `normalbw` job, which is where we first tried) it targets `x86_64_v3`, cannot
-    reuse any of the release's `x86_64_v4` packages, and starts compiling *everything*,
-    which takes hours. Build on a newer node, or set `ALLOW_FOREIGN_TARGET=1` (what we
-    used) so Spack targets `x86_64_v4` like the release.
+    We first tried on a Broadwell node (a `normalbw` job, no AVX-512). There Spack
+    targets `x86_64_v3`, cannot reuse any of the release's `x86_64_v4` packages and
+    starts compiling *everything*, which takes hours. Forcing it to target `x86_64_v4`
+    gets further, but then the release's own `cmake` crashes (`exited with status -4`,
+    illegal instruction). The script therefore stops early on CPUs without AVX-512.
 
 !!! info "Where Spack puts things"
     By default, installs go to `/g/data/$PROJECT/$USER/spack/1.1/release` and caches to

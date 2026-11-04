@@ -39,6 +39,25 @@ def read_env(path):
 versions = read_env(os.path.join(HERE, "versions.env"))
 environment = json.load(open(os.path.join(HERE, "results", "environment.json")))
 descriptions = yaml.safe_load(open(os.path.join(HERE, "descriptions.yaml")))
+known_issues = yaml.safe_load(open(os.path.join(HERE, "known_issues.yaml"))) or {}
+
+
+def gfdl_excluded():
+    """Patterns GFDL excludes from `make test` (EXCLUDE in ocean_only/Makefile)."""
+    mk = os.path.join(environment.get("work_root", ""), "MOM6-examples", "ocean_only", "Makefile")
+    if not os.path.exists(mk):
+        return []
+    m = re.search(r"^EXCLUDE \?= \\\n((?:\s+\S+ ?\\?\n)+)", open(mk).read(), flags=re.M)
+    return [t for t in re.split(r"[\s\\]+", m.group(1)) if t] if m else []
+
+
+EXCLUDED = gfdl_excluded()
+
+
+def is_excluded(example):
+    """True if ocean_only/<example> matches one of GFDL's EXCLUDE patterns (% = wildcard)."""
+    rel = example.replace("ocean_only/", "")
+    return any(re.fullmatch(pat.replace("%", ".*"), rel) for pat in EXCLUDED)
 commit = versions["MOM6_EXAMPLES_COMMIT"]
 
 examples = []
@@ -97,6 +116,15 @@ def example_page(ex, s):
         lines += ["```", ""]
     lines += [f"Upstream configuration: [`{example}`]({UPSTREAM}/tree/{commit}/{example}) "
               f"(MOM6-examples commit [`{commit[:8]}`]({UPSTREAM}/commit/{commit})).", ""]
+    if is_excluded(example):
+        lines += ["GFDL excludes this example from its own automated test suite (`EXCLUDE` in "
+                  f"[`ocean_only/Makefile`]({UPSTREAM}/blob/{commit}/ocean_only/Makefile)).", ""]
+    if name in known_issues:
+        kind = "failure" if (s is not None and not s["ok"]) else "warning"
+        lines += [f'!!! {kind} "Known issue"', indent(" ".join(known_issues[name].split())), ""]
+    if s is not None and "userscripts:" in s.get("config_yaml", ""):
+        lines += ['!!! info "Workaround used: no restart files"',
+                  indent(" ".join(known_issues["_restart_control"].split())), ""]
 
     if s is None:
         lines += ['!!! warning "Not yet tested"', "    This example has not been run yet.", ""]
@@ -149,7 +177,7 @@ def results_section(name, s, assets, config_rows, reference_label):
         lines += [f"![{name}]({assets}/tested-configs/{name}.png)", "",
                   f"*{s.get('figure_note', '')}.*", ""]
     if s.get("ocean_stats_tail"):
-        lines += ["Last lines of `ocean.stats`:", "", "```text"] + s["ocean_stats_tail"] + ["```", ""]
+        lines += [f"Last lines of `{s.get('stats_file', 'ocean.stats')}`:", "", "```text"] + s["ocean_stats_tail"] + ["```", ""]
     if s.get("key_params"):
         lines += ["Key parameters of this run (from `MOM_parameter_doc.all`):", "",
                   "| Parameter | Value |", "|---|---|"]
@@ -247,12 +275,15 @@ for i, ex in enumerate(examples):
     if i == 0 or ex["section"] != examples[i - 1]["section"]:
         rows.append(f"| **{ex['section']}** | | | | |")
     s = load_summary(ex["name"])
+    asset = os.path.join(ASSETS, ex["name"] + ".png")
     if s and s.get("figure"):
-        shutil.copy(os.path.join(HERE, "results", ex["name"], "figure.png"),
-                    os.path.join(ASSETS, ex["name"] + ".png"))
+        shutil.copy(os.path.join(HERE, "results", ex["name"], "figure.png"), asset)
+    elif os.path.exists(asset):
+        os.remove(asset)                     # generated file from an earlier run
     open(os.path.join(PAGES, ex["name"] + ".md"), "w").write(example_page(ex, s) + "\n")
     su = (s or {}).get("pbs", {}).get("Service Units", "")
-    rows.append(f"| [{ex['name']}](mom6examples/{ex['name']}.md) | {status_badge(s)} | {ex['ncpus']} | {su} | "
+    flag = " &dagger;" if is_excluded(ex["example"]) else ""   # see note under the table
+    rows.append(f"| [{ex['name']}](mom6examples/{ex['name']}.md) | {status_badge(s)}{flag} | {ex['ncpus']} | {su} | "
                 f"{describe(ex['name'], ex)} |")
 
 for name in STANDALONE:
@@ -276,6 +307,7 @@ index = (index.replace("@TABLE@", "\n".join(rows))
               .replace("@MOM6_SOLO_MD5@", environment.get("mom6_solo_md5", ""))
               .replace("@ACCESS_MOM6@", environment.get("access_mom6_module", ""))
               .replace("@MOM6_SOURCE@", environment.get("mom6_source", ""))
+              .replace("@WORK_ROOT@", environment.get("work_root", "?"))
               .replace("@WEBSITE_COMMIT@", environment.get("website_commit", "")))
 open(PAGES + ".md", "w").write(index)
 

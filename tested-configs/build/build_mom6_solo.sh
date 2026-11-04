@@ -6,8 +6,11 @@
 # You only need this if you want to CHANGE MOM6 source code: the released
 # module (module load access-om3/<version>) already provides `mom6-solo`.
 #
-# Usage (Gadi login node, or a PBS job; needs membership of vk83):
+# Usage (needs membership of vk83), on a node with AVX-512 (see the check below):
 #     bash build_mom6_solo.sh
+# PBS compute nodes have no internet. To build in a PBS job (e.g. queue normalsr),
+# first run the script on a login node with FETCH_ONLY=1 (clones the recipe, creates
+# the Spack environment and downloads all sources), then run it again in the job.
 #
 # Written with Claude Code for github.com/ACCESS-Community-Hub/mom6-idealised-configs
 #==============================================================================
@@ -19,11 +22,7 @@ ACCESS_OM3_RELEASE=${ACCESS_OM3_RELEASE:-2026.05.004}           # github.com/ACC
 # Optional: keep Spack's install tree and caches inside BUILD_DIR instead of
 # the default /g/data/$PROJECT/$USER/spack/1.1/{release,sourcecache,cache} (1 = yes).
 LOCAL_SPACK_DIRS=${LOCAL_SPACK_DIRS:-0}
-# Building on a node older than the login nodes (e.g. a Broadwell `normalbw` job)?
-# Spack would then target x86_64_v3, find none of the release's x86_64_v4 packages
-# reusable and rebuild everything (hours). 1 = target x86_64_v4 anyway (compiling works;
-# the executable then runs only on Cascade Lake / Sapphire Rapids nodes, like the release).
-ALLOW_FOREIGN_TARGET=${ALLOW_FOREIGN_TARGET:-0}
+
 
 mkdir -p "$BUILD_DIR"
 cd "$BUILD_DIR"
@@ -53,9 +52,6 @@ if [ ! -d "$ENV_DIR" ]; then
     spack -e "$ENV_DIR" remove access-om3
     spack -e "$ENV_DIR" add access-mom6
     spack -e "$ENV_DIR" config add 'packages:access-mom6:require:["~access3"]'
-    if [ "$ALLOW_FOREIGN_TARGET" = 1 ]; then
-        spack -e "$ENV_DIR" config add "concretizer:targets:host_compatible:false"
-    fi
     if [ "$LOCAL_SPACK_DIRS" = 1 ]; then
         spack -e "$ENV_DIR" config add "config:install_tree:root:$BUILD_DIR/spack/release"
         spack -e "$ENV_DIR" config add "config:source_cache:$BUILD_DIR/spack/sourcecache"
@@ -63,7 +59,21 @@ if [ ! -d "$ENV_DIR" ]; then
     fi
 fi
 
+if [ "${FETCH_ONLY:-0}" = 1 ]; then
+    spack -e "$ENV_DIR" concretize -f --reuse-deps
+    spack -e "$ENV_DIR" fetch            # sources into the Spack source cache
+    echo "Sources fetched; now run this script without FETCH_ONLY on an AVX-512 node."
+    exit 0
+fi
+
 # ---- 4. Concretize and build ---------------------------------------------------
+# The release (and its build tools, e.g. cmake) is compiled for x86_64_v4 (AVX-512).
+# On an older CPU (e.g. Broadwell `normalbw` nodes) Spack would target x86_64_v3 and try
+# to rebuild every dependency, and the release's cmake would crash (illegal instruction).
+if ! grep -q -m1 avx512f /proc/cpuinfo; then
+    echo "This CPU has no AVX-512: build on an AVX-512 node instead (e.g. a normalsr PBS job)." >&2
+    exit 1
+fi
 # --reuse-deps: dependencies (FMS, netCDF, OpenMPI, ...) are reused from the release
 # where possible, while MOM6 itself is concretized and compiled afresh.
 spack -e "$ENV_DIR" concretize -f --reuse-deps

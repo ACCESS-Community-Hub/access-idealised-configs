@@ -56,6 +56,9 @@ is kept.
 |---|---|---|---|---|
 @TABLE@
 
+&dagger; = GFDL excludes this example from its own automated test suite (`EXCLUDE` in
+`ocean_only/Makefile`), usually because it needs extra input files or runs for a long time.
+
 Cores = processor layout GFDL used for that example (`NIPROC x NJPROC` in its
 `MOM_parameter_doc.layout`). Runs use the example's own run length, which is usually a
 few days: these are tests that the model runs, not science-ready simulations.
@@ -88,6 +91,11 @@ The pipeline lives in [`tested-configs/`](https://github.com/ACCESS-Community-Hu
 
 To re-test everything with a new ACCESS-OM3 release, edit `versions.env` and run
 `PROJECT=<proj> ./regenerate_all.sh` from a login node.
+
+For these tests the scripts ran with `EXAMPLES_DIR`, `LAB`, `TUB_DIR` and `WORK_DIR` set
+to a test area (`@WORK_ROOT@`) instead of their defaults under
+`/g/data/<project>/$USER` and `/scratch/<project>/$USER`. Apart from these paths, the
+scripts ran exactly as shown.
 
 **What "ran" means:** the job finished, `ocean.stats` has more than two lines and contains
 no `NaN`. We also compare every run's `MOM_parameter_doc.all` with the one GFDL

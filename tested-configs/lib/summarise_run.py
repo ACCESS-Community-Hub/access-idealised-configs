@@ -38,7 +38,13 @@ def read_text(path):
     return open(path, errors="replace").read() if os.path.exists(path) else ""
 
 
-stats_txt = read_text(os.path.join(out0, "ocean.stats"))
+# The energy/statistics file is "ocean.stats" unless ENERGYFILE says otherwise
+# (e.g. MESO_025_23L uses "timestats").
+m = re.search(r'^ENERGYFILE\s*=\s*"([^"]+)"',
+              read_text(os.path.join(out0, "MOM_parameter_doc.all")), flags=re.M)
+STATS = m.group(1) if m else "ocean.stats"
+summary["stats_file"] = STATS
+stats_txt = read_text(os.path.join(out0, STATS))
 stats_lines = [l for l in stats_txt.splitlines() if l.strip()]
 summary["ocean_stats_tail"] = stats_lines[-4:]
 summary["ok"] = len(stats_lines) > 2 and "NaN" not in stats_txt
@@ -46,9 +52,14 @@ if stats_txt:
     open(os.path.join(outdir, "ocean.stats"), "w").write(stats_txt)
 if not summary["ok"]:
     # payu leaves a failed run in the work directory: keep the end of its logs
+    # payu moves the logs of a failed model run to archive/error_logs/mom6.<jobid>.err;
+    # a run that died later (e.g. while archiving) leaves them in the work directory.
     work = os.path.join(os.path.dirname(os.path.dirname(archive)), "work", name)
     for log in ["mom6.err", "mom6.out"]:
-        txt = read_text(os.path.join(work, log)) or read_text(os.path.join(out0, log))
+        stem = log.split(".")[0] + ".*." + log.split(".")[1]
+        candidates = sorted(glob.glob(os.path.join(archive, "error_logs", stem)), key=os.path.getmtime)
+        txt = (read_text(candidates[-1]) if candidates else "") or \
+            read_text(os.path.join(work, log)) or read_text(os.path.join(out0, log))
         fatal = [l for l in txt.splitlines() if "FATAL" in l or "ERROR" in l]
         if txt:
             summary["failure_log"] = (fatal[:5] + ["..."] if fatal else []) + txt.splitlines()[-25:]
@@ -133,7 +144,7 @@ summary["output_files"] = {os.path.basename(f): os.path.getsize(f) for f in ncfi
 # temperature, else layer thickness; or what plots.yaml asks for).
 # Right panel: total energy from ocean.stats.nc (or a second plots.yaml panel).
 PREFERRED = ["SSH", "ssh", "zos", "e", "SST", "sst", "temp", "tos", "salt", "h", "u"]
-SKIP = ("ocean_geometry", "Vertical_coordinate", "ocean.stats", "MOM_IC", "_IC.nc", "static")
+SKIP = ("ocean_geometry", "Vertical_coordinate", STATS, "MOM_IC", "_IC.nc", "static")
 ZDIMS = ("zl", "zi", "z_l", "z_i", "Layer", "Interface")
 
 
@@ -153,9 +164,16 @@ def pick_field():
                 ds = xr.open_dataset(f, decode_times=False)
             except Exception:
                 continue
-            if var in ds and time_dim(ds[var]):
+            if var in ds and time_dim(ds[var]) and varies(ds[var]):
                 return f, ds[var]
     return None, None
+
+
+def varies(da):
+    """True if the last time of `da` has valid data that is not spatially uniform."""
+    last = da.isel({time_dim(da): -1})
+    last = last.where(abs(last) < 1e15)          # fill values (1e20, 1e37, ...) -> NaN
+    return bool(last.notnull().any()) and float(last.std()) > 0
 
 
 def field_panel(ax, f, da, kind=None, level=0, cmap=None):
@@ -166,18 +184,24 @@ def field_panel(ax, f, da, kind=None, level=0, cmap=None):
     ydim = [d for d in da.dims if d.startswith("y")]
     nx = da.sizes[xdim[0]] if xdim else 1
     ny = da.sizes[ydim[0]] if ydim else 1
+    # mask fill values (some files use 1e20 or larger instead of NaN for land)
+    da = da.where(abs(da) < 1e15)
     last = da.isel({tdim: -1})
     if kind is None:                       # choose from the shape of the domain
-        kind = "map" if nx > 3 and ny > 3 else "section" if (max(nx, ny) > 3 and zdim) else \
-               "column" if zdim else "series"
+        thin = min(nx, ny) <= 8           # quasi-2-D channel, e.g. 64 x 4 points
+        kind = "section" if (thin and max(nx, ny) > 3 and zdim) else \
+               "map" if (nx > 3 and ny > 3) else "column" if zdim else "series"
     if cmap is None:
         cmap = "RdBu_r" if da.name in ("e", "SSH", "ssh", "zos", "u", "v") else "viridis"
     if kind == "map":
         if zdim:
             last = last.isel({zdim[0]: level})
         last.plot(ax=ax, cmap=cmap)
-        note = f"`{da.name}` (level {level}) at the last output time" if zdim else \
-               f"`{da.name}` at the last output time"
+        if da.name == "e" and level == 0:
+            note = "sea-surface height (`e`, top interface) at the last output time"
+        else:
+            note = f"`{da.name}` (level {level}) at the last output time" if zdim else \
+                   f"`{da.name}` at the last output time"
     elif kind == "section":                # slice through the middle of the shorter axis
         along, across = (xdim[0], ydim[0]) if nx >= ny else (ydim[0], xdim[0])
         sec = last.isel({across: last.sizes[across] // 2})
@@ -195,16 +219,21 @@ def field_panel(ax, f, da, kind=None, level=0, cmap=None):
 
 
 def energy_panel(ax):
-    st = os.path.join(out0, "ocean.stats.nc")
+    st = os.path.join(out0, STATS + ".nc")
     s = xr.open_dataset(st, decode_times=False)
     s["En"].plot(ax=ax, marker=".")
-    ax.set_title("ocean.stats.nc: En", fontsize=9)
-    return "total energy (`En`) from `ocean.stats.nc`"
+    ax.set_title(f"{STATS}.nc: En", fontsize=9)
+    return f"total energy (`En`) from `{STATS}.nc`"
 
 
 plots_yaml = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "plots.yaml")
 custom = (yaml.safe_load(open(plots_yaml)) or {}).get(name, [])
+old_fig = os.path.join(outdir, "figure.png")
+if not summary["ok"] and os.path.exists(old_fig):
+    os.remove(old_fig)                       # don't keep a figure from an earlier run
 try:
+    if not summary["ok"]:
+        raise RuntimeError("run failed: no figure")
     fig, axes = plt.subplots(1, 2, figsize=(11, 4))
     notes = []
     for i, ax in enumerate(axes):
@@ -215,8 +244,16 @@ try:
             notes.append(field_panel(ax, f, da, spec.get("kind"), spec.get("level", 0), spec.get("cmap")))
         elif i == 0:                                          # automatic choice
             f, da = pick_field()
+            if da is not None:
+                ds = xr.open_dataset(f, decode_times=False)
+                ny = min(n for d, n in da.sizes.items() if d.startswith(("x", "y")))
+                if ny <= 8:                                # sections: a tracer is clearer
+                    for v in ("temp", "salt"):
+                        if v in ds and time_dim(ds[v]) and varies(ds[v]):
+                            da = ds[v]
+                            break
             notes.append(field_panel(ax, f, da) if da is not None else "no suitable diagnostic")
-        elif os.path.exists(os.path.join(out0, "ocean.stats.nc")):
+        elif os.path.exists(os.path.join(out0, STATS + ".nc")):
             notes.append(energy_panel(ax))
     fig.suptitle(f"MOM6 run: {name}", fontsize=11)
     fig.tight_layout()

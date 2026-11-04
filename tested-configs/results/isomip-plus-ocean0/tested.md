@@ -49,7 +49,7 @@ Key parameters of this run (from `MOM_parameter_doc.all`):
 | Configuration | [mom6-idealised-configs branch `isomip-plus-ocean0-sigmashelfzstar`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/isomip-plus-ocean0-sigmashelfzstar) `094d9177` |
 | Input file | [claireyung/isomip-test-mom6-for-iom3-configs](https://github.com/claireyung/isomip-test-mom6-for-iom3-configs) `3b86dc0b` |
 | ACCESS-OM3 module | `access-om3/2026.05.004` |
-| MOM6 source code | `?` |
+| MOM6 source code | `ACCESS-NRI/MOM6 2026.05.003 d11a149ccba676d524312328f7eb62560a156dc3` |
 | Executable | `/g/data/vk83/apps/spack/1.1/release/linux-x86_64_v4/access-mom6-2026.05.003-ld7hklzo5ajizx5u4yl74i4ijberrpv6/bin/mom6-solo` |
 | Executable md5 | `4785d157c76c30d8d01baf7d0f69d218` |
 | payu | `1.3.6_1` (module `payu/1.3.6_1`) |

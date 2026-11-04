@@ -4,15 +4,23 @@ ISOMIP (first phase) ice-shelf cavity test with a static ice shelf, density coor
 
 Upstream configuration: [`ocean_only/ISOMIP/rho`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/ISOMIP/rho) (MOM6-examples commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802)).
 
-!!! warning "Not yet tested"
-    This example has not been run yet.
+GFDL excludes this example from its own automated test suite (`EXCLUDE` in [`ocean_only/Makefile`](https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/Makefile)).
+
+!!! failure "Known issue"
+    Needs the ice-shelf file `INPUT/Ocean1_3D.nc`, which is not in the repository or in the GFDL input data (`initialize_topography_from_file: Unable to open INPUT/Ocean1_3D.nc`). GFDL also excludes the ISOMIP examples from its own test suite. For a working ice-shelf cavity case see [ISOMIP+ Ocean0](../isomip-plus.md).
+
+!!! info "Workaround used: no restart files"
+    This example switches restart files off (`RESTART_CONTROL = -1`). payu 1.3.6 then fails while archiving (`FileNotFoundError: .../work/<name>/RESTART`), because it always moves `work/RESTART` and deletes empty directories first. The run script works around this with a payu `run` userscript that creates `RESTART/` with a placeholder file.
+
+!!! failure "Tested: this example did NOT run successfully"
+    See the details below; the log tail shows where it stopped.
 
 !!! note "Generated with Claude Code"
     This page, the script and the figure were generated automatically by [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). See [How these pages were made](../mom6examples.md#how-these-pages-were-made).
 
 ## Run it yourself
 
-From a Gadi **login node** (membership of `vk83` and `ol01` needed):
+From a Gadi **login node** (membership of NCI project `vk83` needed):
 
 ```bash
 PROJECT=<your-project> bash ISOMIP-rho.sh
@@ -23,5 +31,105 @@ where `ISOMIP-rho.sh` is the script below (click to expand; copy button top-righ
 ??? example "ISOMIP-rho.sh"
     ```bash
     --8<-- "tested-configs/run_scripts/ISOMIP-rho.sh"
+    ```
+
+??? failure "End of the error log"
+    ```text
+    FATAL from PE    15:  initialize_topography_from_file: Unable to open INPUT/Ocean1_3D.nc
+    FATAL from PE    12:  initialize_topography_from_file: Unable to open INPUT/Ocean1_3D.nc
+    FATAL from PE    18:  initialize_topography_from_file: Unable to open INPUT/Ocean1_3D.nc
+    FATAL from PE    23:  initialize_topography_from_file: Unable to open INPUT/Ocean1_3D.nc
+    FATAL from PE    13:  initialize_topography_from_file: Unable to open INPUT/Ocean1_3D.nc
+    ...
+    libc-2.28.so       0000153FC301C865  __libc_start_main     Unknown  Unknown
+    mom6-solo          0000000000412A4E  Unknown               Unknown  Unknown
+    forrtl: error (78): process killed (SIGTERM)
+    Image              PC                Routine            Line        Source             
+    libpthread-2.28.s  00001490DBE09990  Unknown               Unknown  Unknown
+    libpthread-2.28.s  00001490DBE0536F  pthread_cond_wait     Unknown  Unknown
+    libopen-pal.so.40  00001490D72E353D  PMIx_Abort            Unknown  Unknown
+    libopen-pal.so.40  00001490D7350780  pmix3x_abort          Unknown  Unknown
+    libopen-rte.so.40  00001490D7A78ED7  Unknown               Unknown  Unknown
+    libopen-rte.so.40  00001490D7A90C66  orte_errmgr_base_     Unknown  Unknown
+    libopen-rte.so.40  00001490D7A80A1B  Unknown               Unknown  Unknown
+    libmpi.so.40.30.7  00001490DC26419A  ompi_mpi_abort        Unknown  Unknown
+    libmpi_mpifh.so    00001490DC5972AE  Unknown               Unknown  Unknown
+    mom6-solo          000000000183E5D1  mpp_error_basic            84  mpp_util_mpi.inc
+    mom6-solo          00000000006C2AE6  mom_error                 180  MOM_error_handler.F90
+    mom6-solo          000000000074BEE8  initialize_ice_th         132  MOM_ice_shelf_initialize.F90
+    mom6-solo          000000000074B651  initialize_ice_th          82  MOM_ice_shelf_initialize.F90
+    mom6-solo          000000000073C7E1  initialize_ice_sh        1891  MOM_ice_shelf.F90
+    mom6-solo          000000000046E7DE  initialize_mom           3283  MOM.F90
+    mom6-solo          00000000004387C5  mom6                      284  MOM_driver.F90
+    mom6-solo          0000000000412B2D  Unknown               Unknown  Unknown
+    libc-2.28.so       00001490DB857865  __libc_start_main     Unknown  Unknown
+    mom6-solo          0000000000412A4E  Unknown               Unknown  Unknown
+    [gadi-cpu-spr-0140.gadi.nci.org.au:3349469] 23 more processes have sent help message help-mpi-api.txt / mpi-abort
+    [gadi-cpu-spr-0140.gadi.nci.org.au:3349469] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+    ```
+
+## What we got
+
+![ISOMIP-rho](../../../assets/tested-configs/ISOMIP-rho.png)
+
+*Left: no suitable diagnostic.*
+
+## Provenance
+
+| What | Value |
+|---|---|
+| MOM6-examples | [`c1730b8efe16cf7f12fc8db588115cae50f3e802`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802) |
+| ACCESS-OM3 module | `access-om3/2026.05.004` |
+| MOM6 source code | `ACCESS-NRI/MOM6 2026.05.003 d11a149ccba676d524312328f7eb62560a156dc3` |
+| Executable | `/g/data/vk83/apps/spack/1.1/release/linux-x86_64_v4/access-mom6-2026.05.003-ld7hklzo5ajizx5u4yl74i4ijberrpv6/bin/mom6-solo` |
+| Executable md5 | `4785d157c76c30d8d01baf7d0f69d218` |
+| payu | `payu/1.3.6_1` (module `payu/1.3.6_1`) |
+| Date tested | 2026-11-04 |
+| PBS Job Id | `183115599.gadi-pbs` |
+| PBS Exit Status | `1` |
+| PBS Service Units | `0.16` |
+| PBS NCPUs Requested | `24` |
+| PBS Walltime Used | `00:00:12` |
+| PBS Memory Used | `4.88GB` |
+
+This example needs no input files: grid, bathymetry, initial state and forcing are all set analytically in `MOM_input`.
+
+??? info "Parameters differing from the upstream MOM_parameter_doc.all (528)"
+    Comparison of this run's `MOM_parameter_doc.all` with the upstream MOM_parameter_doc.all.
+    Differences show where the ACCESS-OM3 MOM6 version adds, drops or changes default parameters.
+
+    Only upstream: `ADD_LES_VISCOSITY`, `ADIABATIC`, `ADJUST_BT_CONT`, `AGGREGATE_FW_FORCING`, `AH`, `AH_TIME_SCALE`, `AH_VEL_SCALE`, `ALE_COORDINATE_CONFIG`, `ALTERNATE_FIRST_DIRECTION`, `ANALYTIC_FV_PGF`, `ANGSTROM`, `ANISOTROPIC_VISCOSITY`, `APPLY_INTERFACE_FILTER`, `AVAILABLE_DIAGS_FILE`, `AXIS_UNITS`, `BAROTROPIC_2018_ANSWERS`, `BAROTROPIC_ANSWER_DATE`, `BATHYMETRY_AT_VEL`, `BBL_EFFIC`, `BBL_MIXING_AS_MAX`, `BBL_MIXING_MAX_DECAY`, `BBL_THICK_MIN`, `BBL_USE_EOS`, `BBL_USE_TIDAL_BG`, `BE`, `BEBT`, `BEGW`, `BETA`, `BETA_LAT_REF`, `BETTER_BOUND_AH`, `BETTER_BOUND_KH`, `BIHARMONIC`, `BOTTOMDRAGLAW`, `BOUNDARY_EXTRAPOLATION`, `BOUNDARY_EXTRAPOLATION_PRESSURE`, `BOUND_AH`, `BOUND_BT_CORRECTION`, `BOUND_CORIOLIS`, `BOUND_CORIOLIS_BIHARM`, `BOUND_CORIOLIS_VEL`, `BOUND_KH`, `BOUND_SALINITY`, `BOUSSINESQ`, `BRYAN_LEWIS_DIFFUSIVITY`, `BT_CONT_CORR_BOUNDS`, `BT_CORIOLIS_SCALE`, `BT_LINEAR_WAVE_DRAG`, `BT_NONLIN_STRESS`, `BT_PROJECT_VELOCITY`, `BT_STRONG_DRAG`, `BT_THICK_SCHEME`, `BT_USE_LAYER_FLUXES`, `BT_USE_OLD_CORIOLIS_BRACKET_BUG`, `BT_USE_VISC_REM_U_UH0`, `BULKMIXEDLAYER`, `BUOY_CONFIG`, `CALCULATE_APE`, `CALC_RHO_FOR_SEA_LEVEL`, `CDRAG`, `CDRAG_SHELF`, `CFL_BASED_TRUNCATIONS`, `CFL_REPORT`, `CFL_TRUNCATE`, `CFL_TRUNCATE_RAMP_TIME`, `CFL_TRUNCATE_START`, `CHANNEL_CONFIG`, `CHANNEL_DRAG`, `CHECK_BAD_SURFACE_VALS`, `CHECK_DIFFUSIVE_CFL`, `CLIP_BT_VELOCITY`, `COL_THICK_MELT_THRESHOLD`, `COMPLETE_DOCUMENTATION`, `CONST_DYN_PSURF`, `CONST_SEA_LEVEL`, `CONTINUITY_CFL_LIMIT`, `CONTINUITY_SCHEME`, `CONT_PPM_AGGRESS_ADJUST`, `CONT_PPM_BETTER_ITER`, `CONT_PPM_MARGINAL_FACE_AREAS`, `CONT_PPM_USE_VISC_REM_MAX`, `CONT_PPM_VOLUME_BASED_CFL`, `CONVERT_THICKNESS_UNITS`, `COORD_CONFIG`, `CORIOLIS_EN_DIS`, `CORIOLIS_SCHEME`, `CORRECT_BBL_BOUNDS`, `CPU_TIME_FILE`, `C_P`, `C_P_ICE`, `DATE_STAMPED_STDOUT`, `DAYMAX`, `DEBUG_IS`, `DEFAULT_2018_ANSWERS`, `DEFAULT_ANSWER_DATE`, `DENSITY_ICE`, `DENSITY_RANGE`, `DEPRESS_INITIAL_SURFACE`, `DEPTH_MIN_DYN_PSURF`, `DEPTH_SCALED_KHTH`, `DETANGLE_INTERFACES`, `DIABATIC_FIRST`, `DIAG_AS_CHKSUM`, `DIAG_COORDS`, `DIAG_COORD_DEF_Z`, `DIAG_DEPTH_SUBML_N2`, `DIAG_EBT_MONO_N2_COLUMN_FRACTION`, `DIAG_EBT_MONO_N2_DEPTH`, `DIAG_MISVAL`, `DIAG_MLD_DENSITY_DIFF`, `DIFFUSE_ML_TO_INTERIOR`, `DIRECT_STRESS`, `DISSIPATION_KD_MIN`, `DISSIPATION_MIN`, `DISSIPATION_N0`, `DISSIPATION_N1`, `DOCUMENT_FILE`, `DOUBLE_DIFFUSION`, `DO_DYNAMICS`, `DO_GEOTHERMAL`, `DO_RIVERMIX`, `DO_SPPT`, `DRAG_AS_BODY_FORCE`, `DRAG_BG_VEL`, `DRHO_DS`, `DRHO_DT`, `DT`, `DTBT`, `DTBT_RESET_PERIOD`, `DT_BT_FILTER`, `DT_FORCING`, `DT_THERM`, `DYNAMIC_SHELF_MASS`, `DYNAMIC_SURFACE_PRESSURE`, `DYNAMIC_VISCOUS_ML`, `EKMAN_SCALE_COEF`, `ENABLE_THERMODYNAMICS`, `ENERGETICS_SFC_PBL`, `ENERGYFILE`, `ENERGYSAVEDAYS`, `ENERGYSAVEDAYS_GEOMETRIC`, `ENSEMBLE_OCEAN`, `EOS_QUADRATURE`, `EPBL_2018_ANSWERS`, `EPBL_ANSWER_DATE`, `EPBL_IS_ADDITIVE`, `EPBL_LT`, `EPBL_MIN_MIX_LEN`, `EPBL_MSTAR_SCHEME`, `EPBL_ORIGINAL_PE_CALC`, `EPBL_TRANSITION_SCALE`, `EPBL_VEL_SCALE_FACTOR`, `EPBL_VEL_SCALE_SCHEME`, `EQN_OF_STATE`, `ETA_TOLERANCE`, `EVAP_CFL_LIMIT`, `EXP_OPACITY_SCHEME`, `FATAL_CHECK_RECONSTRUCTIONS`, `FATAL_CHECK_REMAPPING`, `FATAL_INCONSISTENT_RESTART_TIME`, `FIRST_DIRECTION`, `FIXED_DEPTH_LOTW_ML`, `FIX_USTAR_GUSTLESS_BUG`, `FLUX_RI_MAX`, `FRAZIL`, `FRI_CURVATURE`, `F_0`, `GFS`, `GRADUAL_BT_ICS`, `GRID_CONFIG`, `GRID_ROTATION_ANGLE_BUGS`, `GUST_CONST`, `G_BT_EXTRA`, `G_EARTH`, `HARMONIC_BL_SCALE`, `HARMONIC_VISC`, `HBBL`, `HENYEY_IGW_BACKGROUND`, `HFREEZE`, `HMIX_FIXED`, `HMIX_SFC_PROP`, `HMIX_UV_SFC_PROP`, `HOMOGENIZE_FORCINGS`, `HORIZ_VARYING_BACKGROUND`, `HORVISC_BOUND_COEF`, `HOR_VISC_2018_ANSWERS`, `HOR_VISC_ANSWER_DATE`, `HTBL_SHELF`, `HTBL_SHELF_MIN`, `H_TO_M`, `ICE_AREA_VARNAME`, `ICE_LENGTH_DYN_PSURF`, `ICE_PROFILE_CONFIG`, `ICE_SHELF`, `ICE_SHELF_FLUX_FACTOR`, `ICE_SHELF_MASS_FROM_FILE`, `ICE_SHELF_SALINITY`, `ICE_SHELF_TEMPERATURE`, `ICE_THICKNESS_FILE`, `ICE_THICKNESS_VARNAME`, `IC_OUTPUT_FILE`, `IGNORE_FLUXES_OVER_LAND`, `INIT_LAYERS_FROM_Z_FILE`, `INPUTDIR`, `INTEGRAL_BT_CONTINUITY`, `INTERNAL_TIDES`, `INTERNAL_WAVE_SPEED_BETTER_EST`, `INTERNAL_WAVE_SPEED_MIN`, `INTERNAL_WAVE_SPEED_TOL`, `INTERPOLATE_P_SURF`, `INTERPOLATION_SCHEME`, `INT_TIDE_DISSIPATION`, `ISOMIP_2D`, `ISOMIP_BEDROCK_LENGTH`, `ISOMIP_DOMAIN_WIDTH`, `ISOMIP_MAX_BEDROCK`, `ISOMIP_SIDE_WIDTH`, `ISOMIP_S_BOT`, `ISOMIP_S_SUR`, `ISOMIP_TROUGH_DEPTH`, `ISOMIP_TROUGH_WIDTH`, `ISOMIP_T_BOT`, `ISOMIP_T_SUR`, `KAPPA_BUOY_SCALE_COEF`, `KAPPA_N_OVER_S_SCALE_COEF2`, `KAPPA_SHEAR_ALL_LAYER_TKE_BUG`, `KAPPA_SHEAR_ELIM_MASSLESS`, `KAPPA_SHEAR_ITER_BUG`, `KAPPA_SHEAR_MAX_KAP_SRC_CHG`, `KAPPA_SHEAR_TOL_ERR`, `KD`, `KD_ADD`, `KD_BBL_TR`, `KD_GL90_USE_EBT_STRUCT`, `KD_KAPPA_SHEAR_0`, `KD_MAX`, `KD_MIN`, `KD_MIN_TR`, `KD_SALT_MOLECULAR`, `KD_SEED_KAPPA_SHEAR`, `KD_SMOOTH`, `KD_TANH_LAT_FN`, `KD_TEMP_MOLECULAR`, `KD_TRUNC_KAPPA_SHEAR`, `KE_SCHEME`, `KH`, `KHTH`, `KHTH_MAX`, `KHTH_MAX_CFL`, `KHTH_MIN`, `KHTH_SLOPE_CFF`, `KHTH_SLOPE_MAX`, `KHTH_USE_EBT_STRUCT`, `KHTH_USE_FGNV_STREAMFUNCTION`, `KHTR`, `KHTR_MAX`, `KHTR_MIN`, `KHTR_PASSIVITY_COEFF`, `KHTR_PASSIVITY_MIN`, `KHTR_SLOPE_CFF`, `KH_BG_MIN`, `KH_ETA_CONST`, `KH_ETA_VEL_SCALE`, `KH_SIN_LAT`, `KH_VEL_SCALE`, `KV`, `KV_BBL_MIN`, `KV_ICE`, `KV_ML_INVZ2`, `KV_MOLECULAR`, `KV_TBL_MIN`, `LAPLACIAN`, `LATENT_HEAT_FUSION`, `LATENT_HEAT_VAPORIZATION`, `LEITH_AH`, `LEITH_KH`, `LENLAT`, `LENLON`, `LEN_SIDE_STRESS`, `LIGHTEST_DENSITY`, `LINEARIZED_BT_CORIOLIS`, `LINEAR_DRAG`, `LOTW_VISCOUS_ML_FLOOR`, `MASKING_DEPTH`, `MASSLESS_MATCH_TARGETS`, `MASS_WEIGHT_IN_PRESSURE_GRADIENT`, `MAXCFL_BT_CONT`, `MAXCPU`, `MAXIMUM_DEPTH`, `MAXIMUM_INT_DEPTH_CONFIG`, `MAXTRUNC`, `MAXVEL`, `MAX_ENERGY`, `MAX_FIELDS`, `MAX_KAPPA_SHEAR_IT`, `MAX_LAYER_THICKNESS_CONFIG`, `MAX_RINO_IT`, `MAX_TR_DIFFUSION_CFL`, `MEKE_GEOMETRIC`, `MEKE_GM_SRC_ALT`, `MELTING_CUTOFF_DEPTH`, `MINIMAL_DOCUMENTATION`, `MINIMUM_DEPTH`, `MINIMUM_FORCING_DEPTH`, `MIN_THICKNESS`, `MIN_THICKNESS_SIMPLE_CALVE`, `MIXEDLAYER_RESTRAT`, `MIX_BOUNDARY_TRACERS`, `MIX_BOUNDARY_TRACER_ALE`, `MIX_LEN_EXPONENT`, `MKE_TO_TKE_EFFIC`, `MLD_EN_VALS`, `ML_OMEGA_FRAC`, `ML_RADIATION`, `MOM_ICESHELF_AVAILABLE_DIAGS_FILE`, `MONOTONIC_CONTINUITY`, `MSTAR`, `MSTAR_CONV_ADJ`, `NIGLOBAL`, `NIHALO`, `NJGLOBAL`, `NJHALO`, `NK`, `NOSLIP`, `NSTAR`, `NUM_DIAG_COORDS`, `OBC_NUMBER_OF_SEGMENTS`, `OBSOLETE_DIAGNOSTIC_IS_FATAL`, `ODA_INCUPD`, `OFFLINE_TRACER_MODE`, `OMEGA`, `OPACITY_LAND_VALUE`, `OPTICS_2018_ANSWERS`, `OPTICS_ANSWER_DATE`, `PARALLEL_RESTARTFILES`, `PARTIAL_CELL_VELOCITY_REMAP`, `PEN_SW_ABSORB_MINTHICK`, `PEN_SW_FLUX_ABSORB`, `PEN_SW_FRAC`, `PEN_SW_NBANDS`, `PEN_SW_SCALE`, `PERT_EPBL`, `PORBAR_ANSWER_DATE`, `PORBAR_ETA_INTERP`, `PORBAR_MASKING_DEPTH`, `PRANDTL_BKGND`, `PRANDTL_EPBL`, `PRANDTL_TURB`, `PRESSURE_DEPENDENT_FRAZIL`, `PRESSURE_RECONSTRUCTION_SCHEME`, `PV_ADV_SCHEME`, `P_REF`, `RAD_EARTH`, `READ_GUST_2D`, `READ_KHTH`, `READ_TIDEAMP`, `RECALC_NEUTRAL_SURF`, `RECLAIM_FRAZIL`, `RECONSTRUCT_FOR_PRESSURE`, `REENTRANT_X`, `REENTRANT_Y`, `REFERENCE_HEIGHT`, `REGRIDDING_COORDINATE_MODE`, `REGRIDDING_COORDINATE_UNITS`, `REGRID_ACCELERATE_INIT`, `REGRID_COMPRESSIBILITY_FRACTION`, `REGRID_FILTER_DEEP_DEPTH`, `REGRID_FILTER_SHALLOW_DEPTH`, `REGRID_TIME_SCALE`, `REGULARIZE_SURFACE_LAYERS`, `REMAPPING_2018_ANSWERS`, `REMAPPING_ANSWER_DATE`, `REMAPPING_SCHEME`, `REMAP_AFTER_INITIALIZATION`, `REMAP_AUXILIARY_VARS`, `REMAP_BOUNDARY_EXTRAP`, `REMAP_BOUND_INTERMEDIATE_VALUES`, `REMAP_UV_USING_OLD_ALG`, `REMAP_VEL_MASK_BBL_THICK`, `RESOLN_SCALED_KH`, `RESOLN_SCALED_KHTH`, `RESOLN_SCALED_KHTR`, `RESOLN_USE_EBT`, `RESTARTFILE`, `RESTART_CHECKSUMS_REQUIRED`, `RESTART_CONTROL`, `RESTINT`, `RESTOREBUOY`, `RE_AH`, `RHO_0`, `RHO_T0_S0`, `RINO_CRIT`, `ROTATION`, `SADOURNY`, `SALINITY_UNDERFLOW`, `SALT_EXTRACTION_LIMIT`, `SAVE_INITIAL_CONDS`, `SEND_LOG_TO_STDOUT`, `SET_DIFF_2018_ANSWERS`, `SET_DIFF_ANSWER_DATE`, `SET_VISC_2018_ANSWERS`, `SET_VISC_ANSWER_DATE`, `SHEARMIX_RATE`, `SHELF_3EQ_GAMMA`, `SHELF_3EQ_GAMMA_S`, `SHELF_3EQ_GAMMA_T`, `SHELF_IC_OUTPUT_FILE`, `SHELF_INSULATOR`, `SHELF_S_ROOT`, `SHELF_THERMO`, `SHELF_THREE_EQN`, `SIMPLE_2ND_PPM_CONTINUITY`, `SIMPLE_TKE_TO_KD`, `SINGLE_STEPPING_CALL`, `SMAGORINSKY_AH`, `SMAGORINSKY_KH`, `SMAG_BI_CONST`, `SOUTHLAT`, `SPLIT`, `SPLIT_BOTTOM_STRESS`, `SPONGE`, `SSH_EXTRA`, `STANLEY_COEFF`, `STOCH_EOS`, `STOKES_MIXING_COMBINED`, `STORE_CORIOLIS_ACCEL`, `SUBGRID_TOPO_AT_VEL`, `SURFACE_2018_ANSWERS`, `SURFACE_ANSWER_DATE`, `SURFACE_PRESSURE_FILE`, `SURFACE_PRESSURE_SCALE`, `SURFACE_PRESSURE_VAR`, `TEMPERATURE_UNDERFLOW`, `TFREEZE_FORM`, `THERMO_SPANS_COUPLING`, `THICKNESSDIFFUSE`, `THICKNESS_CONFIG`, `TIDES`, `TIMEUNIT`, `TKE_BACKGROUND`, `TKE_DECAY`, `TKE_N_DECAY_CONST`, `TKE_SHEAR_DECAY_CONST`, `TOPO_CONFIG`, `TRACER_ADVECTION_SCHEME`, `TRACER_TRIDIAG`, `TRIMMING_USES_REMAPPING`, `TRIM_IC_FOR_P_SURF`, `TRIM_IC_Z_TOLERANCE`, `TRIPOLAR_N`, `TS_CONFIG`, `UPWIND_1ST_CONTINUITY`, `USER_CHANGE_DIFFUSIVITY`, `USE_ADVECTION_TEST_TRACER`, `USE_BOUNDARY_IMPULSE_TRACER`, `USE_BT_CONT_TYPE`, `USE_CALVING_HEAT_CONTENT`, `USE_CFC_CAP`, `USE_CONTEMP_ABSSAL`, `USE_CVMIX_DDIFF`, `USE_DBCLIENT`, `USE_DIABATIC_TIME_BUG`, `USE_DOME_TRACER`, `USE_DYED_OBC_TRACER`, `USE_EOS`, `USE_GL90_IN_SSW`, `USE_GME`, `USE_GM_WORK_BUG`, `USE_GRID_SPACE_DIAGNOSTIC_AXES`, `USE_IDEAL_AGE_TRACER`, `USE_INACCURATE_PGF_RHO_ANOM`, `USE_ISOMIP_TRACER`, `USE_JACKSON_PARAM`, `USE_KH_BG_2D`, `USE_KH_IN_MEKE`, `USE_KPP`, `USE_LAND_MASK_FOR_HVISC`, `USE_LATERAL_BOUNDARY_DIFFUSION`, `USE_LA_LI2016`, `USE_LEGACY_DIABATIC_DRIVER`, `USE_LMD94`, `USE_LOTW_BBL_DIFFUSIVITY`, `USE_MEKE`, `USE_MLD_ITERATION`, `USE_NEUTRAL_DIFFUSION`, `USE_NW2_TRACERS`, `USE_OCMIP2_CFC`, `USE_OIL_TRACER`, `USE_PARTICLES`, `USE_POROUS_BARRIER`, `USE_PP81`, `USE_PSEUDO_SALT_TRACER`, `USE_PSURF_IN_EOS`, `USE_QG_LEITH_GM`, `USE_REGIONAL_DYES`, `USE_REGRIDDING`, `USE_RESTRICTIVE_TOLERANCE_CHECK`, `USE_RGC_TRACER`, `USE_RIVER_HEAT_CONTENT`, `USE_STANLEY_GM`, `USE_STANLEY_ISO`, `USE_STANLEY_PGF`, `USE_STORED_SLOPES`, `USE_USER_TRACER_EXAMPLE`, `USE_VARIABLE_MIXING`, `USE_VISBECK`, `USE_WAVES`, `USTAR_SHELF_BG`, `USTAR_SHELF_FROM_VEL`, `UTIDE`, `VARIABLE_BUOYFORCE`, `VARIABLE_WINDS`, `VAR_PEN_SW`, `VELOCITY_CONFIG`, `VELOCITY_REMAPPING_SCHEME`, `VELOCITY_TOLERANCE`, `VEL_UNDERFLOW`, `VERTEX_SHEAR`, `VERT_FRICTION_2018_ANSWERS`, `VERT_FRICTION_ANSWER_DATE`, `VERY_SMALL_FREQUENCY`, `VON_KARMAN_CONST`, `VSTAR_SURF_FAC`, `WESTLON`, `WIND_CONFIG`, `WRITE_CPU_STEPS`, `WRITE_GEOM`, `WRITE_STOCKS`, `WSTAR_USTAR_COEF`
+
+??? info "payu config.yaml written by the script"
+    ```yaml
+    # payu configuration for MOM6-examples/ocean_only/ISOMIP/rho (written by ISOMIP-rho.sh)
+    project: tm70
+    queue: normalsr          # mom6-solo is compiled for Sapphire Rapids nodes
+    ncpus: 24
+    walltime: 00:30:00
+    jobname: ISOMIP-rho
+    experiment: ISOMIP-rho
+    laboratory: /g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/lab
+
+    model: mom6
+    exe: mom6-solo           # found on PATH once the module below is loaded
+
+    userscripts:             # this example writes no restart files
+      run: mkdir -p /g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/lab/work/ISOMIP-rho/RESTART
+    modules:
+      use:
+        - /g/data/vk83/modules
+      load:
+        - access-om3/2026.05.004
+
+    storage:                 # vk83: executable, ol01: input data
+      gdata:
+        - vk83
+        - ol01
+
+    collate: false           # mom6 writes un-split netCDF files when IO_LAYOUT = 1,1
+    runlog: false            # don't commit run logs into the MOM6-examples clone
+    metadata:
+      enable: false
     ```
 

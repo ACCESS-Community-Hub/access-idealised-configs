@@ -53,12 +53,14 @@ cd "$EXAMPLES_DIR/$EXAMPLE"
 # Examples that ship an INPUT/ directory (grids, forcing, ...) hand it to payu.
 INPUT_LINE=""
 [ -d INPUT ] && INPUT_LINE="input: $PWD/INPUT"
-# Some examples switch restart files off (RESTART_CONTROL = -1), but payu still
-# expects a work/RESTART directory when it archives: create an empty one after the run.
+# Some examples switch restart files off (RESTART_CONTROL = -1), but payu (1.3.6)
+# still expects a work/RESTART directory when it archives, and removes empty
+# directories first. So after the run we create RESTART/ with a placeholder file.
 USERSCRIPT_LINES=""
 if grep -q -E "^RESTART_CONTROL *= *-1" MOM_input MOM_override; then
+    RESTART_DIR=$LAB/work/$EXPT_NAME/RESTART
     USERSCRIPT_LINES="userscripts:             # this example writes no restart files
-  run: mkdir -p $LAB/work/$EXPT_NAME/RESTART"
+  run: mkdir -p $RESTART_DIR && echo 'no restart files (RESTART_CONTROL = -1)' > $RESTART_DIR/README"
 fi
 
 cat > config.yaml <<EOF
