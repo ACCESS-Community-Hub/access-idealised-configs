@@ -19,25 +19,42 @@ different version. The rest of this page shows how.
 
 ## Build your own `mom6-solo` with Spack
 
-This uses the shared [Spack](https://spack.io) 1.1 installation that ACCESS-NRI provides on Gadi, enabled as in the ACCESS-Hive docs
-([Enable spack](https://docs.access-hive.org.au/getting_started/spack/#enable-spack):
-`module use /g/data/vk83/modules && module load spack`; the default `spack` module is 1.1;
-needs membership of `vk83`) and the recipe of an ACCESS-OM3 release. The release builds the full coupled
-model, so the script swaps the `access-om3` spec for `access-mom6` (`+mom6_solo ~access3`).
-It reuses the release's dependencies (FMS, netCDF, MPI, ...) and compiles only MOM6
-(and the small `access-generic-tracers` library it links to).
+The script `build_mom6_solo.sh` (shown in full below):
 
-The build needs a CPU with AVX-512, because the release and its build tools are
-compiled for `x86_64_v4`. PBS compute nodes have no internet, so we built in two steps:
+- uses the shared [Spack](https://spack.io) 1.1 installation that ACCESS-NRI provides on Gadi
+  (`module use /g/data/vk83/modules && module load spack`, as in the ACCESS-Hive docs'
+  [Enable spack](https://docs.access-hive.org.au/getting_started/spack/#enable-spack));
+  you need to be a member of `vk83`;
+- starts from the recipe (`spack.yaml`) of an ACCESS-OM3 release;
+- swaps the release's `access-om3` spec (the full coupled model) for `access-mom6`
+  (`+mom6_solo ~access3`), so only the ocean-only model is built;
+- reuses the release's dependencies (FMS, netCDF, MPI, ...), so it compiles only MOM6 and the
+  small `access-generic-tracers` library it links to.
 
-```bash
-FETCH_ONLY=1 bash build_mom6_solo.sh   # 1. on a node with internet (e.g. a login node): recipe + sources
-qsub -q normalsr -l wd -l ncpus=8,mem=32GB,walltime=1:30:00,jobfs=20GB \
-     -l storage=gdata/vk83+gdata/$PROJECT -- /bin/bash -l build_mom6_solo.sh   # 2. build on Sapphire Rapids
-```
+The build needs two things that a single Gadi node usually does not have together:
 
-On a login node that has both internet and AVX-512 (`grep -c avx512f /proc/cpuinfo` is
-non-zero), a single `bash build_mom6_solo.sh` does everything.
+- **internet access**, to download the recipe and source code (login nodes have it; PBS
+  compute nodes do not);
+- **a CPU with AVX-512**, because the release and its build tools are compiled for
+  `x86_64_v4` (`normalsr` Sapphire Rapids nodes have it).
+
+So run the script in two steps:
+
+1. On a login node, download everything without compiling:
+
+    ```bash
+    FETCH_ONLY=1 bash build_mom6_solo.sh
+    ```
+
+2. Compile in a PBS job on a Sapphire Rapids node:
+
+    ```bash
+    qsub -q normalsr -l wd -l ncpus=8,mem=32GB,walltime=1:30:00,jobfs=20GB \
+         -l storage=gdata/vk83+gdata/$PROJECT -- /bin/bash -l build_mom6_solo.sh
+    ```
+
+If your login node has AVX-512 (`grep -c avx512f /proc/cpuinfo` prints a number above 0), a
+single `bash build_mom6_solo.sh` there does both steps.
 
 ??? example "build_mom6_solo.sh"
     ```bash
