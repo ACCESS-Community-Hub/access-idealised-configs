@@ -1,0 +1,13 @@
+#!/bin/bash -l
+#PBS -q copyq
+#PBS -l ncpus=1,mem=4GB,walltime=01:00:00
+#PBS -l storage=gdata/vk83+gdata/ol01
+#PBS -j oe
+# Runs a command in a plain (non-container) Gadi shell. Needed only when the
+# caller itself is inside a Singularity/Apptainer container (e.g. ARE JupyterLab),
+# where payu's own containerised launcher cannot start.  copyq has internet access,
+# so `git clone` works.  Usage:  qsub -P <proj> -v CMD="bash script.sh" run_in_pbs.pbs
+set -eu
+cd "${PBS_O_WORKDIR}"
+echo "Running: $CMD"
+eval "$CMD"

@@ -1,0 +1,98 @@
+# One-line descriptions of the MOM6-examples test cases, shown on the website.
+# Written by Claude from the examples' parameter files (MOM_input/MOM_override);
+# corrections welcome.  Key: payu experiment name (see lib/make_run_scripts.sh).
+double_gyre: >-
+  Wind-driven, adiabatic two-layer-style double gyre in a 22° x 20° spherical box
+  (30°N-50°N) with "spoon" bathymetry. A classic test bed for western boundary currents
+  (think Gulf Stream/East Australian Current) and their separation.
+DOME: >-
+  Dynamics of Overflow Mixing and Entrainment: dense water flows from an embayment down a
+  continental slope (Legg et al. 2006 test case).
+Phillips_2layer: >-
+  Two-layer, flat-bottomed Cartesian channel initialised with a Phillips-type baroclinically
+  unstable flow.
+benchmark: >-
+  The MOM6 benchmark case: a 360 x 180 Mercator basin (41°S-41°N, 22 layers) with analytic
+  "benchmark" bathymetry and stratification, gyre winds and linear buoyancy forcing.
+buoy_forced_basin: >-
+  Buoyancy-forced ("BFB") flat-bottomed basin on a Mercator grid (10°N-60°N, 10 levels).
+circle_obcs: >-
+  Open-boundary-condition test: a circular anomaly in a 25 x 25 flat box with four open
+  boundary segments.
+external_gwave: >-
+  Simple gravitational adjustment of a sea-surface displacement (external gravity wave).
+lock_exchange: >-
+  Lock-exchange gravity current: two fluids of different density released side by side.
+mixed_layer_restrat_2d: >-
+  Quasi-2-D (4 x 80) Rossby-front mixed-layer restratification test in z* coordinates.
+torus_advection_test: >-
+  Advection test on a flat, doubly periodic (torus) 48 x 48 Cartesian domain.
+unit_tests: >-
+  Runs MOM6's internal unit tests on a trivial domain.
+adjustment2d-layer: >-
+  Two-dimensional geostrophic adjustment of a front, in layered (isopycnal) coordinates.
+adjustment2d-rho: >-
+  Two-dimensional geostrophic adjustment of a front, in ALE density coordinates.
+adjustment2d-z: >-
+  Two-dimensional geostrophic adjustment of a front, in ALE z* coordinates.
+flow_downslope-layer: >-
+  Dense water flowing down a 2-D slope, in layered (isopycnal) coordinates.
+flow_downslope-rho: >-
+  Dense water flowing down a 2-D slope, in ALE density coordinates.
+flow_downslope-sigma: >-
+  Dense water flowing down a 2-D slope, in terrain-following (sigma) coordinates.
+flow_downslope-z: >-
+  Dense water flowing down a 2-D slope, in ALE z* coordinates.
+resting-layer: >-
+  A resting, stratified ocean that should stay at rest (pressure-gradient error test), layered coordinates.
+resting-z: >-
+  A resting, stratified ocean that should stay at rest (pressure-gradient error test), z* coordinates.
+seamount-layer: >-
+  Stratified ocean at rest over a seamount; spurious currents measure pressure-gradient errors (layered coordinates).
+seamount-rho: >-
+  Stratified ocean at rest over a seamount; spurious currents measure pressure-gradient errors (density coordinates).
+seamount-sigma: >-
+  Stratified ocean at rest over a seamount; spurious currents measure pressure-gradient errors (sigma coordinates).
+seamount-z: >-
+  Stratified ocean at rest over a seamount; spurious currents measure pressure-gradient errors (z* coordinates).
+sloshing-layer: >-
+  Sloshing of a tilted stratification in a closed 2-D basin (layered coordinates).
+sloshing-rho: >-
+  Sloshing of a tilted stratification in a closed 2-D basin (density coordinates).
+sloshing-z: >-
+  Sloshing of a tilted stratification in a closed 2-D basin (z* coordinates).
+tracer_mixing-rho: >-
+  Tracer mixing/advection test in density coordinates.
+tracer_mixing-z: >-
+  Tracer mixing/advection test in z* coordinates.
+ISOMIP-layer: >-
+  ISOMIP (first phase) ice-shelf cavity test with a static ice shelf, layered coordinates.
+ISOMIP-rho: >-
+  ISOMIP (first phase) ice-shelf cavity test with a static ice shelf, density coordinates.
+SCM_idealized_hurricane: >-
+  Single-column version of the idealized hurricane case: boundary-layer response to a passing storm.
+idealized_hurricane: >-
+  An idealized (Holland-profile) hurricane moving across an ocean basin.
+single_column-BML: >-
+  Single column at BATS with the bulk mixed layer (BML) scheme.
+single_column-EPBL: >-
+  Single column at BATS with the energetic planetary boundary layer (ePBL) scheme.
+single_column-KPP: >-
+  Single column at BATS with the K-profile parameterisation (KPP).
+global: >-
+  Global 1° (360 x 210 mosaic grid) ocean with 63 layers, MEKE and tides, forced by
+  data from files.
+nonBous_global: >-
+  As `global`, but non-Boussinesq.
+global_ALE-hycom: >-
+  Global 1° ocean with ALE hybrid (HYCOM-like) coordinates.
+global_ALE-layer: >-
+  Global 1° ocean with ALE in layer mode.
+global_ALE-z: >-
+  Global 1° ocean with ALE z* coordinates.
+MESO_025_23L: >-
+  Near-global 1/4° (1440 x 450 Mercator, 74°S-74°N) "MESO" configuration with 23 layers.
+MESO_025_63L: >-
+  Near-global 1/4° "MESO" configuration with 63 layers.
+tides_025: >-
+  Global 1/4° (1440 x 1080) non-Boussinesq, two-layer tides configuration.

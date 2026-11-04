@@ -1,0 +1,77 @@
+# MOM6-examples test cases run by regenerate_all.sh
+# columns: <example dir in MOM6-examples>  <ncpus>  <walltime>
+# ncpus = NIPROC x NJPROC from that example's MOM_parameter_doc.layout (what GFDL used).
+# Optional 4th/5th columns make a *variant*: <suffix> <PARAM=value,PARAM=value> appended
+# to a copy of the example's MOM_override (e.g. a longer run to show spun-up circulation).
+# Lines starting with '#' are skipped, except '# --- Title ---' which starts a website section.
+# Order = order on the website.
+
+# --- Basins and channels ---
+ocean_only/double_gyre                     8    00:30:00
+ocean_only/double_gyre                     8    02:00:00   10yr  DAYMAX=3650.0
+ocean_only/DOME                            6    00:30:00
+ocean_only/Phillips_2layer                64    00:30:00
+ocean_only/benchmark                      72    00:30:00
+ocean_only/buoy_forced_basin               6    00:30:00
+ocean_only/circle_obcs                     2    00:30:00
+ocean_only/external_gwave                  2    00:30:00
+ocean_only/lock_exchange                   2    00:30:00
+ocean_only/mixed_layer_restrat_2d          2    00:30:00
+ocean_only/torus_advection_test            2    00:30:00
+ocean_only/unit_tests                      1    00:30:00
+
+# --- Vertical-coordinate tests ---
+ocean_only/adjustment2d/layer              2    00:30:00
+ocean_only/adjustment2d/rho                2    00:30:00
+ocean_only/adjustment2d/z                  2    00:30:00
+ocean_only/flow_downslope/layer            2    00:30:00
+ocean_only/flow_downslope/rho              2    00:30:00
+ocean_only/flow_downslope/sigma            2    00:30:00
+ocean_only/flow_downslope/z                2    00:30:00
+ocean_only/resting/layer                   2    00:30:00
+ocean_only/resting/z                       2    00:30:00
+ocean_only/seamount/layer                  2    00:30:00
+ocean_only/seamount/rho                    2    00:30:00
+ocean_only/seamount/sigma                  2    00:30:00
+ocean_only/seamount/z                      2    00:30:00
+ocean_only/sloshing/layer                  2    00:30:00
+ocean_only/sloshing/rho                    2    00:30:00
+ocean_only/sloshing/z                      2    00:30:00
+ocean_only/tracer_mixing/rho               2    00:30:00
+ocean_only/tracer_mixing/z                 2    00:30:00
+
+# --- Ice-shelf cavity ---
+ocean_only/ISOMIP/layer                   24    00:30:00
+ocean_only/ISOMIP/rho                     24    00:30:00
+
+# --- Hurricanes and single columns ---
+ocean_only/SCM_idealized_hurricane         1    00:30:00
+ocean_only/idealized_hurricane            32    00:30:00
+ocean_only/single_column/BML               1    00:30:00
+ocean_only/single_column/EPBL              1    00:30:00
+ocean_only/single_column/KPP               1    00:30:00
+ocean_only/CVmix_SCM_tests/cooling_only/BML       1  00:30:00
+ocean_only/CVmix_SCM_tests/cooling_only/EPBL      1  00:30:00
+ocean_only/CVmix_SCM_tests/cooling_only/KPP       1  00:30:00
+ocean_only/CVmix_SCM_tests/mech_only/BML          1  00:30:00
+ocean_only/CVmix_SCM_tests/mech_only/EPBL         1  00:30:00
+ocean_only/CVmix_SCM_tests/mech_only/KPP          1  00:30:00
+ocean_only/CVmix_SCM_tests/skin_warming_wind/BML  1  00:30:00
+ocean_only/CVmix_SCM_tests/skin_warming_wind/EPBL 1  00:30:00
+ocean_only/CVmix_SCM_tests/skin_warming_wind/KPP  1  00:30:00
+ocean_only/CVmix_SCM_tests/wind_only/BML          1  00:30:00
+ocean_only/CVmix_SCM_tests/wind_only/EPBL         1  00:30:00
+ocean_only/CVmix_SCM_tests/wind_only/KPP          1  00:30:00
+
+# --- Realistic (need the GFDL input data) ---
+ocean_only/global                         64    01:00:00
+ocean_only/nonBous_global                 60    01:00:00
+ocean_only/global_ALE/hycom               64    01:00:00
+ocean_only/global_ALE/layer               64    01:00:00
+ocean_only/global_ALE/z                   64    01:00:00
+ocean_only/MESO_025_23L                  288    01:00:00
+ocean_only/MESO_025_63L                  288    01:00:00
+ocean_only/tides_025                     480    01:00:00
+
+# Not attempted (yet): rotating_gravity_current/* (LAYOUT 40x64 = 2560 cores hard-wired in MOM_input),
+# loop_current (MOM_input only, no input.nml/diag_table).

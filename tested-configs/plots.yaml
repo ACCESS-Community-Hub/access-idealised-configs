@@ -1,0 +1,9 @@
+# Optional per-run figure choices for lib/summarise_run.py.  Without an entry here
+# the left panel shows sea-surface height (or the first suitable field) at the last
+# output time.  Keys are run names; each entry lists up to two panels:
+#   file: output file name pattern (glob)    var: variable name
+#   kind: map | section   (section = vertical slice through the middle of the y axis)
+#   level: vertical index for maps (0 = top)  cmap: matplotlib colormap
+isomip-plus-ocean0:
+  - {file: "ice*.nc", var: melt_rate, kind: map, cmap: viridis}
+  - {file: "ave_prog*.nc", var: temp, kind: section, cmap: RdYlBu_r}
