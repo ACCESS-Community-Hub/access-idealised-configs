@@ -1,6 +1,6 @@
 # tides_025
 
-Global 1/4° (1440 x 1080) non-Boussinesq, two-layer tides configuration.
+The run stopped before writing its parameters ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/tides_025))
 
 Upstream configuration: [`ocean_only/tides_025`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/tides_025) (MOM6-examples commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802)).
 
@@ -13,7 +13,7 @@ GFDL excludes this example from its own automated test suite (`EXCLUDE` in [`oce
     See the details below; the log tail shows where it stopped.
 
 !!! note "Generated with Claude Code"
-    This page, the script and the figure were generated automatically by [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). See [How these pages were made](../Overview.md#how-these-pages-were-made).
+    This page, the script and the figure were generated automatically by [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). See [How these pages were made](../mom6examples.md#how-these-pages-were-made).
 
 ## Run it yourself
 

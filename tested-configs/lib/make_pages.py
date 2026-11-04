@@ -4,11 +4,10 @@
     python lib/make_pages.py            (run from anywhere; paths are relative to this file)
 
 Writes (all generated, do not edit by hand):
-  tested-configs/results/mom6examples-section.md                  'MOM6 examples' section of
-                                                                  the Configurations page (Overview.md)
-  documentation/docs/pages/configurations/mom6examples.md         stub that points there (keeps old URL)
-  tested-configs/results/configurations-table.md                  table of every configuration (tags,
-                                                                  status, prerequisites), filterable by tag
+  documentation/docs/pages/configurations/mom6examples.md         how the MOM6 examples were run
+  tested-configs/results/table-community.md                       the two tables at the top of the
+  tested-configs/results/table-mom6examples.md                    Configurations page (Overview.md);
+                                                                  tags become filter buttons
   documentation/docs/pages/configurations/mom6examples/<name>.md  one page per example
   documentation/docs/assets/tested-configs/<name>.png             figures
 and replaces the block between the "generated mom6examples nav" markers in
@@ -42,7 +41,6 @@ def read_env(path):
 
 versions = read_env(os.path.join(HERE, "versions.env"))
 environment = json.load(open(os.path.join(HERE, "results", "environment.json")))
-descriptions = yaml.safe_load(open(os.path.join(HERE, "descriptions.yaml")))
 known_issues = yaml.safe_load(open(os.path.join(HERE, "known_issues.yaml"))) or {}
 
 
@@ -80,17 +78,54 @@ for line in open(os.path.join(HERE, "examples.txt")):
                              walltime=walltime, variant=variant, section=section))
 
 
-def describe(name, ex=None):
-    if ex and ex["variant"]:
+def setup_line(s):
+    """Set-up summary read from the run's own MOM_parameter_doc.all (summary.json key_params),
+    so it is correct by construction. Empty if the run stopped before writing parameters."""
+    k = (s or {}).get("key_params") or {}
+    if not k:
+        return ""
+    v = lambda p: k.get(p, "").strip('"')
+    parts = [f"{v('NIGLOBAL')} x {v('NJGLOBAL')} x {v('NK')} {v('GRID_CONFIG')} grid"]
+    parts.append(f"`{v('REGRIDDING_COORDINATE_MODE')}` coordinate" if v("USE_REGRIDDING") == "True"
+                 else "layer mode (no regridding)")
+    parts.append(f"topography `{v('TOPO_CONFIG')}`")
+    if v("WIND_CONFIG"):
+        parts.append(f"wind `{v('WIND_CONFIG')}`")
+    if v("BUOY_CONFIG"):
+        parts.append(f"buoyancy `{v('BUOY_CONFIG')}`")
+    if v("ICE_SHELF") == "True":
+        parts.append("ice shelf")
+    try:
+        parts.append(f"{float(v('DAYMAX')) * float(v('TIMEUNIT')) / 86400:g} days")
+    except ValueError:
+        pass
+    return ", ".join(parts)
+
+
+def upstream_links(ex):
+    """Link to the example's directory upstream, and to its README if it (or a parent) has one."""
+    links = [f"[upstream]({UPSTREAM}/tree/{commit}/{ex['example']})"]
+    path = ex["example"]
+    while path.count("/") >= 1:
+        for readme in ("README.md", "README"):
+            if os.path.exists(os.path.join(environment.get("work_root", ""), "MOM6-examples", path, readme)):
+                links.append(f"[README]({UPSTREAM}/blob/{commit}/{path}/{readme})")
+                break
+        else:
+            path = os.path.dirname(path)
+            continue
+        break
+    return ", ".join(links)
+
+
+def describe(name, ex):
+    """Description shown in the table and at the top of each example page."""
+    s = load_summary(name)
+    text = setup_line(s) or "The run stopped before writing its parameters"
+    if ex["variant"]:
         changes = ", ".join(f"`{c}`" for c in ex["variant"][1].split(","))
-        return f"Variant of `{ex['base']}` with {changes}. " + describe(ex["base"])
-    if name in descriptions:
-        return " ".join(descriptions[name].split())
-    if name.startswith("CVmix_SCM_tests"):
-        _, forcing, scheme = name.split("-")
-        return (f"CVMix single-column test: `{forcing}` surface forcing with the "
-                f"`{scheme}` boundary-layer scheme.")
-    return ""
+        text = f"Variant of `{ex['base']}` with {changes}. " + text
+    return f"{text} ({upstream_links(ex)})"
 
 
 # Short tags for the filter buttons on the Configurations page, one per examples.txt section.
@@ -173,7 +208,7 @@ def example_page(ex, s):
               "    This page, the script and the figure were generated automatically by "
               "[`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/"
               "mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). "
-              "See [How these pages were made](../Overview.md#how-these-pages-were-made).", ""]
+              "See [How these pages were made](../mom6examples.md#how-these-pages-were-made).", ""]
 
     lines += ["## Run it yourself", "",
               "From a Gadi **login node** (membership of NCI project `vk83` needed"
@@ -303,15 +338,28 @@ def table_row(link, tags, status, cores, prereq, description):
     return f"| {link} | {tag_html} | {status} | {cores} | {prereq} | {description} |"
 
 
-# The Australian community configurations (pages written by hand, results generated):
+TABLE_HEAD = ["| Configuration | Tags | Status | Cores | Prerequisites | Description |",
+              "|---|---|---|---|---|---|"]
+
+
+def write_table(filename, table_rows):
+    open(os.path.join(HERE, "results", filename), "w").write("\n".join(
+        ['<div class="config-table" markdown>', ""] + TABLE_HEAD + table_rows + ["", "</div>", ""]))
+
+
+# The Australian community configurations (pages written by hand, results generated).
+# Descriptions are quoted from each configuration's README, which is linked.
 COMMUNITY = [
-    ("anu-tub-zstar", "[ANU-TUB](anu-tub.md)", ["Community", "Basin", "Coordinates"],
+    ("anu-tub-zstar", "[ANU-TUB](anu-tub.md)", ["Basin", "Coordinates"],
      "`vk83`, `xp65` (the script makes the input files with `conda/analysis3`)",
-     "1/4° 40°-wide sector (70°S–70°N) with a \"Drake Passage\", wind and SST-restoring forcing; "
-     "a test bed for vertical coordinates. By Andy Hogg and Angus Gibson."),
-    ("isomip-plus-ocean0", "[ISOMIP+ Ocean0](isomip-plus.md)", ["Community", "Ice shelf"],
+     '"A bathtub-sector ocean configuration for MOM6 ... designed primarily as a test case for '
+     'implementing new vertical coordinate systems into MOM6" '
+     "([README](https://github.com/ACCESS-Community-Hub/anu-tub#anu-tub)). By Andy Hogg and Angus Gibson."),
+    ("isomip-plus-ocean0", "[ISOMIP+ Ocean0](isomip-plus.md)", ["Ice shelf"],
      "`vk83`; the input file comes from Claire Yung's input repository (the script clones it)",
-     "Idealised ice-shelf cavity (warm Ocean0 case), sigma-shelf z* coordinate. By Claire Yung."),
+     '"Idealised ISOMIP+ like config" that "resembles the Ocean0 warm test case" '
+     "([README](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/"
+     "isomip-plus-ocean0-sigmashelfzstar#readme)). By Claire Yung."),
 ]
 
 # ---------------------------------------------------------------------------------
@@ -327,7 +375,7 @@ for i, ex in enumerate(examples):
         os.remove(asset)                     # generated file from an earlier run
     open(os.path.join(PAGES, ex["name"] + ".md"), "w").write(example_page(ex, s) + "\n")
     flag = " &dagger;" if is_excluded(ex["example"]) else ""   # see note under the table
-    rows.append(table_row(f"[{ex['name']}](mom6examples/{ex['name']}.md)", ["GFDL", section_tag(ex["section"])],
+    rows.append(table_row(f"[{ex['name']}](mom6examples/{ex['name']}.md)", [section_tag(ex["section"])],
                           f"{status_badge(s)}{flag}", ex["ncpus"], prerequisites(ex["name"], s),
                           describe(ex["name"], ex)))
 
@@ -344,11 +392,11 @@ community_rows = []
 for name, link, tags, prereq, text in COMMUNITY:
     s = load_summary(name)
     cores = (s or {}).get("pbs", {}).get("NCPUs Requested", "")
-    community_rows.append(table_row(link, tags, status_badge(s), cores, prereq, text))
-open(os.path.join(HERE, "results", "configurations-table.md"), "w").write("\n".join(
-    ['<div class="config-table" markdown>', "",
-     "| Configuration | Tags | Status | Cores | Prerequisites | Description |",
-     "|---|---|---|---|---|---|"] + community_rows + rows + ["", "</div>", ""]))
+    setup = setup_line(s)
+    community_rows.append(table_row(link, tags, status_badge(s), cores, prereq,
+                                    text + (f" Tested set-up: {setup}." if setup else "")))
+write_table("table-community.md", community_rows)
+write_table("table-mom6examples.md", rows)
 
 n_ok = sum(1 for ex in examples if (load_summary(ex["name"]) or {}).get("ok"))
 index = open(os.path.join(HERE, "templates", "mom6examples_index.md.in")).read()
@@ -364,14 +412,10 @@ index = (index
               .replace("@MOM6_SOURCE@", environment.get("mom6_source", ""))
               .replace("@WORK_ROOT@", environment.get("work_root", "?"))
               .replace("@WEBSITE_COMMIT@", environment.get("website_commit", "")))
-open(os.path.join(HERE, "results", "mom6examples-section.md"), "w").write(index)
-# The overview used to be its own page; keep the URL working for old links.
-open(PAGES + ".md", "w").write(
-    "# MOM6 examples\n\nThis overview is now the [MOM6 examples section of the Configurations page]"
-    "(Overview.md#mom6-examples-noaa-gfdl).\n")
+open(PAGES + ".md", "w").write(index)
 
 # ---- navigation block in mkdocs.yml ---------------------------------------------------
-nav = ["        - MOM6 examples (NOAA-GFDL):"]
+nav = ["        - MOM6 examples:", "            - pages/configurations/mom6examples.md"]
 for i, ex in enumerate(examples):
     if i == 0 or ex["section"] != examples[i - 1]["section"]:
         nav.append(f"            - {ex['section']}:")

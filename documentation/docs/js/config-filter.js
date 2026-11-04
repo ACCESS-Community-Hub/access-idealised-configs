@@ -9,6 +9,7 @@ function setupConfigFilters() {
     const table = box.querySelector('table');
     if (!table || box.querySelector('.cfg-filter')) return;
     const rows = Array.from(table.tBodies[0].rows);
+    if (rows.length < 6) return;   // short tables need no filter
     const tags = [];
     rows.forEach((r) => r.querySelectorAll('.cfg-tag').forEach((s) => {
       if (!tags.includes(s.textContent)) tags.push(s.textContent);

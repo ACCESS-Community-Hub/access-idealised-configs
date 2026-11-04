@@ -1,6 +1,6 @@
 # CVmix_SCM_tests / skin_warming_wind / BML
 
-CVMix single-column test: `skin_warming_wind` surface forcing with the `BML` boundary-layer scheme.
+The run stopped before writing its parameters ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/CVmix_SCM_tests/skin_warming_wind/BML), [README](https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/CVmix_SCM_tests/README.md))
 
 Upstream configuration: [`ocean_only/CVmix_SCM_tests/skin_warming_wind/BML`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/CVmix_SCM_tests/skin_warming_wind/BML) (MOM6-examples commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802)).
 
@@ -11,7 +11,7 @@ Upstream configuration: [`ocean_only/CVmix_SCM_tests/skin_warming_wind/BML`](htt
     See the details below; the log tail shows where it stopped.
 
 !!! note "Generated with Claude Code"
-    This page, the script and the figure were generated automatically by [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). See [How these pages were made](../Overview.md#how-these-pages-were-made).
+    This page, the script and the figure were generated automatically by [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). See [How these pages were made](../mom6examples.md#how-these-pages-were-made).
 
 ## Run it yourself
 

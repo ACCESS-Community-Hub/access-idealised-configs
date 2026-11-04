@@ -1,6 +1,6 @@
 # global
 
-Global 1° (360 x 210 mosaic grid) ocean with 63 layers, MEKE and tides, forced by data from files.
+360 x 210 x 63 mosaic grid, layer mode (no regridding), topography `file`, wind `file`, buoyancy `file`, 2 days ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/global))
 
 Upstream configuration: [`ocean_only/global`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/global) (MOM6-examples commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802)).
 
@@ -10,7 +10,7 @@ GFDL excludes this example from its own automated test suite (`EXCLUDE` in [`oce
     Ran on Gadi on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`) and `payu/1.3.6_1` on 64 Sapphire Rapids core(s); walltime used 00:00:42, 1.49 SU.
 
 !!! note "Generated with Claude Code"
-    This page, the script and the figure were generated automatically by [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). See [How these pages were made](../Overview.md#how-these-pages-were-made).
+    This page, the script and the figure were generated automatically by [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). See [How these pages were made](../mom6examples.md#how-these-pages-were-made).
 
 ## Run it yourself
 

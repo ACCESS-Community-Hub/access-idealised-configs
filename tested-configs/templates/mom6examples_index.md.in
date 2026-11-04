@@ -1,23 +1,23 @@
-## MOM6 examples (NOAA-GFDL)
+# MOM6 examples: how they were run
 
 The [NOAA-GFDL/MOM6-examples](https://github.com/NOAA-GFDL/MOM6-examples) repository holds
 GFDL's MOM6 test cases, from idealised ones that need no input data (double gyre,
 seamount, lock exchange, ...) to realistic global ones.
-This section shows which of the ocean-only (`ocean_only/`) cases run on NCI Gadi with the
+This page explains how we tested which of the ocean-only (`ocean_only/`) cases run on NCI Gadi with the
 **prebuilt MOM6 ocean-only executable `mom6-solo` from the ACCESS-OM3 release**, so
 you don't have to compile MOM6 yourself.
 
 **@N_OK@ of @N_TOTAL@ tested runs completed successfully** (tested on @DATE@).
 
 !!! note "Generated with Claude Code"
-    Everything in this section was run, checked and written up automatically by
+    Everything on these pages was run, checked and written up automatically by
     [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs),
     a set of scripts written with [Claude Code](https://claude.com/claude-code) and
     reviewed by humans. Each page shows the exact script that produced it, plus the
     versions, input-file hashes and run-time environment that were used.
     Spotted something wrong? Please [raise an issue](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/issues).
 
-### Quick start: MOM6 examples
+## Quick start
 
 From a Gadi **login node**, any example is one command. For example, the wind-driven
 double gyre:
@@ -50,21 +50,12 @@ is kept.
     submit the script as a small PBS job (see
     [`lib/run_in_pbs.pbs`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/lib/run_in_pbs.pbs)).
 
-### Results: MOM6 examples
+## Results
 
-Every example is listed in the [table of all configurations](#all-configurations) at the
-top of this page, with whether it ran; press **GFDL** there to show only these examples.
+Every example, with whether it ran, is in the
+[MOM6 examples table on the Configurations page](Overview.md#mom6-examples).
 
-In that table, &dagger; = GFDL excludes this example from its own automated test suite (`EXCLUDE` in
-`ocean_only/Makefile`), usually because it needs extra input files or runs for a long time.
-
-Cores = processor layout GFDL used for that example (`NIPROC x NJPROC` in its
-`MOM_parameter_doc.layout`). Runs use the example's own run length, which is usually a
-few days: these are tests that the model runs, not science-ready simulations.
-Pages with a suffix (e.g. `double_gyre-10yr`) are *variants*: copies of the example with
-a few extra lines in `MOM_override`, such as a longer run, to show a spun-up state.
-
-### How these pages were made
+## How these pages were made
 
 | What | Version used |
 |---|---|
@@ -103,7 +94,7 @@ changed defaults) are listed on each page, because they show where the ACCESS-OM
 version behaves differently from the GFDL version the example was written for. We did
 **not** compare answers bit-for-bit with GFDL.
 
-#### About the input data
+### About the input data
 
 `/g/data/ol01/access-iom3-configs/mom6exampledata/` holds GFDL's MOM6-examples data
 tarballs (downloaded with
@@ -113,7 +104,7 @@ the unpacked layout (e.g. `.datasets/global/siena_201204/INPUT/...`), so `.datas
 must point at `.../mom6exampledata/backup`, not at the directory of tarballs. The run
 scripts do this for you.
 
-### Learning more
+## Learning more
 
 - The MOM6-examples wiki: [Getting started](https://github.com/NOAA-GFDL/MOM6-examples/wiki/Getting-started)
   and the [FAQ](https://github.com/NOAA-GFDL/MOM6-examples/wiki/FAQ).

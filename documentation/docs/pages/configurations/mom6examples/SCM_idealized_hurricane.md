@@ -1,6 +1,6 @@
 # SCM_idealized_hurricane
 
-Single-column version of the idealized hurricane case: boundary-layer response to a passing storm.
+2 x 2 x 600 cartesian grid, `Z*` coordinate, topography `flat`, wind `ideal_hurr`, buoyancy `const`, 3 days ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/SCM_idealized_hurricane))
 
 Upstream configuration: [`ocean_only/SCM_idealized_hurricane`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/SCM_idealized_hurricane) (MOM6-examples commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802)).
 
@@ -8,7 +8,7 @@ Upstream configuration: [`ocean_only/SCM_idealized_hurricane`](https://github.co
     Ran on Gadi on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`) and `payu/1.3.6_1` on 1 Sapphire Rapids core(s); walltime used 00:00:17, 0.01 SU.
 
 !!! note "Generated with Claude Code"
-    This page, the script and the figure were generated automatically by [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). See [How these pages were made](../Overview.md#how-these-pages-were-made).
+    This page, the script and the figure were generated automatically by [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). See [How these pages were made](../mom6examples.md#how-these-pages-were-made).
 
 ## Run it yourself
 

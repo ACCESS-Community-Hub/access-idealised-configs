@@ -1,6 +1,7 @@
-# One-line descriptions of the MOM6-examples test cases, shown on the website.
-# Written by Claude from the examples' parameter files (MOM_input/MOM_override);
-# corrections welcome.  Key: payu experiment name (see lib/make_run_scripts.sh).
+# NOT SHOWN on the website (since 2026-11-04): one-line descriptions of the MOM6-examples
+# test cases written by Claude from the examples' parameter files (MOM_input/MOM_override).
+# They have not been checked by a person. The website shows only facts read from each run's
+# MOM_parameter_doc.all plus links upstream. Check these before showing them again.  Key: payu experiment name (see lib/make_run_scripts.sh).
 double_gyre: >-
   Wind-driven, adiabatic two-layer double gyre in a 22° x 20° spherical box
   (30°N-50°N) with "spoon" bathymetry. A classic test bed for western boundary currents

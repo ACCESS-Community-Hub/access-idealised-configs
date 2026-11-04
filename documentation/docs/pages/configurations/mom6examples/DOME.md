@@ -1,6 +1,6 @@
 # DOME
 
-Dynamics of Overflow Mixing and Entrainment: dense water flows from an embayment down a continental slope (Legg et al. 2006 test case).
+150 x 70 x 25 cartesian grid, layer mode (no regridding), topography `DOME`, wind `zero`, buoyancy `zero`, 2 days ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/DOME))
 
 Upstream configuration: [`ocean_only/DOME`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/DOME) (MOM6-examples commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802)).
 
@@ -11,7 +11,7 @@ Upstream configuration: [`ocean_only/DOME`](https://github.com/NOAA-GFDL/MOM6-ex
     Ran on Gadi on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`) and `payu/1.3.6_1` on 6 Sapphire Rapids core(s); walltime used 00:00:19, 0.06 SU.
 
 !!! note "Generated with Claude Code"
-    This page, the script and the figure were generated automatically by [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). See [How these pages were made](../Overview.md#how-these-pages-were-made).
+    This page, the script and the figure were generated automatically by [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). See [How these pages were made](../mom6examples.md#how-these-pages-were-made).
 
 ## Run it yourself
 

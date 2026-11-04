@@ -1,6 +1,6 @@
 # double_gyre
 
-Wind-driven, adiabatic two-layer double gyre in a 22° x 20° spherical box (30°N-50°N) with "spoon" bathymetry. A classic test bed for western boundary currents (think Gulf Stream/East Australian Current) and their separation.
+44 x 40 x 2 spherical grid, layer mode (no regridding), topography `spoon`, wind `2gyre`, buoyancy `zero`, 10 days ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/double_gyre))
 
 Upstream configuration: [`ocean_only/double_gyre`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/double_gyre) (MOM6-examples commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802)).
 
@@ -8,7 +8,7 @@ Upstream configuration: [`ocean_only/double_gyre`](https://github.com/NOAA-GFDL/
     Ran on Gadi on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`) and `payu/1.3.6_1` on 8 Sapphire Rapids core(s); walltime used 00:00:16, 0.07 SU.
 
 !!! note "Generated with Claude Code"
-    This page, the script and the figure were generated automatically by [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). See [How these pages were made](../Overview.md#how-these-pages-were-made).
+    This page, the script and the figure were generated automatically by [`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). See [How these pages were made](../mom6examples.md#how-these-pages-were-made).
 
 ## Run it yourself
 
