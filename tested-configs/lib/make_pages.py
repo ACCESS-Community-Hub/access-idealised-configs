@@ -4,7 +4,9 @@
     python lib/make_pages.py            (run from anywhere; paths are relative to this file)
 
 Writes (all generated, do not edit by hand):
-  documentation/docs/pages/configurations/mom6examples.md         overview table
+  tested-configs/results/mom6examples-section.md                  'MOM6 examples' section of
+                                                                  the Configurations page (Overview.md)
+  documentation/docs/pages/configurations/mom6examples.md         stub that points there (keeps old URL)
   documentation/docs/pages/configurations/mom6examples/<name>.md  one page per example
   documentation/docs/assets/tested-configs/<name>.png             figures
 and replaces the block between the "generated mom6examples nav" markers in
@@ -143,7 +145,7 @@ def example_page(ex, s):
               "    This page, the script and the figure were generated automatically by "
               "[`tested-configs/regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/"
               "mom6-idealised-configs/tree/main/tested-configs) (written with Claude Code). "
-              "See [How these pages were made](../mom6examples.md#how-these-pages-were-made).", ""]
+              "See [How these pages were made](../Overview.md#how-these-pages-were-made).", ""]
 
     lines += ["## Run it yourself", "",
               "From a Gadi **login node** (membership of NCI project `vk83` needed"
@@ -309,11 +311,14 @@ index = (index.replace("@TABLE@", "\n".join(rows))
               .replace("@MOM6_SOURCE@", environment.get("mom6_source", ""))
               .replace("@WORK_ROOT@", environment.get("work_root", "?"))
               .replace("@WEBSITE_COMMIT@", environment.get("website_commit", "")))
-open(PAGES + ".md", "w").write(index)
+open(os.path.join(HERE, "results", "mom6examples-section.md"), "w").write(index)
+# The overview used to be its own page; keep the URL working for old links.
+open(PAGES + ".md", "w").write(
+    "# MOM6 examples\n\nThis overview is now the [MOM6 examples section of the Configurations page]"
+    "(Overview.md#mom6-examples-noaa-gfdl).\n")
 
 # ---- navigation block in mkdocs.yml ---------------------------------------------------
-nav = ["        - MOM6 Examples:",
-       "            - pages/configurations/mom6examples.md"]
+nav = ["        - MOM6 examples (NOAA-GFDL):"]
 for i, ex in enumerate(examples):
     if i == 0 or ex["section"] != examples[i - 1]["section"]:
         nav.append(f"            - {ex['section']}:")

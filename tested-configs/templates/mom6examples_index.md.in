@@ -1,4 +1,4 @@
-# MOM6 examples on Gadi
+## MOM6 examples (NOAA-GFDL)
 
 The [NOAA-GFDL/MOM6-examples](https://github.com/NOAA-GFDL/MOM6-examples) repository holds
 GFDL's MOM6 test cases, from idealised ones that need no input data (double gyre,
@@ -17,7 +17,7 @@ you don't have to compile MOM6 yourself.
     versions, input-file hashes and run-time environment that were used.
     Spotted something wrong? Please [raise an issue](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/issues).
 
-## Quick start
+### Quick start: MOM6 examples
 
 From a Gadi **login node**, any example is one command. For example, the wind-driven
 double gyre:
@@ -50,7 +50,7 @@ is kept.
     submit the script as a small PBS job (see
     [`lib/run_in_pbs.pbs`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/lib/run_in_pbs.pbs)).
 
-## Results
+### Results: MOM6 examples
 
 | Example | Status | Cores | SU | Description |
 |---|---|---|---|---|
@@ -65,7 +65,7 @@ few days: these are tests that the model runs, not science-ready simulations.
 Pages with a suffix (e.g. `double_gyre-10yr`) are *variants*: copies of the example with
 a few extra lines in `MOM_override`, such as a longer run, to show a spun-up state.
 
-## How these pages were made
+### How these pages were made
 
 | What | Version used |
 |---|---|
@@ -104,7 +104,7 @@ changed defaults) are listed on each page, because they show where the ACCESS-OM
 version behaves differently from the GFDL version the example was written for. We did
 **not** compare answers bit-for-bit with GFDL.
 
-### About the input data
+#### About the input data
 
 `/g/data/ol01/access-iom3-configs/mom6exampledata/` holds GFDL's MOM6-examples data
 tarballs (downloaded with
@@ -114,7 +114,7 @@ the unpacked layout (e.g. `.datasets/global/siena_201204/INPUT/...`), so `.datas
 must point at `.../mom6exampledata/backup`, not at the directory of tarballs. The run
 scripts do this for you.
 
-## Learning more
+### Learning more
 
 - The MOM6-examples wiki: [Getting started](https://github.com/NOAA-GFDL/MOM6-examples/wiki/Getting-started)
   and the [FAQ](https://github.com/NOAA-GFDL/MOM6-examples/wiki/FAQ).

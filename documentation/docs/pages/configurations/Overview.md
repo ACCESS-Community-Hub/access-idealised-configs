@@ -1,19 +1,49 @@
-# Available configurations
+# Configurations
 
-All configurations below run on NCI Gadi with the MOM6 ocean-only executable `mom6-solo`
+All configurations on this page run on NCI Gadi with the MOM6 ocean-only executable `mom6-solo`
 that ships with the [ACCESS-OM3 release](https://github.com/ACCESS-NRI/ACCESS-OM3/releases)
-(`module load access-om3/2026.05.004`). Each page has a single script that sets the
-configuration up and runs it with [payu](https://payu.readthedocs.io), and shows the result
-of running that script.
+(`module load access-om3/2026.05.004`). Each configuration has a single script that sets it
+up and runs it with [payu](https://payu.readthedocs.io), and its page shows the result of
+running that script.
 
 | Configuration | What it is | Contributors | Status |
 |---|---|---|---|
-| [ANU-TUB](anu-tub.md) | 1/4° 40°-wide pole-to-pole sector with a "Drake Passage", wind and buoyancy forcing; a test bed for vertical coordinates | Andy Hogg (`AndyHoggANU`), Angus Gibson (`angus-g`) | tested |
-| [ISOMIP+ Ocean0](isomip-plus.md) | Idealised ice-shelf cavity (warm Ocean0 case), sigma-shelf z* coordinate | Claire Yung (`claireyung`) | tested |
-| [MOM6 examples](mom6examples.md) | GFDL's test cases from [NOAA-GFDL/MOM6-examples](https://github.com/NOAA-GFDL/MOM6-examples): double gyre, seamount, lock exchange, single columns, global, ... | NOAA-GFDL and the MOM6 community | each tested; see the table there |
+| [ANU-TUB](#anu-tub) | 1/4° 40°-wide sector (70°S–70°N) with a "Drake Passage", wind and SST-restoring forcing; a test bed for vertical coordinates | Andy Hogg (`AndyHoggANU`), Angus Gibson (`angus-g`) | tested |
+| [ISOMIP+ Ocean0](#isomip-ocean0) | Idealised ice-shelf cavity (warm Ocean0 case), sigma-shelf z* coordinate | Claire Yung (`claireyung`) | tested |
+| [MOM6 examples](#mom6-examples-noaa-gfdl) | GFDL's test cases from [NOAA-GFDL/MOM6-examples](https://github.com/NOAA-GFDL/MOM6-examples): double gyre, seamount, lock exchange, single columns, global, ... | NOAA-GFDL and the MOM6 community | each tested; see [the results table](#results-mom6-examples) |
 
 !!! note "Tested with Claude Code"
-    The run scripts, test results and most of the text in this section were produced with
+    The run scripts, test results and most of the text on this page were produced with
     [Claude Code](https://claude.com/claude-code) via the scripts in
     [`tested-configs/`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs).
     Every page states exactly which versions were used.
+
+## Australian community contributions
+
+Configurations developed by the Australian MOM6 community. Each has its own page with the
+tested run script, the run's provenance and known issues.
+
+### ANU-TUB
+
+A 1/4° sector, 40° of longitude wide, from about 70°S to 70°N. It is periodic east-west,
+so zonal flow can pass through a narrow "Drake Passage" between about 65°S and 52°S.
+It is forced by a steady zonal wind and by restoring to a latitude-dependent SST. It was
+set up to explore MOM6's vertical-coordinate choices; the repository has set-ups for z*
+(`zstar`, the default, and the one tested here), a hybrid coordinate (`hycom1`) and an
+adaptive coordinate (`adapt`). Contributed by Andy Hogg and Angus Gibson.
+
+![ANU-TUB: result of the tested 1-month run](../../assets/tested-configs/anu-tub-zstar.png){ width="600" }
+
+**[ANU-TUB page: run script, results and provenance](anu-tub.md)**
+
+### ISOMIP+ Ocean0
+
+The ISOMIP+ Ocean0 experiment: an idealised ice-shelf cavity under warm ocean
+conditions, run with a sigma-shelf z* vertical coordinate. Contributed by Claire Yung,
+from branch `isomip-plus-ocean0-sigmashelfzstar`.
+
+![ISOMIP+ Ocean0: result of the tested 3-month run](../../assets/tested-configs/isomip-plus-ocean0.png){ width="600" }
+
+**[ISOMIP+ Ocean0 page: run script, results and provenance](isomip-plus.md)**
+
+--8<-- "tested-configs/results/mom6examples-section.md"

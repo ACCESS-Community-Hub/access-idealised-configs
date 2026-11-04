@@ -103,12 +103,12 @@ nav:
   - Infrastructure:
         - Building MOM6: pages/infrastructure/Building.md
   - Configurations:
-        - Overview: pages/configurations/Overview.md
-        - ANU-tub:  pages/configurations/anu-tub.md
-        - ISOMIP+ Ocean0: pages/configurations/isomip-plus.md
+        - pages/configurations/Overview.md
+        - Australian community contributions:
+            - ANU-TUB:  pages/configurations/anu-tub.md
+            - ISOMIP+ Ocean0: pages/configurations/isomip-plus.md
         # BEGIN generated mom6examples nav (written by tested-configs/lib/make_pages.py)
-        - MOM6 Examples:
-            - pages/configurations/mom6examples.md
+        - MOM6 examples (NOAA-GFDL):
             - Basins and channels:
                 - double_gyre: pages/configurations/mom6examples/double_gyre.md
                 - double_gyre-10yr: pages/configurations/mom6examples/double_gyre-10yr.md

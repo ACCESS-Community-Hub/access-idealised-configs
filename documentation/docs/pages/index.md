@@ -9,7 +9,7 @@ The purpose of this repository is to encourage community users to both use and s
     Each [configuration page](configurations/Overview.md) has one script that sets the
     case up and runs it with payu on Gadi, and shows what that script produced. This
     includes [ANU-TUB](configurations/anu-tub.md), [ISOMIP+ Ocean0](configurations/isomip-plus.md)
-    and [GFDL's MOM6 examples](configurations/mom6examples.md).
+    and [GFDL's MOM6 examples](configurations/Overview.md#mom6-examples-noaa-gfdl).
 
     These scripts and results were made with [Claude Code](https://claude.com/claude-code)
     and are regenerated with `tested-configs/regenerate_all.sh`. Every page states the
