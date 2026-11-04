@@ -84,5 +84,8 @@ ships the ocean-only executable `mom6-solo`. Every configuration on the
 
 Contributors so far include: Christopher Bull (ACCESS-NRI), Claire Yung (Australian National University), Josef Bisits (University of New South Wales), Andy Hogg (Australian National University).
 
+We are open to expanding this website to idealised configurations of other ACCESS model
+components beyond MOM6 (for example sea ice or waves); get in touch if you are interested.
+
 To report a bug, suggest a change, add a configuration or improve this documentation, see
 [Contributing](contributing.md).
