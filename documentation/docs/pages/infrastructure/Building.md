@@ -18,9 +18,9 @@
     You only need to build MOM6 yourself if you want to **change its source code** or use a
     different version. The rest of this page shows how.
 
-## Build your own `mom6-solo` with ACCESS-NRI's Spack
+## Build your own `mom6-solo` with Spack
 
-This uses ACCESS-NRI's shared Spack 1.1 instance, enabled as in the ACCESS-Hive docs
+This uses the shared [Spack](https://spack.io) 1.1 installation that ACCESS-NRI provides on Gadi, enabled as in the ACCESS-Hive docs
 ([Enable spack](https://docs.access-hive.org.au/getting_started/spack/#enable-spack):
 `module use /g/data/vk83/modules && module load spack`; the default `spack` module is 1.1;
 needs membership of `vk83`) and the recipe of an ACCESS-OM3 release. The release builds the full coupled

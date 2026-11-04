@@ -1,7 +1,7 @@
 #!/bin/bash
 #==============================================================================
 # Build your own MOM6 ocean-only ("solo") executable on NCI Gadi with
-# ACCESS-NRI's shared Spack 1.1 instance, starting from an ACCESS-OM3 release.
+# shared Spack 1.1 installation that ACCESS-NRI provides on Gadi, starting from an ACCESS-OM3 release.
 #
 # You only need this if you want to CHANGE MOM6 source code: the released
 # module (module load access-om3/<version>) already provides `mom6-solo`.
@@ -27,7 +27,7 @@ LOCAL_SPACK_DIRS=${LOCAL_SPACK_DIRS:-0}
 mkdir -p "$BUILD_DIR"
 cd "$BUILD_DIR"
 
-# ---- 1. Enable ACCESS-NRI's shared Spack -----------------------------------------
+# ---- 1. Enable the shared Spack installation (provided by ACCESS-NRI) -------------
 module use /g/data/vk83/modules
 module load spack          # the default is Spack 1.1 (tested with spack/1.1); see
                            # https://docs.access-hive.org.au/getting_started/spack/#enable-spack

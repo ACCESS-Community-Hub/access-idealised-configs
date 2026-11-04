@@ -1,12 +1,13 @@
 !!! danger "Community-driven: not officially supported by ACCESS-NRI"
-    This website and the workflow behind it are **not officially supported by ACCESS-NRI**. To report a problem or help improve them, see
-    [Contributing](contributing.md).
+    This website and the workflow behind it are **not officially supported by ACCESS-NRI**.
+    The workflows shown here may break or be removed at any time. Community contributions are
+    very welcome, however: see [Contributing](contributing.md).
 
 --8<-- "tested-configs/templates/claude_caveat.md"
 
-Welcome to the documentation for the [mom6-idealised ocean model configurations](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs)! 
-
-This website aims to make idealised MOM6 configurations easier to run, and to make what is
+This website aims to make idealised MOM6 configurations (from the
+[mom6-idealised-configs](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs)
+repository) easier to run, and to make what is
 available easy to browse and discover: for each configuration you can see how it is set up, its
 surface forcing (where the run saved it) and its output, before running it yourself.
 
@@ -15,7 +16,8 @@ and from [GFDL's MOM6 examples](configurations/Overview.md#global-mom6-community
 with a tested script that runs it on NCI Gadi with the prebuilt `mom6-solo` from ACCESS-OM3, so
 [you don't need to compile MOM6](#quick-start). If you do want to build your own `mom6-solo`
 (for example, to change the MOM6 code), [Building MOM6](infrastructure/Building.md) shows how
-with ACCESS-NRI's Spack. The website has:
+with [Spack](https://spack.io), using the shared Spack installation that ACCESS-NRI provides
+on Gadi. The website has:
 
 - **Configurations**
     - [Overview](configurations/Overview.md): every configuration with whether it ran, its
@@ -26,7 +28,7 @@ with ACCESS-NRI's Spack. The website has:
       ISOMIP+ Ocean0) and the MOM6 examples, each with its run script and results.
 - **Infrastructure**
     - [Building MOM6](infrastructure/Building.md): you don't need to build MOM6 to run these
-      configurations; this page shows how to build your own `mom6-solo` with ACCESS-NRI's Spack.
+      configurations; this page shows how to build your own `mom6-solo` with Spack.
 - **[Contributing](contributing.md)**: report a bug, add a configuration or improve these pages.
 
 ## How this website is generated (mostly by Claude Code)
