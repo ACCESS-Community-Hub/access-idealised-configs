@@ -4,7 +4,14 @@
     Tested on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`): 2 cores, walltime used 00:00:19, 0.02 SU. Details further down this page.
 
 
-40 x 2 x 20 cartesian grid, layer mode (no regridding), topography `seamount`, wind `zero`, buoyancy `NONE`, 5 days ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/seamount/layer))
+!!! abstract "Description (as on the Overview)"
+    - **Grid:** 40 x 2 points, 20 layers/levels (`GRID_CONFIG = cartesian`)
+    - **Vertical coordinate:** layer mode (no regridding)
+    - **Topography:** `TOPO_CONFIG = seamount`
+    - **Surface forcing:** `WIND_CONFIG = zero`, `BUOY_CONFIG = NONE`
+    - **Run length:** 5 days
+
+    Read from this run's `MOM_parameter_doc.all`. Source: [upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/seamount/layer).
 
 Configuration files: [`ocean_only/seamount/layer`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/seamount/layer) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under Provenance.)
 
@@ -40,7 +47,7 @@ Last lines of `ocean.stats`:
 
 ## Domain, forcing and output
 
-Made by running the notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) on this run's output folder (code hidden here). It only plots files MOM6 wrote during the run.
+Made by running the notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) on this run's output folder; it only plots files MOM6 wrote during the run. **[See the notebook with its code](../notebooks/seamount-layer.md)**.
 
 ### Set-up
 

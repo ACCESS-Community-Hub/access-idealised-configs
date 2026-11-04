@@ -4,7 +4,10 @@
     Tested on 2026-11-04 with `access-om3/2026.05.004`. The bulk-mixed-layer (BML) cases read `isopyc_coords.nc` from the run directory (`COORD_FILE = "isopyc_coords.nc"`, `INPUTDIR = "."`), but upstream only links that file in `common_BML/`, not in the `*/BML` directories, so MOM6 stops with `set_coord_from_file: Unable to open ./isopyc_coords.nc`.
 
 
-Set-up not recorded (this run failed) ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/CVmix_SCM_tests/mech_only/BML), [README](https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/CVmix_SCM_tests/README.md))
+!!! abstract "Description (as on the Overview)"
+    - Set-up not recorded (this run failed)
+
+    Read from this run's `MOM_parameter_doc.all`. Source: [upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/CVmix_SCM_tests/mech_only/BML), [README](https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/CVmix_SCM_tests/README.md).
 
 Configuration files: [`ocean_only/CVmix_SCM_tests/mech_only/BML`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/CVmix_SCM_tests/mech_only/BML) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under Provenance.)
 

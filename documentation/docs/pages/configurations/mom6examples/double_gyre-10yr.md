@@ -4,7 +4,16 @@
     Tested on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`): 8 cores, walltime used 00:03:17, 0.88 SU. Details further down this page.
 
 
-Variant of `double_gyre` with `DAYMAX=3650.0`. 44 x 40 x 2 spherical grid, layer mode (no regridding), topography `spoon`, wind `2gyre`, buoyancy `zero`, 3650 days ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/double_gyre))
+!!! abstract "Description (as on the Overview)"
+    Variant of [`double_gyre`](double_gyre.md) with `DAYMAX=3650.0`.
+
+    - **Grid:** 44 x 40 points, 2 layers/levels (`GRID_CONFIG = spherical`)
+    - **Vertical coordinate:** layer mode (no regridding)
+    - **Topography:** `TOPO_CONFIG = spoon`
+    - **Surface forcing:** `WIND_CONFIG = 2gyre`, `BUOY_CONFIG = zero`
+    - **Run length:** 3650 days
+
+    Read from this run's `MOM_parameter_doc.all`. Source: [upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/double_gyre).
 
 This is a copy of [double_gyre](double_gyre.md) with these lines added to `MOM_override`, e.g. to run long enough to see a spun-up state:
 
@@ -46,7 +55,7 @@ Last lines of `ocean.stats`:
 
 ## Domain, forcing and output
 
-Made by running the notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) on this run's output folder (code hidden here). It only plots files MOM6 wrote during the run.
+Made by running the notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) on this run's output folder; it only plots files MOM6 wrote during the run. **[See the notebook with its code](../notebooks/double_gyre-10yr.md)**.
 
 ### Set-up
 

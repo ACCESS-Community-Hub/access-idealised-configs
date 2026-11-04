@@ -4,7 +4,14 @@
     Tested on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`): 2 cores, walltime used 00:00:14, 0.02 SU. Details further down this page.
 
 
-40 x 2 x 10 cartesian grid, `RHO` coordinate, topography `sloshing`, wind `zero`, buoyancy `NONE`, 5 days ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/sloshing/rho), [README](https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/sloshing/README))
+!!! abstract "Description (as on the Overview)"
+    - **Grid:** 40 x 2 points, 10 layers/levels (`GRID_CONFIG = cartesian`)
+    - **Vertical coordinate:** `RHO`
+    - **Topography:** `TOPO_CONFIG = sloshing`
+    - **Surface forcing:** `WIND_CONFIG = zero`, `BUOY_CONFIG = NONE`
+    - **Run length:** 5 days
+
+    Read from this run's `MOM_parameter_doc.all`. Source: [upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/sloshing/rho), [README](https://github.com/NOAA-GFDL/MOM6-examples/blob/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/sloshing/README).
 
 Configuration files: [`ocean_only/sloshing/rho`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/sloshing/rho) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under Provenance.)
 
@@ -43,7 +50,7 @@ Last lines of `ocean.stats`:
 
 ## Domain, forcing and output
 
-Made by running the notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) on this run's output folder (code hidden here). It only plots files MOM6 wrote during the run.
+Made by running the notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) on this run's output folder; it only plots files MOM6 wrote during the run. **[See the notebook with its code](../notebooks/sloshing-rho.md)**.
 
 ### Set-up
 

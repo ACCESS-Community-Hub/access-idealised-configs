@@ -2,6 +2,8 @@
 
 --8<-- "tested-configs/results/anu-tub-zstar/status.md"
 
+--8<-- "tested-configs/results/anu-tub-zstar/description.md"
+
 [ANU-TUB](https://github.com/ACCESS-Community-Hub/anu-tub) is a MOM6 configuration that aims to
 
 > produce the simplest configuration that incorporates buoyancy and wind forcing, gyre

@@ -2,6 +2,8 @@
 
 --8<-- "tested-configs/results/isomip-plus-ocean0/status.md"
 
+--8<-- "tested-configs/results/isomip-plus-ocean0/description.md"
+
 An idealised ice-shelf cavity configuration in the spirit of the
 [ISOMIP+](https://doi.org/10.5194/gmd-9-2471-2016) **Ocean0** (warm) experiment, set up by
 [Claire Yung](https://github.com/claireyung) (ANU). It is modified from the MOM6-examples

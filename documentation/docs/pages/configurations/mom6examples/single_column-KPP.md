@@ -4,7 +4,14 @@
     Tested on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`): 1 cores, walltime used 00:00:25, 0.01 SU. Details further down this page.
 
 
-2 x 2 x 75 cartesian grid, `Z*` coordinate, topography `flat`, wind `data_override`, buoyancy `data_override`, 180 days ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/single_column/KPP))
+!!! abstract "Description (as on the Overview)"
+    - **Grid:** 2 x 2 points, 75 layers/levels (`GRID_CONFIG = cartesian`)
+    - **Vertical coordinate:** `Z*`
+    - **Topography:** `TOPO_CONFIG = flat`
+    - **Surface forcing:** `WIND_CONFIG = data_override`, `BUOY_CONFIG = data_override`
+    - **Run length:** 180 days
+
+    Read from this run's `MOM_parameter_doc.all`. Source: [upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/single_column/KPP).
 
 Configuration files: [`ocean_only/single_column/KPP`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/single_column/KPP) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under Provenance.)
 
@@ -40,7 +47,7 @@ Last lines of `ocean.stats`:
 
 ## Domain, forcing and output
 
-Made by running the notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) on this run's output folder (code hidden here). It only plots files MOM6 wrote during the run.
+Made by running the notebook [`explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb) on this run's output folder; it only plots files MOM6 wrote during the run. **[See the notebook with its code](../notebooks/single_column-KPP.md)**.
 
 ### Set-up
 

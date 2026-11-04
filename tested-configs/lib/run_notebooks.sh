@@ -8,6 +8,7 @@
 # stage loads it. For each run it writes
 #   $WORK_ROOT/notebooks/<name>.ipynb                      executed notebook (not kept in git)
 #   results/<name>/notebook.md                              rendered output, code hidden
+#   results/<name>/notebook_full.md                         rendered with the code (notebook sub-page)
 #   documentation/docs/assets/tested-configs/notebooks/<name>/*.png   its figures
 # lib/make_pages.py then puts notebook.md on the configuration's page.
 # Written with Claude Code for github.com/ACCESS-Community-Hub/mom6-idealised-configs
@@ -57,5 +58,14 @@ PY
     sed -e "s|](notebook_files/|](@ASSETS@/tested-configs/notebooks/$name/|g" \
         -e '/^# Explore one MOM6 run/,/^To use it on your own run/d' \
         "$tmp/notebook.md" > "$HERE/results/$name/notebook.md"
-    rm "$tmp/notebook.md"; rmdir "$tmp/notebook_files" 2>/dev/null; rmdir "$tmp"
+    rm "$tmp/notebook.md"; rmdir "$tmp/notebook_files" 2>/dev/null
+    # Full version with the code, for the notebook sub-page. Rendered into its own folder
+    # under the same name, so its figure files are named exactly as the ones moved above.
+    mkdir -p "$tmp/full"
+    jupyter nbconvert --log-level WARN --to markdown --output-dir "$tmp/full" --output notebook \
+        "$EXEC_DIR/$name.ipynb"
+    sed -e "s|](notebook_files/|](@ASSETS@/tested-configs/notebooks/$name/|g" \
+        "$tmp/full/notebook.md" > "$HERE/results/$name/notebook_full.md"
+    for f in "$tmp"/full/notebook_files/*; do [ -e "$f" ] && rm "$f"; done
+    rm "$tmp/full/notebook.md"; rmdir "$tmp/full/notebook_files" 2>/dev/null; rmdir "$tmp/full" "$tmp"
 done

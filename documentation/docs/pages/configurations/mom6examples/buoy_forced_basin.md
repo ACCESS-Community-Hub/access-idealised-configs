@@ -4,7 +4,10 @@
     Tested on 2026-11-04 with `access-om3/2026.05.004`. The model goes numerically unstable: after about 105 model days (of the 100 years set by `DAYMAX = 36500`) it stops with `write_energy : Ocean velocity has been truncated too many times`.
 
 
-Set-up not recorded (this run failed) ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/buoy_forced_basin))
+!!! abstract "Description (as on the Overview)"
+    - Set-up not recorded (this run failed)
+
+    Read from this run's `MOM_parameter_doc.all`. Source: [upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/buoy_forced_basin).
 
 Configuration files: [`ocean_only/buoy_forced_basin`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/buoy_forced_basin) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under Provenance.)
 

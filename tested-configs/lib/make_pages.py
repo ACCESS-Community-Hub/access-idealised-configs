@@ -105,6 +105,44 @@ def setup_line(s):
     return ", ".join(parts)
 
 
+def setup_points(s):
+    """The same set-up facts as setup_line(), one per dot point (for the configuration page)."""
+    k = (s or {}).get("key_params") or {}
+    if not k:
+        return ["- Set-up not recorded (this run failed)"]
+    v = lambda p: k.get(p, "").strip('"')
+    pts = [f"- **Grid:** {v('NIGLOBAL')} x {v('NJGLOBAL')} points, {v('NK')} layers/levels "
+           f"(`GRID_CONFIG = {v('GRID_CONFIG')}`)",
+           "- **Vertical coordinate:** " + (f"`{v('REGRIDDING_COORDINATE_MODE')}`" if v("USE_REGRIDDING") == "True"
+                                            else "layer mode (no regridding)"),
+           f"- **Topography:** `TOPO_CONFIG = {v('TOPO_CONFIG')}`"]
+    forcing = []
+    if v("WIND_CONFIG"):
+        forcing.append(f"`WIND_CONFIG = {v('WIND_CONFIG')}`")
+    if v("BUOY_CONFIG"):
+        forcing.append(f"`BUOY_CONFIG = {v('BUOY_CONFIG')}`")
+    if forcing:
+        pts.append("- **Surface forcing:** " + ", ".join(forcing))
+    if v("ICE_SHELF") == "True":
+        pts.append("- **Ice shelf:** yes")
+    try:
+        pts.append(f"- **Run length:** {float(v('DAYMAX')) * float(v('TIMEUNIT')) / 86400:g} days")
+    except ValueError:
+        pass
+    return pts
+
+
+def description_box(name, ex, s):
+    """Admonition with the same description as the Overview table, as dot points, plus sources."""
+    lines = ['!!! abstract "Description (as on the Overview)"']
+    if ex["variant"]:
+        changes = ", ".join(f"`{c}`" for c in ex["variant"][1].split(","))
+        lines += [f"    Variant of [`{ex['base']}`]({ex['base']}.md) with {changes}.", ""]
+    lines += ["    " + p for p in setup_points(s)]
+    lines += ["", f"    Read from this run's `MOM_parameter_doc.all`. Source: {upstream_links(ex)}."]
+    return lines
+
+
 def upstream_links(ex):
     """Link to the example's directory upstream, and to its README if it (or a parent) has one."""
     links = [f"[upstream]({UPSTREAM}/tree/{commit}/{ex['example']})"]
@@ -191,9 +229,15 @@ NOTEBOOK_URL = ("https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/
                 "tested-configs/notebooks/explore_run.ipynb")
 
 
-def notebook_section(name, assets, level=2):
+NOTEBOOK_PAGES = os.path.join(DOCS, "pages", "configurations", "notebooks")
+SUMMARISE_URL = ("https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/blob/main/"
+                 "tested-configs/lib/summarise_run.py")
+
+
+def notebook_section(name, assets, nb_link, level=2):
     """The rendered explore_run notebook for this run (results/<name>/notebook.md, written by
-    lib/run_notebooks.sh), with its headings put `level` deep and figure paths made relative."""
+    lib/run_notebooks.sh), with its headings put `level` deep and figure paths made relative.
+    nb_link: relative link from the page to this run's full notebook page (with the code)."""
     path = os.path.join(HERE, "results", name, "notebook.md")
     if not os.path.exists(path):
         return []
@@ -201,7 +245,25 @@ def notebook_section(name, assets, level=2):
     body = [("#" * level) + l[1:] if l.startswith("## ") else l for l in body]
     return ["#" * level + " Domain, forcing and output", "",
             f"Made by running the notebook [`explore_run.ipynb`]({NOTEBOOK_URL}) on this run's "
-            "output folder (code hidden here). It only plots files MOM6 wrote during the run.", ""] + body + [""]
+            f"output folder; it only plots files MOM6 wrote during the run. "
+            f"**[See the notebook with its code]({nb_link})**.", ""] + body + [""]
+
+
+def write_notebook_page(name, back_link, back_title):
+    """pages/configurations/notebooks/<name>.md: the executed notebook with its code
+    (results/<name>/notebook_full.md, written by lib/run_notebooks.sh)."""
+    path = os.path.join(HERE, "results", name, "notebook_full.md")
+    if not os.path.exists(path):
+        return
+    os.makedirs(NOTEBOOK_PAGES, exist_ok=True)
+    body = open(path).read().replace("@ASSETS@", "../../../assets").strip().splitlines()
+    body = [("#" + l) if l.startswith("#") else l for l in body]      # page has its own title
+    head = [f"# {back_title}: notebook", "",
+            f"The notebook [`explore_run.ipynb`]({NOTEBOOK_URL}) as it ran on the output folder of "
+            f"the tested run, with its code and output. It made the figures in the \"Domain, forcing "
+            f"and output\" section of [{back_title}]({back_link}); the \"What we got\" figure on that "
+            f"page is made by [`lib/summarise_run.py`]({SUMMARISE_URL}).", ""]
+    open(os.path.join(NOTEBOOK_PAGES, name + ".md"), "w").write("\n".join(head + body) + "\n")
 
 
 def status_banner(name, s):
@@ -224,7 +286,7 @@ def example_page(ex, s):
     name, example = ex["name"], ex["example"]
     lines = [f"# {name.replace('-', ' / ')}", ""]
     lines += [status_banner(name, s), ""]
-    lines += [describe(name, ex), ""]
+    lines += description_box(name, ex, s) + [""]
     if ex["variant"]:
         lines += [f"This is a copy of [{ex['base']}]({ex['base']}.md) with these lines added to "
                   "`MOM_override`, e.g. to run long enough to see a spun-up state:", "", "```text"]
@@ -272,12 +334,12 @@ def figure_lines(name, s, assets):
     return [f"![{name}]({assets}/tested-configs/{name}.png)", "", f"*{s.get('figure_note', '')}.*", ""]
 
 
-def results_section(name, s, assets, config_rows, reference_label, show_figure=True):
+def results_section(name, s, assets, config_rows, reference_label, show_figure=True, nb_prefix="../notebooks/"):
     """Markdown lines for "What we got", the notebook section (if any) and "Provenance" of one run.
     assets: path from the page to docs/assets; config_rows: table rows naming the config source;
     show_figure=False when the page shows the figure higher up (community pages)."""
     lines = []
-    notebook = notebook_section(name, assets)
+    notebook = notebook_section(name, assets, f"{nb_prefix}{name}.md")
     if not s["ok"] and s.get("failure_log"):
         lines += ['??? failure "End of the error log"', "    ```text",
                   indent("\n".join(s["failure_log"])), "    ```", ""]
@@ -371,7 +433,8 @@ def standalone_fragment(name, s):
                 f"walltime used {pbs.get('Walltime Used', '?')}, {pbs.get('Service Units', '?')} SU.", ""]
     else:
         head = ['!!! failure "Tested: this configuration did NOT run successfully"', ""]
-    body = results_section(name, s, "../../assets", STANDALONE[name], REFERENCE_LABEL[name], show_figure=False)
+    body = results_section(name, s, "../../assets", STANDALONE[name], REFERENCE_LABEL[name], show_figure=False,
+                           nb_prefix="notebooks/")
     # demote headings one level so they sit under the page's "Tested run" section
     body = [("#" + l) if l.startswith("##") else l for l in body]
     return "\n".join(head + body)
@@ -419,6 +482,7 @@ for i, ex in enumerate(examples):
     elif os.path.exists(asset):
         os.remove(asset)                     # generated file from an earlier run
     open(os.path.join(PAGES, ex["name"] + ".md"), "w").write(example_page(ex, s) + "\n")
+    write_notebook_page(ex["name"], f"../mom6examples/{ex['name']}.md", ex["name"].replace("-", " / "))
     flag = " &dagger;" if is_excluded(ex["example"]) else ""   # see note under the table
     rows.append(table_row(f"[{ex['name']}](mom6examples/{ex['name']}.md)", [section_tag(ex["section"])],
                           f"{status_badge(s)}{flag}", ex["ncpus"], prerequisites(ex["name"], s),
@@ -437,6 +501,8 @@ for name in STANDALONE:
                   "[Tested run](#tested-run)). The run is short, so this shows the model early in its "
                   "spin-up, not an equilibrated state.*")
     open(os.path.join(HERE, "results", name, "figure.md"), "w").write("\n".join(fig) + "\n")
+    page = {"anu-tub-zstar": ("../anu-tub.md", "ANU-TUB"), "isomip-plus-ocean0": ("../isomip-plus.md", "ISOMIP+ Ocean0")}[name]
+    write_notebook_page(name, *page)
     text = standalone_fragment(name, s) if s else '!!! warning "Not yet tested"\n    No test run has been recorded yet.'
     open(os.path.join(HERE, "results", name, "tested.md"), "w").write(text + "\n")
 
@@ -449,8 +515,14 @@ for name, link, tags, prereq, text in COMMUNITY:
                                     text + (f" Tested set-up: {setup}." if setup else "")))
 write_table("table-community.md", community_rows)
 write_table("table-mom6examples.md", rows)
-for name, *_ in COMMUNITY:
-    open(os.path.join(HERE, "results", name, "status.md"), "w").write(status_banner(name, load_summary(name)))
+for name, link, tags, prereq, text in COMMUNITY:
+    s = load_summary(name)
+    open(os.path.join(HERE, "results", name, "status.md"), "w").write(status_banner(name, s))
+    # same description as the Overview table (README quote), with the tested set-up as dot points
+    box = ['!!! abstract "Description (as on the Overview)"', "    " + text, ""]
+    box += ["    Tested set-up, read from this run's `MOM_parameter_doc.all`:", ""]
+    box += ["    " + p for p in setup_points(s)]
+    open(os.path.join(HERE, "results", name, "description.md"), "w").write("\n".join(box) + "\n")
 
 n_comm_ok = sum(1 for name, *_ in COMMUNITY if (load_summary(name) or {}).get("ok"))
 n_ex_ok = sum(1 for ex in examples if (load_summary(ex["name"]) or {}).get("ok"))

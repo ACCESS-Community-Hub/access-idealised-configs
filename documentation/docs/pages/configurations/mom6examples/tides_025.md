@@ -4,7 +4,10 @@
     Tested on 2026-11-04 with `access-om3/2026.05.004`. Needs the OM4 1/4° grid files (`ocean_hgrid.nc`, `ocean_topog.nc`, `All_edits.nc`) in `INPUT/`, which the repository does not link (`set_grid_metrics_from_mosaic: Unable to open INPUT/ocean_hgrid.nc`).
 
 
-Set-up not recorded (this run failed) ([upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/tides_025))
+!!! abstract "Description (as on the Overview)"
+    - Set-up not recorded (this run failed)
+
+    Read from this run's `MOM_parameter_doc.all`. Source: [upstream](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/tides_025).
 
 Configuration files: [`ocean_only/tides_025`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/tides_025) in NOAA-GFDL/MOM6-examples, at commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802): the version this run used. (The model itself is the `mom6-solo` listed under Provenance.)
 
