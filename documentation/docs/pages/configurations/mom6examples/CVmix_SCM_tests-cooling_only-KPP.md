@@ -29,7 +29,7 @@ where `CVmix_SCM_tests-cooling_only-KPP.sh` is the script below (click to expand
 
 ![CVmix_SCM_tests-cooling_only-KPP](../../../assets/tested-configs/CVmix_SCM_tests-cooling_only-KPP.png)
 
-*Left: `e` time-depth evolution; right: total energy (`En`) from `ocean.stats.nc`.*
+*Left: `temp` time-depth evolution; right: total energy (`En`) from `ocean.stats.nc`.*
 
 Last lines of `ocean.stats`:
 

@@ -29,7 +29,7 @@ where `double_gyre.sh` is the script below (click to expand; copy button top-rig
 
 ![double_gyre](../../../assets/tested-configs/double_gyre.png)
 
-*Left: `e` (level 0) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
+*Left: sea-surface height (`e`, top interface) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
 
 Last lines of `ocean.stats`:
 
@@ -108,7 +108,7 @@ This example needs no input files: grid, bathymetry, initial state and forcing a
 
 ??? info "payu config.yaml written by the script"
     ```yaml
-    # payu configuration for MOM6-examples/ocean_only/double_gyre (written by double_gyre.sh)
+    # payu configuration for MOM6-examples/ocean_only/double_gyre (written by setup.sh)
     project: tm70
     queue: normalsr          # mom6-solo is compiled for Sapphire Rapids nodes
     ncpus: 8
@@ -119,6 +119,7 @@ This example needs no input files: grid, bathymetry, initial state and forcing a
 
     model: mom6
     exe: mom6-solo           # found on PATH once the module below is loaded
+
 
     modules:
       use:

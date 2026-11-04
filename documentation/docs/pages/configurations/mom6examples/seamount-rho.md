@@ -29,7 +29,7 @@ where `seamount-rho.sh` is the script below (click to expand; copy button top-ri
 
 ![seamount-rho](../../../assets/tested-configs/seamount-rho.png)
 
-*Left: `e` vertical section (model levels) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
+*Left: `salt` vertical section (model levels) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
 
 Last lines of `ocean.stats`:
 

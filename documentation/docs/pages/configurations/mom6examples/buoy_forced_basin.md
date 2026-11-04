@@ -67,10 +67,6 @@ where `buoy_forced_basin.sh` is the script below (click to expand; copy button t
 
 ## What we got
 
-![buoy_forced_basin](../../../assets/tested-configs/buoy_forced_basin.png)
-
-*Left: no suitable diagnostic.*
-
 ## Provenance
 
 | What | Value |

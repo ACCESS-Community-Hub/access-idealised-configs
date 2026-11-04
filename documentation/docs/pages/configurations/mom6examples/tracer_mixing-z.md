@@ -29,7 +29,7 @@ where `tracer_mixing-z.sh` is the script below (click to expand; copy button top
 
 ![tracer_mixing-z](../../../assets/tested-configs/tracer_mixing-z.png)
 
-*Left: `e` (level 0) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
+*Left: `temp` vertical section (model levels) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
 
 Last lines of `ocean.stats`:
 

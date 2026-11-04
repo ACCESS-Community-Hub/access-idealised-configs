@@ -32,7 +32,7 @@ where `resting-z.sh` is the script below (click to expand; copy button top-right
 
 ![resting-z](../../../assets/tested-configs/resting-z.png)
 
-*Left: `e` vertical section (model levels) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
+*Left: `salt` vertical section (model levels) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
 
 Last lines of `ocean.stats`:
 

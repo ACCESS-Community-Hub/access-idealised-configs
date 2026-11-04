@@ -70,10 +70,6 @@ where `ISOMIP-rho.sh` is the script below (click to expand; copy button top-righ
 
 ## What we got
 
-![ISOMIP-rho](../../../assets/tested-configs/ISOMIP-rho.png)
-
-*Left: no suitable diagnostic.*
-
 ## Provenance
 
 | What | Value |

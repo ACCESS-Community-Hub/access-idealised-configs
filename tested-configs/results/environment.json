@@ -1,7 +1,7 @@
 {
  "date": "2026-11-04",
- "host": "gadi-cpu-bdw-0003.gadi.nci.org.au",
- "website_commit": "9221cc875cf2f0613d7a5b9b0a06cbff454231c2",
+ "host": "gadi-cpu-bdw-0002.gadi.nci.org.au",
+ "website_commit": "0bf2ffcfef6199dd6461cbbc64d2bdaf06f3d671",
  "mom6_examples_commit": "c1730b8efe16cf7f12fc8db588115cae50f3e802",
  "access_om3_module": "access-om3/2026.05.004",
  "access_mom6_module": "access-mom6/2026.05.003-ld7hklz",

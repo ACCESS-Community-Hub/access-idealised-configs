@@ -29,7 +29,7 @@ where `seamount-sigma.sh` is the script below (click to expand; copy button top-
 
 ![seamount-sigma](../../../assets/tested-configs/seamount-sigma.png)
 
-*Left: `e` vertical section (model levels) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
+*Left: `salt` vertical section (model levels) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
 
 Last lines of `ocean.stats`:
 

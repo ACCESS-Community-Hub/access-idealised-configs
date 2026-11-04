@@ -2,6 +2,7 @@
  "name": "seamount-layer",
  "control_dir": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/seamount/layer",
  "output_dir": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/lab/archive/seamount-layer/output000",
+ "stats_file": "ocean.stats",
  "ocean_stats_tail": [
   "   192,       2.000,     0, En 8.7894793127269044E-14, CFL  0.00000, SL -4.5475E-13, M 7.54620E+15, S 34.9374, T  0.0000, Me -5.53E-18, Se -5.23E-15, Te  0.00E+00",
   "   288,       3.000,     0, En 8.7894037204077209E-14, CFL  0.00000, SL -4.5475E-13, M 7.54620E+15, S 34.9374, T  0.0000, Me -1.09E-17, Se -3.91E-15, Te  0.00E+00",
@@ -90,5 +91,5 @@
   "prog.nc": 5838888
  },
  "figure": "figure.png",
- "figure_note": "Left: `e` vertical section (model levels) at the last output time; right: total energy (`En`) from `ocean.stats.nc`"
+ "figure_note": "Left: `salt` vertical section (model levels) at the last output time; right: total energy (`En`) from `ocean.stats.nc`"
 }

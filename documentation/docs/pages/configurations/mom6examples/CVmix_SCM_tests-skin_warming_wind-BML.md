@@ -61,10 +61,6 @@ where `CVmix_SCM_tests-skin_warming_wind-BML.sh` is the script below (click to e
 
 ## What we got
 
-![CVmix_SCM_tests-skin_warming_wind-BML](../../../assets/tested-configs/CVmix_SCM_tests-skin_warming_wind-BML.png)
-
-*Left: no suitable diagnostic.*
-
 ## Provenance
 
 | What | Value |

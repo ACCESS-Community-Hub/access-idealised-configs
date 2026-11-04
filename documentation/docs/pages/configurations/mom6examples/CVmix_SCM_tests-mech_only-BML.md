@@ -61,10 +61,6 @@ where `CVmix_SCM_tests-mech_only-BML.sh` is the script below (click to expand; c
 
 ## What we got
 
-![CVmix_SCM_tests-mech_only-BML](../../../assets/tested-configs/CVmix_SCM_tests-mech_only-BML.png)
-
-*Left: no suitable diagnostic.*
-
 ## Provenance
 
 | What | Value |

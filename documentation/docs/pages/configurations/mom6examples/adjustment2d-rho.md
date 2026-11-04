@@ -29,7 +29,7 @@ where `adjustment2d-rho.sh` is the script below (click to expand; copy button to
 
 ![adjustment2d-rho](../../../assets/tested-configs/adjustment2d-rho.png)
 
-*Left: `e` (level 0) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
+*Left: `salt` vertical section (model levels) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
 
 Last lines of `ocean.stats`:
 

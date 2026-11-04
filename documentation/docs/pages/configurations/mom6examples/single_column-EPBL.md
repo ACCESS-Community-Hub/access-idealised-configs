@@ -29,7 +29,7 @@ where `single_column-EPBL.sh` is the script below (click to expand; copy button 
 
 ![single_column-EPBL](../../../assets/tested-configs/single_column-EPBL.png)
 
-*Left: `e` time-depth evolution; right: total energy (`En`) from `ocean.stats.nc`.*
+*Left: `temp` time-depth evolution; right: total energy (`En`) from `ocean.stats.nc`.*
 
 Last lines of `ocean.stats`:
 

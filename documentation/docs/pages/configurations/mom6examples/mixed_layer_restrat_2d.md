@@ -32,7 +32,7 @@ where `mixed_layer_restrat_2d.sh` is the script below (click to expand; copy but
 
 ![mixed_layer_restrat_2d](../../../assets/tested-configs/mixed_layer_restrat_2d.png)
 
-*Left: `e` (level 0) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
+*Left: `temp` vertical section (model levels) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
 
 Last lines of `ocean.stats`:
 

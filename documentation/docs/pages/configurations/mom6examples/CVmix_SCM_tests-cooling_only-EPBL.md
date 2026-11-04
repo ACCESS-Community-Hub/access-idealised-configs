@@ -29,7 +29,7 @@ where `CVmix_SCM_tests-cooling_only-EPBL.sh` is the script below (click to expan
 
 ![CVmix_SCM_tests-cooling_only-EPBL](../../../assets/tested-configs/CVmix_SCM_tests-cooling_only-EPBL.png)
 
-*Left: `e` time-depth evolution; right: total energy (`En`) from `ocean.stats.nc`.*
+*Left: `temp` time-depth evolution; right: total energy (`En`) from `ocean.stats.nc`.*
 
 Last lines of `ocean.stats`:
 

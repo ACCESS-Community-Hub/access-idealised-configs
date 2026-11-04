@@ -35,7 +35,7 @@ where `double_gyre-10yr.sh` is the script below (click to expand; copy button to
 
 ![double_gyre-10yr](../../../assets/tested-configs/double_gyre-10yr.png)
 
-*Left: `e` (level 0) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
+*Left: sea-surface height (`e`, top interface) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
 
 Last lines of `ocean.stats`:
 

@@ -32,7 +32,7 @@ where `flow_downslope-z.sh` is the script below (click to expand; copy button to
 
 ![flow_downslope-z](../../../assets/tested-configs/flow_downslope-z.png)
 
-*Left: `e` (level 0) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
+*Left: `temp` vertical section (model levels) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
 
 Last lines of `ocean.stats`:
 

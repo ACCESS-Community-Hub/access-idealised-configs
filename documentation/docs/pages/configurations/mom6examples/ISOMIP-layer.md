@@ -70,10 +70,6 @@ where `ISOMIP-layer.sh` is the script below (click to expand; copy button top-ri
 
 ## What we got
 
-![ISOMIP-layer](../../../assets/tested-configs/ISOMIP-layer.png)
-
-*Left: no suitable diagnostic.*
-
 ## Provenance
 
 | What | Value |

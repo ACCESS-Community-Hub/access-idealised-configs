@@ -2,6 +2,7 @@
  "name": "single_column-KPP",
  "control_dir": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/single_column/KPP",
  "output_dir": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/lab/archive/single_column-KPP/output000",
+ "stats_file": "ocean.stats",
  "ocean_stats_tail": [
   "  3600,     150.000,     0, En 2.6581660793916669E-06, CFL  0.00516, SL -1.8852E-01, M 7.69488E+16, S 35.1304, T  4.7789, Me -2.00E-17, Se -1.33E-14, Te -1.41E-15",
   "  3840,     160.000,     0, En 4.8690719734792948E-06, CFL  0.00541, SL -1.9602E-01, M 7.69487E+16, S 35.1305, T  4.7836, Me  1.73E-17, Se -6.65E-15, Te  8.84E-16",
@@ -489,5 +490,5 @@
   "visc.nc": 3986900
  },
  "figure": "figure.png",
- "figure_note": "Left: `e` time-depth evolution; right: total energy (`En`) from `ocean.stats.nc`"
+ "figure_note": "Left: `temp` time-depth evolution; right: total energy (`En`) from `ocean.stats.nc`"
 }

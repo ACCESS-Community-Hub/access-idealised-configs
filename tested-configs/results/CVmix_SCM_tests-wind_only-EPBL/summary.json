@@ -2,6 +2,7 @@
  "name": "CVmix_SCM_tests-wind_only-EPBL",
  "control_dir": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/CVmix_SCM_tests/wind_only/EPBL",
  "output_dir": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/lab/archive/CVmix_SCM_tests-wind_only-EPBL/output000",
+ "stats_file": "ocean.stats",
  "ocean_stats_tail": [
   "   306,       4.250,     0, En 4.3604882629506759E-05, CFL  0.00056, SL -3.4106E-13, M 1.98264E+16, S 35.0000, T 13.0000, Me  0.00E+00, Se -6.46E-15, Te  3.31E-15",
   "   324,       4.500,     0, En 5.3290095640337534E-05, CFL  0.00097, SL -3.4106E-13, M 1.98264E+16, S 35.0000, T 13.0000, Me  0.00E+00, Se  6.46E-15, Te  3.31E-15",
@@ -96,5 +97,5 @@
   "visc.nc": 410940
  },
  "figure": "figure.png",
- "figure_note": "Left: `e` time-depth evolution; right: total energy (`En`) from `ocean.stats.nc`"
+ "figure_note": "Left: `temp` time-depth evolution; right: total energy (`En`) from `ocean.stats.nc`"
 }

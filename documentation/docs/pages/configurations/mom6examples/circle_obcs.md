@@ -29,7 +29,7 @@ where `circle_obcs.sh` is the script below (click to expand; copy button top-rig
 
 ![circle_obcs](../../../assets/tested-configs/circle_obcs.png)
 
-*Left: `e` (level 0) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
+*Left: sea-surface height (`e`, top interface) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
 
 Last lines of `ocean.stats`:
 

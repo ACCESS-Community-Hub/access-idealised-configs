@@ -29,7 +29,7 @@ where `single_column-BML.sh` is the script below (click to expand; copy button t
 
 ![single_column-BML](../../../assets/tested-configs/single_column-BML.png)
 
-*Left: `e` time-depth evolution; right: total energy (`En`) from `ocean.stats.nc`.*
+*Left: `temp` time-depth evolution; right: total energy (`En`) from `ocean.stats.nc`.*
 
 Last lines of `ocean.stats`:
 

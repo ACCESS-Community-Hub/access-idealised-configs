@@ -29,7 +29,7 @@ where `CVmix_SCM_tests-skin_warming_wind-EPBL.sh` is the script below (click to 
 
 ![CVmix_SCM_tests-skin_warming_wind-EPBL](../../../assets/tested-configs/CVmix_SCM_tests-skin_warming_wind-EPBL.png)
 
-*Left: `e` time-depth evolution; right: total energy (`En`) from `ocean.stats.nc`.*
+*Left: `temp` time-depth evolution; right: total energy (`En`) from `ocean.stats.nc`.*
 
 Last lines of `ocean.stats`:
 

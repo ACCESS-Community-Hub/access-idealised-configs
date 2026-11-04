@@ -29,7 +29,7 @@ where `benchmark.sh` is the script below (click to expand; copy button top-right
 
 ![benchmark](../../../assets/tested-configs/benchmark.png)
 
-*Left: `e` (level 0) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
+*Left: sea-surface height (`e`, top interface) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
 
 Last lines of `ocean.stats`:
 

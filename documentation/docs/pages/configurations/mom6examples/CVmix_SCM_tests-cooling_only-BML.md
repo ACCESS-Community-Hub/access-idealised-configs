@@ -61,10 +61,6 @@ where `CVmix_SCM_tests-cooling_only-BML.sh` is the script below (click to expand
 
 ## What we got
 
-![CVmix_SCM_tests-cooling_only-BML](../../../assets/tested-configs/CVmix_SCM_tests-cooling_only-BML.png)
-
-*Left: no suitable diagnostic.*
-
 ## Provenance
 
 | What | Value |

@@ -29,7 +29,7 @@ where `tracer_mixing-rho.sh` is the script below (click to expand; copy button t
 
 ![tracer_mixing-rho](../../../assets/tested-configs/tracer_mixing-rho.png)
 
-*Left: `e` (level 0) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
+*Left: `temp` vertical section (model levels) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
 
 Last lines of `ocean.stats`:
 

@@ -2,6 +2,7 @@
  "name": "isomip-plus-ocean0",
  "control_dir": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/isomip-plus/config",
  "output_dir": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/lab/archive/isomip-plus-ocean0/output000",
+ "stats_file": "ocean.stats",
  "ocean_stats_tail": [
   " 10755,      89.625,     0, En 2.6752921586712817E-04, CFL  0.09251, SL  0.0000E+00, M 1.33984E+16, S 34.2592, T -0.3998, Me -1.07E-14, Se  3.34E-05, Te  1.04E-04",
   " 10770,      89.750,     0, En 2.6781129850780042E-04, CFL  0.09251, SL  0.0000E+00, M 1.33984E+16, S 34.2592, T -0.3998, Me -1.07E-14, Se  3.34E-05, Te  1.04E-04",

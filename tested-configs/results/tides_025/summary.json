@@ -2,6 +2,7 @@
  "name": "tides_025",
  "control_dir": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/tides_025",
  "output_dir": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/lab/archive/tides_025/output000",
+ "stats_file": "ocean.stats",
  "ocean_stats_tail": [],
  "ok": false,
  "failure_log": [
@@ -438,6 +439,5 @@
   "changed": {}
  },
  "output_files": {},
- "figure": "figure.png",
- "figure_note": "Left: no suitable diagnostic"
+ "figure_error": "RuntimeError('run failed: no figure')"
 }

@@ -29,7 +29,7 @@ where `adjustment2d-z.sh` is the script below (click to expand; copy button top-
 
 ![adjustment2d-z](../../../assets/tested-configs/adjustment2d-z.png)
 
-*Left: `e` (level 0) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
+*Left: `salt` vertical section (model levels) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
 
 Last lines of `ocean.stats`:
 

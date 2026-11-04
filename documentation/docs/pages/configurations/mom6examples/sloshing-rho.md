@@ -32,7 +32,7 @@ where `sloshing-rho.sh` is the script below (click to expand; copy button top-ri
 
 ![sloshing-rho](../../../assets/tested-configs/sloshing-rho.png)
 
-*Left: `e` vertical section (model levels) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
+*Left: `temp` vertical section (model levels) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
 
 Last lines of `ocean.stats`:
 

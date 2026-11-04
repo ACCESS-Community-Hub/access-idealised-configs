@@ -7,7 +7,7 @@ This section shows which of the ocean-only (`ocean_only/`) cases run on NCI Gadi
 **prebuilt MOM6 ocean-only executable `mom6-solo` from the ACCESS-OM3 release**, so
 you don't have to compile MOM6 yourself.
 
-**48 of 57 tested runs completed successfully** (tested on 2026-11-04).
+**49 of 57 tested runs completed successfully** (tested on 2026-11-04).
 
 !!! note "Generated with Claude Code"
     Everything in this section was run, checked and written up automatically by
@@ -113,7 +113,7 @@ is kept.
 | [global_ALE-hycom](mom6examples/global_ALE-hycom.md) | :white_check_mark: ran | 64 | 1.67 | Global 1° ocean with ALE hybrid (HYCOM-like) coordinates. |
 | [global_ALE-layer](mom6examples/global_ALE-layer.md) | :white_check_mark: ran | 64 | 1.46 | Global 1° ocean with ALE in layer mode. |
 | [global_ALE-z](mom6examples/global_ALE-z.md) | :white_check_mark: ran | 64 | 1.32 | Global 1° ocean with ALE z* coordinates. |
-| [MESO_025_23L](mom6examples/MESO_025_23L.md) | :x: failed &dagger; | 288 | 13.69 | Near-global 1/4° (1440 x 450 Mercator, 74°S-74°N) "MESO" configuration with 23 layers. |
+| [MESO_025_23L](mom6examples/MESO_025_23L.md) | :white_check_mark: ran &dagger; | 288 | 13.69 | Near-global 1/4° (1440 x 450 Mercator, 74°S-74°N) "MESO" configuration with 23 layers. |
 | [MESO_025_63L](mom6examples/MESO_025_63L.md) | :white_check_mark: ran &dagger; | 288 | 21.49 | Near-global 1/4° "MESO" configuration with 63 layers. |
 | [tides_025](mom6examples/tides_025.md) | :x: failed &dagger; | 480 | 22.24 | Global 1/4° (1440 x 1080) non-Boussinesq, two-layer tides configuration. |
 
@@ -137,7 +137,7 @@ a few extra lines in `MOM_override`, such as a longer run, to show a spun-up sta
 | Executable | `/g/data/vk83/apps/spack/1.1/release/linux-x86_64_v4/access-mom6-2026.05.003-ld7hklzo5ajizx5u4yl74i4ijberrpv6/bin/mom6-solo` |
 | Executable md5 | `4785d157c76c30d8d01baf7d0f69d218` |
 | payu | `payu 1.3.6_1` |
-| Scripts (this repository) | commit `9221cc875cf2f0613d7a5b9b0a06cbff454231c2` |
+| Scripts (this repository) | commit `0bf2ffcfef6199dd6461cbbc64d2bdaf06f3d671` |
 
 The pipeline lives in [`tested-configs/`](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/tree/main/tested-configs):
 

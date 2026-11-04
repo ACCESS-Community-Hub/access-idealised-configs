@@ -4,6 +4,9 @@ Dynamics of Overflow Mixing and Entrainment: dense water flows from an embayment
 
 Upstream configuration: [`ocean_only/DOME`](https://github.com/NOAA-GFDL/MOM6-examples/tree/c1730b8efe16cf7f12fc8db588115cae50f3e802/ocean_only/DOME) (MOM6-examples commit [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802)).
 
+!!! warning "Known issue"
+    Not a failure: the run is fine, but its `diag_table` writes diagnostics every 5 days while the example runs for only 2 days (`DAYMAX = 2`), so the output files hold one empty record and only the energy time series can be plotted. Increase `DAYMAX` (or the output frequency) to see the overflow.
+
 !!! success "Tested: this example runs"
     Ran on Gadi on 2026-11-04 with `access-om3/2026.05.004` (`mom6-solo`) and `payu/1.3.6_1` on 6 Sapphire Rapids core(s); walltime used 00:00:19, 0.06 SU.
 
@@ -29,7 +32,7 @@ where `DOME.sh` is the script below (click to expand; copy button top-right). It
 
 ![DOME](../../../assets/tested-configs/DOME.png)
 
-*Left: `e` (level 0) at the last output time; right: total energy (`En`) from `ocean.stats.nc`.*
+*Left: no suitable diagnostic; right: total energy (`En`) from `ocean.stats.nc`.*
 
 Last lines of `ocean.stats`:
 

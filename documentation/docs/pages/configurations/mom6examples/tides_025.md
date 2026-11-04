@@ -67,10 +67,6 @@ where `tides_025.sh` is the script below (click to expand; copy button top-right
 
 ## What we got
 
-![tides_025](../../../assets/tested-configs/tides_025.png)
-
-*Left: no suitable diagnostic.*
-
 ## Provenance
 
 | What | Value |

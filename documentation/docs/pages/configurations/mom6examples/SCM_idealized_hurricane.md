@@ -29,7 +29,7 @@ where `SCM_idealized_hurricane.sh` is the script below (click to expand; copy bu
 
 ![SCM_idealized_hurricane](../../../assets/tested-configs/SCM_idealized_hurricane.png)
 
-*Left: `e` time-depth evolution; right: total energy (`En`) from `ocean.stats.nc`.*
+*Left: `temp` time-depth evolution; right: total energy (`En`) from `ocean.stats.nc`.*
 
 Last lines of `ocean.stats`:
 
