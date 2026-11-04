@@ -1,8 +1,8 @@
 # Building MOM6
 
 !!! tip "Do you need to build MOM6?"
-    **To run MOM6 unchanged: no.** Since ACCESS-OM3 `2026.05.x`, the release module provides
-    the ocean-only ("solo") executable:
+    **Not to run MOM6 as released.** The ACCESS-OM3 release module `access-om3/2026.05.004`
+    includes the MOM6 ocean-only executable, `mom6-solo`. To find it:
 
     ```bash
     module use /g/data/vk83/modules
@@ -10,14 +10,13 @@
     which mom6-solo
     ```
 
-    In a payu `config.yaml` put `exe: mom6-solo` and load the module in the `modules:`
-    section, as the scripts on the [configuration pages](../configurations/Overview.md) do.
-    The executable is compiled for Sapphire Rapids, so run it in the `normalsr` queue.
+    To run it with payu, set `exe: mom6-solo` in `config.yaml` and load
+    `access-om3/2026.05.004` in its `modules:` section; the scripts on the
+    [configuration pages](../configurations/Overview.md) do both. The executable is built for
+    Intel Sapphire Rapids CPUs, so run it on the `normalsr` queue.
 
-    You only need to build MOM6 yourself to **change its source code**.
-
-If you notice anything that is missing or could be improved, please
-[raise an issue](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs/issues).
+    You only need to build MOM6 yourself if you want to **change its source code** or use a
+    different version. The rest of this page shows how.
 
 ## Build your own `mom6-solo` with ACCESS-NRI's Spack
 

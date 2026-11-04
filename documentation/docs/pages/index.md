@@ -1,6 +1,5 @@
 !!! danger "Community-driven: not officially supported by ACCESS-NRI"
-    This website and the workflow behind it are **community-driven** and are **not officially
-    supported by ACCESS-NRI**. To report a problem or help improve them, see
+    This website and the workflow behind it are **not officially supported by ACCESS-NRI**. To report a problem or help improve them, see
     [Contributing](contributing.md).
 
 --8<-- "tested-configs/templates/claude_caveat.md"
