@@ -21,8 +21,6 @@ configuration needs membership of the NCI project
 anything else.
 --8<-- "tested-configs/results/status-summary.md"
 
---8<-- "tested-configs/templates/claude_caveat.md"
-
 ## COSIMA community configurations
 
 --8<-- "tested-configs/results/table-community.md"
