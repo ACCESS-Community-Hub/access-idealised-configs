@@ -14,7 +14,7 @@ GFDL excludes this example from its own automated test suite (`EXCLUDE` in [`oce
 
 ## Run it yourself
 
-From a Gadi **login node** (membership of NCI project `vk83` needed, and `ol01` for the input data):
+From a Gadi **login node** (membership of NCI project `vk83` needed):
 
 ```bash
 PROJECT=<your-project> bash idealized_hurricane.sh

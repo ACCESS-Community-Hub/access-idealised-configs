@@ -12,7 +12,7 @@ Upstream configuration: [`ocean_only/single_column/KPP`](https://github.com/NOAA
 
 ## Run it yourself
 
-From a Gadi **login node** (membership of NCI project `vk83` needed, and `ol01` for the input data):
+From a Gadi **login node** (membership of NCI project `vk83` needed):
 
 ```bash
 PROJECT=<your-project> bash single_column-KPP.sh

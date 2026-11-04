@@ -1541,3 +1541,15 @@ img.intro-img {
     display: flex;
   }
 }
+/* Tag filter for the table of all configurations (docs/js/config-filter.js) */
+.cfg-filter { display: flex; flex-wrap: wrap; gap: 0.4em; align-items: center; margin: 0.6em 0; }
+.cfg-tag {
+  display: inline-block; font-size: 0.75em; line-height: 1.5; padding: 0 0.6em; margin: 0.1em 0;
+  border-radius: 1em; border: 1px solid var(--md-default-fg-color--lighter);
+  color: var(--md-default-fg-color); background: var(--md-default-bg-color);
+  white-space: nowrap; cursor: pointer;
+}
+.cfg-filter .cfg-tag { font-size: 0.8em; padding: 0.15em 0.8em; }
+.cfg-tag[aria-pressed="true"] { background: var(--md-accent-fg-color); border-color: var(--md-accent-fg-color); color: var(--md-accent-bg-color); }
+.cfg-tag:focus-visible { outline: 2px solid var(--md-accent-fg-color); outline-offset: 1px; }
+.cfg-count { font-size: 0.75em; color: var(--md-default-fg-color--light); margin-left: 0.4em; }

@@ -6,11 +6,15 @@ that ships with the [ACCESS-OM3 release](https://github.com/ACCESS-NRI/ACCESS-OM
 up and runs it with [payu](https://payu.readthedocs.io), and its page shows the result of
 running that script.
 
-| Configuration | What it is | Contributors | Status |
-|---|---|---|---|
-| [ANU-TUB](#anu-tub) | 1/4° 40°-wide sector (70°S–70°N) with a "Drake Passage", wind and SST-restoring forcing; a test bed for vertical coordinates | Andy Hogg (`AndyHoggANU`), Angus Gibson (`angus-g`) | tested |
-| [ISOMIP+ Ocean0](#isomip-ocean0) | Idealised ice-shelf cavity (warm Ocean0 case), sigma-shelf z* coordinate | Claire Yung (`claireyung`) | tested |
-| [MOM6 examples](#mom6-examples-noaa-gfdl) | GFDL's test cases from [NOAA-GFDL/MOM6-examples](https://github.com/NOAA-GFDL/MOM6-examples): double gyre, seamount, lock exchange, single columns, global, ... | NOAA-GFDL and the MOM6 community | each tested; see [the results table](#results-mom6-examples) |
+## All configurations
+
+Press a tag to show only the configurations that have it; press it again to show all.
+**Community** = Australian community contributions, **GFDL** = GFDL's
+[MOM6 examples](#mom6-examples-noaa-gfdl). Every configuration needs membership of the NCI
+project `vk83` (for the ACCESS-OM3 and payu modules); the Prerequisites column lists
+anything else.
+
+--8<-- "tested-configs/results/configurations-table.md"
 
 !!! note "Tested with Claude Code"
     The run scripts, test results and most of the text on this page were produced with

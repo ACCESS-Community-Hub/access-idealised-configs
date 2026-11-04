@@ -7,6 +7,8 @@ Writes (all generated, do not edit by hand):
   tested-configs/results/mom6examples-section.md                  'MOM6 examples' section of
                                                                   the Configurations page (Overview.md)
   documentation/docs/pages/configurations/mom6examples.md         stub that points there (keeps old URL)
+  tested-configs/results/configurations-table.md                  table of every configuration (tags,
+                                                                  status, prerequisites), filterable by tag
   documentation/docs/pages/configurations/mom6examples/<name>.md  one page per example
   documentation/docs/assets/tested-configs/<name>.png             figures
 and replaces the block between the "generated mom6examples nav" markers in
@@ -91,6 +93,32 @@ def describe(name, ex=None):
     return ""
 
 
+# Short tags for the filter buttons on the Configurations page, one per examples.txt section.
+SECTION_TAGS = {"Basins and channels": "Basin", "Vertical-coordinate tests": "Coordinates",
+                "Ice-shelf cavity": "Ice shelf", "Hurricanes and single columns": "Column",
+                "Realistic": "Realistic"}
+
+
+def section_tag(section):
+    return next((tag for key, tag in SECTION_TAGS.items() if section.startswith(key)), section)
+
+
+def needs_ol01(s):
+    """True if any input file of the run resolves into /g/data/ol01 (GFDL's input data)."""
+    return any("/ol01/" in os.path.realpath(v.get("fullpath", ""))
+               for v in ((s or {}).get("inputs") or {}).values())
+
+
+def prerequisites(name, s):
+    """NCI projects and special input steps, for the Prerequisites column."""
+    items = ["`vk83`"]
+    if needs_ol01(s):
+        items.append("`ol01` (GFDL input data)")
+    if "Unable to open" in known_issues.get(name, "") or "Unable to open" in str(known_issues.get(name.split("-")[0], "")):
+        items.append("**missing input files** (see page)")
+    return ", ".join(items)
+
+
 def load_summary(name):
     path = os.path.join(HERE, "results", name, "summary.json")
     return json.load(open(path)) if os.path.exists(path) else None
@@ -149,7 +177,7 @@ def example_page(ex, s):
 
     lines += ["## Run it yourself", "",
               "From a Gadi **login node** (membership of NCI project `vk83` needed"
-              + (", and `ol01` for the input data" if (s or {}).get("inputs") else "") + "):", "",
+              + (", and `ol01` for the input data" if needs_ol01(s) else "") + "):", "",
               "```bash",
               f"PROJECT=<your-project> bash {name}.sh",
               "```", "",
@@ -269,13 +297,28 @@ def standalone_fragment(name, s):
     return "\n".join(head + body)
 
 
+def table_row(link, tags, status, cores, prereq, description):
+    """One row of the Configurations table; tags become filter buttons (docs/js/config-filter.js)."""
+    tag_html = " ".join(f'<span class="cfg-tag">{t}</span>' for t in tags)
+    return f"| {link} | {tag_html} | {status} | {cores} | {prereq} | {description} |"
+
+
+# The Australian community configurations (pages written by hand, results generated):
+COMMUNITY = [
+    ("anu-tub-zstar", "[ANU-TUB](anu-tub.md)", ["Community", "Basin", "Coordinates"],
+     "`vk83`, `xp65` (the script makes the input files with `conda/analysis3`)",
+     "1/4° 40°-wide sector (70°S–70°N) with a \"Drake Passage\", wind and SST-restoring forcing; "
+     "a test bed for vertical coordinates. By Andy Hogg and Angus Gibson."),
+    ("isomip-plus-ocean0", "[ISOMIP+ Ocean0](isomip-plus.md)", ["Community", "Ice shelf"],
+     "`vk83`; the input file comes from Claire Yung's input repository (the script clones it)",
+     "Idealised ice-shelf cavity (warm Ocean0 case), sigma-shelf z* coordinate. By Claire Yung."),
+]
+
 # ---------------------------------------------------------------------------------
 os.makedirs(PAGES, exist_ok=True)
 os.makedirs(ASSETS, exist_ok=True)
 rows = []
 for i, ex in enumerate(examples):
-    if i == 0 or ex["section"] != examples[i - 1]["section"]:
-        rows.append(f"| **{ex['section']}** | | | | |")
     s = load_summary(ex["name"])
     asset = os.path.join(ASSETS, ex["name"] + ".png")
     if s and s.get("figure"):
@@ -283,10 +326,10 @@ for i, ex in enumerate(examples):
     elif os.path.exists(asset):
         os.remove(asset)                     # generated file from an earlier run
     open(os.path.join(PAGES, ex["name"] + ".md"), "w").write(example_page(ex, s) + "\n")
-    su = (s or {}).get("pbs", {}).get("Service Units", "")
     flag = " &dagger;" if is_excluded(ex["example"]) else ""   # see note under the table
-    rows.append(f"| [{ex['name']}](mom6examples/{ex['name']}.md) | {status_badge(s)}{flag} | {ex['ncpus']} | {su} | "
-                f"{describe(ex['name'], ex)} |")
+    rows.append(table_row(f"[{ex['name']}](mom6examples/{ex['name']}.md)", ["GFDL", section_tag(ex["section"])],
+                          f"{status_badge(s)}{flag}", ex["ncpus"], prerequisites(ex["name"], s),
+                          describe(ex["name"], ex)))
 
 for name in STANDALONE:
     s = load_summary(name)
@@ -297,9 +340,19 @@ for name in STANDALONE:
     text = standalone_fragment(name, s) if s else '!!! warning "Not yet tested"\n    No test run has been recorded yet.'
     open(os.path.join(HERE, "results", name, "tested.md"), "w").write(text + "\n")
 
+community_rows = []
+for name, link, tags, prereq, text in COMMUNITY:
+    s = load_summary(name)
+    cores = (s or {}).get("pbs", {}).get("NCPUs Requested", "")
+    community_rows.append(table_row(link, tags, status_badge(s), cores, prereq, text))
+open(os.path.join(HERE, "results", "configurations-table.md"), "w").write("\n".join(
+    ['<div class="config-table" markdown>', "",
+     "| Configuration | Tags | Status | Cores | Prerequisites | Description |",
+     "|---|---|---|---|---|---|"] + community_rows + rows + ["", "</div>", ""]))
+
 n_ok = sum(1 for ex in examples if (load_summary(ex["name"]) or {}).get("ok"))
 index = open(os.path.join(HERE, "templates", "mom6examples_index.md.in")).read()
-index = (index.replace("@TABLE@", "\n".join(rows))
+index = (index
               .replace("@N_OK@", str(n_ok)).replace("@N_TOTAL@", str(len(examples)))
               .replace("@DATE@", environment["date"])
               .replace("@COMMIT@", commit).replace("@COMMIT8@", commit[:8])

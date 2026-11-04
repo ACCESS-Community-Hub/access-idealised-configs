@@ -52,72 +52,10 @@ is kept.
 
 ### Results: MOM6 examples
 
-| Example | Status | Cores | SU | Description |
-|---|---|---|---|---|
-| **Basins and channels** | | | | |
-| [double_gyre](mom6examples/double_gyre.md) | :white_check_mark: ran | 8 | 0.07 | Wind-driven, adiabatic two-layer double gyre in a 22° x 20° spherical box (30°N-50°N) with "spoon" bathymetry. A classic test bed for western boundary currents (think Gulf Stream/East Australian Current) and their separation. |
-| [double_gyre-10yr](mom6examples/double_gyre-10yr.md) | :white_check_mark: ran | 8 | 0.88 | Variant of `double_gyre` with `DAYMAX=3650.0`. Wind-driven, adiabatic two-layer double gyre in a 22° x 20° spherical box (30°N-50°N) with "spoon" bathymetry. A classic test bed for western boundary currents (think Gulf Stream/East Australian Current) and their separation. |
-| [DOME](mom6examples/DOME.md) | :white_check_mark: ran | 6 | 0.06 | Dynamics of Overflow Mixing and Entrainment: dense water flows from an embayment down a continental slope (Legg et al. 2006 test case). |
-| [Phillips_2layer](mom6examples/Phillips_2layer.md) | :white_check_mark: ran | 64 | 0.89 | Two-layer, flat-bottomed Cartesian channel initialised with a Phillips-type baroclinically unstable flow. |
-| [benchmark](mom6examples/benchmark.md) | :white_check_mark: ran | 72 | 1.16 | The MOM6 benchmark case: a 360 x 180 Mercator basin (41°S-41°N, 22 layers) with analytic "benchmark" bathymetry and stratification, gyre winds and linear buoyancy forcing. |
-| [buoy_forced_basin](mom6examples/buoy_forced_basin.md) | :x: failed &dagger; | 6 | 0.21 | Buoyancy-forced ("BFB") flat-bottomed basin on a Mercator grid (10°N-60°N, 10 levels). |
-| [circle_obcs](mom6examples/circle_obcs.md) | :white_check_mark: ran | 2 | 0.01 | Open-boundary-condition test: a circular anomaly in a 25 x 25 flat box with four open boundary segments. |
-| [external_gwave](mom6examples/external_gwave.md) | :white_check_mark: ran | 2 | 0.01 | Simple gravitational adjustment of a sea-surface displacement (external gravity wave). |
-| [lock_exchange](mom6examples/lock_exchange.md) | :white_check_mark: ran | 2 | 0.01 | Lock-exchange gravity current: two fluids of different density released side by side. |
-| [mixed_layer_restrat_2d](mom6examples/mixed_layer_restrat_2d.md) | :white_check_mark: ran | 2 | 0.01 | Quasi-2-D (4 x 80) Rossby-front mixed-layer restratification test in z* coordinates. |
-| [torus_advection_test](mom6examples/torus_advection_test.md) | :white_check_mark: ran | 2 | 0.01 | Advection test on a flat, doubly periodic (torus) 48 x 48 Cartesian domain. |
-| [unit_tests](mom6examples/unit_tests.md) | :white_check_mark: ran | 1 | 0.01 | Runs MOM6's internal unit tests on a trivial domain. |
-| **Vertical-coordinate tests** | | | | |
-| [adjustment2d-layer](mom6examples/adjustment2d-layer.md) | :white_check_mark: ran | 2 | 0.01 | Two-dimensional geostrophic adjustment of a front, in layered (isopycnal) coordinates. |
-| [adjustment2d-rho](mom6examples/adjustment2d-rho.md) | :white_check_mark: ran | 2 | 0.01 | Two-dimensional geostrophic adjustment of a front, in ALE density coordinates. |
-| [adjustment2d-z](mom6examples/adjustment2d-z.md) | :white_check_mark: ran | 2 | 0.01 | Two-dimensional geostrophic adjustment of a front, in ALE z* coordinates. |
-| [flow_downslope-layer](mom6examples/flow_downslope-layer.md) | :white_check_mark: ran | 2 | 0.01 | Dense water flowing down a 2-D slope, in layered (isopycnal) coordinates. |
-| [flow_downslope-rho](mom6examples/flow_downslope-rho.md) | :white_check_mark: ran | 2 | 0.01 | Dense water flowing down a 2-D slope, in ALE density coordinates. |
-| [flow_downslope-sigma](mom6examples/flow_downslope-sigma.md) | :white_check_mark: ran | 2 | 0.01 | Dense water flowing down a 2-D slope, in terrain-following (sigma) coordinates. |
-| [flow_downslope-z](mom6examples/flow_downslope-z.md) | :white_check_mark: ran | 2 | 0.01 | Dense water flowing down a 2-D slope, in ALE z* coordinates. |
-| [resting-layer](mom6examples/resting-layer.md) | :white_check_mark: ran | 2 | 0.01 | A resting, stratified ocean that should stay at rest (pressure-gradient error test), layered coordinates. |
-| [resting-z](mom6examples/resting-z.md) | :white_check_mark: ran | 2 | 0.02 | A resting, stratified ocean that should stay at rest (pressure-gradient error test), z* coordinates. |
-| [seamount-layer](mom6examples/seamount-layer.md) | :white_check_mark: ran | 2 | 0.02 | Stratified ocean at rest over a seamount; spurious currents measure pressure-gradient errors (layered coordinates). |
-| [seamount-rho](mom6examples/seamount-rho.md) | :white_check_mark: ran | 2 | 0.02 | Stratified ocean at rest over a seamount; spurious currents measure pressure-gradient errors (density coordinates). |
-| [seamount-sigma](mom6examples/seamount-sigma.md) | :white_check_mark: ran | 2 | 0.01 | Stratified ocean at rest over a seamount; spurious currents measure pressure-gradient errors (sigma coordinates). |
-| [seamount-z](mom6examples/seamount-z.md) | :white_check_mark: ran | 2 | 0.01 | Stratified ocean at rest over a seamount; spurious currents measure pressure-gradient errors (z* coordinates). |
-| [sloshing-layer](mom6examples/sloshing-layer.md) | :white_check_mark: ran | 2 | 0.02 | Sloshing of a tilted stratification in a closed 2-D basin (layered coordinates). |
-| [sloshing-rho](mom6examples/sloshing-rho.md) | :white_check_mark: ran | 2 | 0.02 | Sloshing of a tilted stratification in a closed 2-D basin (density coordinates). |
-| [sloshing-z](mom6examples/sloshing-z.md) | :white_check_mark: ran | 2 | 0.01 | Sloshing of a tilted stratification in a closed 2-D basin (z* coordinates). |
-| [tracer_mixing-rho](mom6examples/tracer_mixing-rho.md) | :white_check_mark: ran | 2 | 0.01 | Tracer mixing/advection test in density coordinates. |
-| [tracer_mixing-z](mom6examples/tracer_mixing-z.md) | :white_check_mark: ran | 2 | 0.01 | Tracer mixing/advection test in z* coordinates. |
-| **Ice-shelf cavity** | | | | |
-| [ISOMIP-layer](mom6examples/ISOMIP-layer.md) | :x: failed &dagger; | 24 | 0.20 | ISOMIP (first phase) ice-shelf cavity test with a static ice shelf, layered coordinates. |
-| [ISOMIP-rho](mom6examples/ISOMIP-rho.md) | :x: failed &dagger; | 24 | 0.16 | ISOMIP (first phase) ice-shelf cavity test with a static ice shelf, density coordinates. |
-| **Hurricanes and single columns** | | | | |
-| [SCM_idealized_hurricane](mom6examples/SCM_idealized_hurricane.md) | :white_check_mark: ran | 1 | 0.01 | Single-column version of the idealized hurricane case: boundary-layer response to a passing storm. |
-| [idealized_hurricane](mom6examples/idealized_hurricane.md) | :white_check_mark: ran &dagger; | 32 | 0.57 | An idealized (Holland-profile) hurricane moving across an ocean basin. |
-| [single_column-BML](mom6examples/single_column-BML.md) | :white_check_mark: ran | 1 | 0.01 | Single column at BATS with the bulk mixed layer (BML) scheme. |
-| [single_column-EPBL](mom6examples/single_column-EPBL.md) | :white_check_mark: ran | 1 | 0.01 | Single column at BATS with the energetic planetary boundary layer (ePBL) scheme. |
-| [single_column-KPP](mom6examples/single_column-KPP.md) | :white_check_mark: ran | 1 | 0.01 | Single column at BATS with the K-profile parameterisation (KPP). |
-| [CVmix_SCM_tests-cooling_only-BML](mom6examples/CVmix_SCM_tests-cooling_only-BML.md) | :x: failed | 1 | 0.01 | CVMix single-column test: `cooling_only` surface forcing with the `BML` boundary-layer scheme. |
-| [CVmix_SCM_tests-cooling_only-EPBL](mom6examples/CVmix_SCM_tests-cooling_only-EPBL.md) | :white_check_mark: ran | 1 | 0.01 | CVMix single-column test: `cooling_only` surface forcing with the `EPBL` boundary-layer scheme. |
-| [CVmix_SCM_tests-cooling_only-KPP](mom6examples/CVmix_SCM_tests-cooling_only-KPP.md) | :white_check_mark: ran | 1 | 0.01 | CVMix single-column test: `cooling_only` surface forcing with the `KPP` boundary-layer scheme. |
-| [CVmix_SCM_tests-mech_only-BML](mom6examples/CVmix_SCM_tests-mech_only-BML.md) | :x: failed | 1 | 0.01 | CVMix single-column test: `mech_only` surface forcing with the `BML` boundary-layer scheme. |
-| [CVmix_SCM_tests-mech_only-EPBL](mom6examples/CVmix_SCM_tests-mech_only-EPBL.md) | :white_check_mark: ran | 1 | 0.01 | CVMix single-column test: `mech_only` surface forcing with the `EPBL` boundary-layer scheme. |
-| [CVmix_SCM_tests-mech_only-KPP](mom6examples/CVmix_SCM_tests-mech_only-KPP.md) | :white_check_mark: ran | 1 | 0.01 | CVMix single-column test: `mech_only` surface forcing with the `KPP` boundary-layer scheme. |
-| [CVmix_SCM_tests-skin_warming_wind-BML](mom6examples/CVmix_SCM_tests-skin_warming_wind-BML.md) | :x: failed | 1 | 0.01 | CVMix single-column test: `skin_warming_wind` surface forcing with the `BML` boundary-layer scheme. |
-| [CVmix_SCM_tests-skin_warming_wind-EPBL](mom6examples/CVmix_SCM_tests-skin_warming_wind-EPBL.md) | :white_check_mark: ran | 1 | 0.01 | CVMix single-column test: `skin_warming_wind` surface forcing with the `EPBL` boundary-layer scheme. |
-| [CVmix_SCM_tests-skin_warming_wind-KPP](mom6examples/CVmix_SCM_tests-skin_warming_wind-KPP.md) | :white_check_mark: ran | 1 | 0.01 | CVMix single-column test: `skin_warming_wind` surface forcing with the `KPP` boundary-layer scheme. |
-| [CVmix_SCM_tests-wind_only-BML](mom6examples/CVmix_SCM_tests-wind_only-BML.md) | :x: failed | 1 | 0.01 | CVMix single-column test: `wind_only` surface forcing with the `BML` boundary-layer scheme. |
-| [CVmix_SCM_tests-wind_only-EPBL](mom6examples/CVmix_SCM_tests-wind_only-EPBL.md) | :white_check_mark: ran | 1 | 0.01 | CVMix single-column test: `wind_only` surface forcing with the `EPBL` boundary-layer scheme. |
-| [CVmix_SCM_tests-wind_only-KPP](mom6examples/CVmix_SCM_tests-wind_only-KPP.md) | :white_check_mark: ran | 1 | 0.01 | CVMix single-column test: `wind_only` surface forcing with the `KPP` boundary-layer scheme. |
-| **Realistic (need the GFDL input data)** | | | | |
-| [global](mom6examples/global.md) | :white_check_mark: ran &dagger; | 64 | 1.49 | Global 1° (360 x 210 mosaic grid) ocean with 63 layers, MEKE and tides, forced by data from files. |
-| [nonBous_global](mom6examples/nonBous_global.md) | :white_check_mark: ran | 60 | 1.13 | As `global`, but non-Boussinesq. |
-| [global_ALE-hycom](mom6examples/global_ALE-hycom.md) | :white_check_mark: ran | 64 | 1.67 | Global 1° ocean with ALE hybrid (HYCOM-like) coordinates. |
-| [global_ALE-layer](mom6examples/global_ALE-layer.md) | :white_check_mark: ran | 64 | 1.46 | Global 1° ocean with ALE in layer mode. |
-| [global_ALE-z](mom6examples/global_ALE-z.md) | :white_check_mark: ran | 64 | 1.32 | Global 1° ocean with ALE z* coordinates. |
-| [MESO_025_23L](mom6examples/MESO_025_23L.md) | :white_check_mark: ran &dagger; | 288 | 13.69 | Near-global 1/4° (1440 x 450 Mercator, 74°S-74°N) "MESO" configuration with 23 layers. |
-| [MESO_025_63L](mom6examples/MESO_025_63L.md) | :white_check_mark: ran &dagger; | 288 | 21.49 | Near-global 1/4° "MESO" configuration with 63 layers. |
-| [tides_025](mom6examples/tides_025.md) | :x: failed &dagger; | 480 | 22.24 | Global 1/4° (1440 x 1080) non-Boussinesq, two-layer tides configuration. |
+Every example is listed in the [table of all configurations](#all-configurations) at the
+top of this page, with whether it ran; press **GFDL** there to show only these examples.
 
-&dagger; = GFDL excludes this example from its own automated test suite (`EXCLUDE` in
+In that table, &dagger; = GFDL excludes this example from its own automated test suite (`EXCLUDE` in
 `ocean_only/Makefile`), usually because it needs extra input files or runs for a long time.
 
 Cores = processor layout GFDL used for that example (`NIPROC x NJPROC` in its

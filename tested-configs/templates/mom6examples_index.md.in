@@ -52,11 +52,10 @@ is kept.
 
 ### Results: MOM6 examples
 
-| Example | Status | Cores | SU | Description |
-|---|---|---|---|---|
-@TABLE@
+Every example is listed in the [table of all configurations](#all-configurations) at the
+top of this page, with whether it ran; press **GFDL** there to show only these examples.
 
-&dagger; = GFDL excludes this example from its own automated test suite (`EXCLUDE` in
+In that table, &dagger; = GFDL excludes this example from its own automated test suite (`EXCLUDE` in
 `ocean_only/Makefile`), usually because it needs extra input files or runs for a long time.
 
 Cores = processor layout GFDL used for that example (`NIPROC x NJPROC` in its
