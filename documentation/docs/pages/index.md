@@ -1,3 +1,8 @@
+!!! danger "Community-driven: not officially supported by ACCESS-NRI"
+    This website and the workflow behind it are **not officially supported by ACCESS-NRI**.
+    The workflows shown here may break or be removed at any time. Community contributions are
+    very welcome, however: see [Contributing](contributing.md).
+
 This website aims to make idealised MOM6 configurations (from the
 [mom6-idealised-configs](https://github.com/ACCESS-Community-Hub/mom6-idealised-configs)
 repository) easier to run, and to make what is
@@ -23,11 +28,6 @@ on Gadi. The website has:
     - [Building MOM6](infrastructure/Building.md): you don't need to build MOM6 to run these
       configurations; this page shows how to build your own `mom6-solo` with Spack.
 - **[Contributing](contributing.md)**: report a bug, add a configuration or improve these pages.
-
-!!! danger "Community-driven: not officially supported by ACCESS-NRI"
-    This website and the workflow behind it are **not officially supported by ACCESS-NRI**.
-    The workflows shown here may break or be removed at any time. Community contributions are
-    very welcome, however: see [Contributing](contributing.md).
 
 --8<-- "tested-configs/templates/claude_caveat.md"
 
