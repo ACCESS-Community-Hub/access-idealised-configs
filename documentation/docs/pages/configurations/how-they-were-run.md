@@ -28,7 +28,7 @@ status of every run is in the tables on the [Overview](Overview.md).
 | Executable md5 | `4785d157c76c30d8d01baf7d0f69d218` |
 | payu | `payu 1.3.6_1` |
 | MOM6-examples | [`c1730b8e`](https://github.com/NOAA-GFDL/MOM6-examples/commit/c1730b8efe16cf7f12fc8db588115cae50f3e802) (branch `dev/gfdl`) |
-| Scripts (this repository) | commit `0bf2ffcfef6199dd6461cbbc64d2bdaf06f3d671` |
+| Scripts (this repository) | runs: [`0bf2ffcf`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/tree/0bf2ffcfef6199dd6461cbbc64d2bdaf06f3d671/tested-configs); pages: [`31427534`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/tree/31427534453fb2304744b9a19fb0b54a15b13de9/tested-configs) |
 
 Each configuration's page also lists the md5 hash of every input file (from payu's
 manifests), the run-time environment and the PBS resources used.
@@ -38,7 +38,7 @@ manifests), the run-time environment and the PBS resources used.
 ### MOM6 examples
 
 All MOM6 examples use the same script template
-([`templates/run_example.sh.in`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/main/tested-configs/templates/run_example.sh.in)),
+([`templates/run_example.sh.in`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/31427534453fb2304744b9a19fb0b54a15b13de9/tested-configs/templates/run_example.sh.in)),
 filled in with the example's name, cores and walltime from `examples.txt`. Each script:
 
 1. clones `MOM6-examples` (configuration files only) at the tested commit;
@@ -93,25 +93,30 @@ the ACCESS-OM3 MOM6 version behaves differently from the one the configuration w
 written for. We did **not** compare answers bit-for-bit.
 
 **Domain, forcing and output:** each successful run's page shows the output of the notebook
-[`notebooks/explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/main/tested-configs/notebooks/explore_run.ipynb),
+[`notebooks/explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/31427534453fb2304744b9a19fb0b54a15b13de9/tested-configs/notebooks/explore_run.ipynb),
 run on that run's output folder. It plots only files MOM6 wrote during the run: the bottom
 depth, the initial state, any surface forcing saved in the diagnostics, the energy and CFL
 number through the run, and the final state.
 
 ## The pipeline
 
-The scripts live in [`tested-configs/`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/tree/main/tested-configs):
+The scripts live in [`tested-configs/`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/tree/31427534453fb2304744b9a19fb0b54a15b13de9/tested-configs). The links below are to the versions that wrote these pages (commit `31427534`); the runs themselves were started with the scripts at commit `0bf2ffcf`.
 
 | File | Purpose |
 |---|---|
-| `versions.env` | pinned versions: MOM6-examples commit, ACCESS-OM3 module, payu module, data path |
-| `examples.txt` | which MOM6 examples to run, with how many cores and what walltime |
-| `templates/run_example.sh.in` | the commented run script that every MOM6-example page embeds |
-| `run_scripts/anu-tub.sh`, `run_scripts/isomip-plus-ocean0.sh` | the hand-written scripts for the community configurations |
-| `regenerate_all.sh` | does everything: write scripts, run, wait, summarise, run the notebooks, write pages |
-| `lib/summarise_run.py` | checks a run (`ocean.stats`), reads payu manifests (md5 hashes) and the run's parameters |
-| `lib/run_notebooks.sh` | runs `notebooks/explore_run.ipynb` on each successful run (papermill) |
-| `lib/make_pages.py` | writes these pages from `results/*/summary.json` |
+| [`versions.env`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/31427534453fb2304744b9a19fb0b54a15b13de9/tested-configs/versions.env) | pinned versions: MOM6-examples commit, ACCESS-OM3 module, payu module, data path |
+| [`examples.txt`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/31427534453fb2304744b9a19fb0b54a15b13de9/tested-configs/examples.txt) | which MOM6 examples to run, with how many cores and what walltime |
+| [`templates/run_example.sh.in`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/31427534453fb2304744b9a19fb0b54a15b13de9/tested-configs/templates/run_example.sh.in) | the commented run script that every MOM6-example page embeds |
+| [`lib/make_run_scripts.sh`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/31427534453fb2304744b9a19fb0b54a15b13de9/tested-configs/lib/make_run_scripts.sh) | writes `run_scripts/<example>.sh` from that template |
+| [`run_scripts/anu-tub.sh`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/31427534453fb2304744b9a19fb0b54a15b13de9/tested-configs/run_scripts/anu-tub.sh), [`run_scripts/isomip-plus-ocean0.sh`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/31427534453fb2304744b9a19fb0b54a15b13de9/tested-configs/run_scripts/isomip-plus-ocean0.sh), [`run_scripts/om3-mom6-single-column.sh`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/31427534453fb2304744b9a19fb0b54a15b13de9/tested-configs/run_scripts/om3-mom6-single-column.sh) | the hand-written scripts for the COSIMA community configurations |
+| [`regenerate_all.sh`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/31427534453fb2304744b9a19fb0b54a15b13de9/tested-configs/regenerate_all.sh) | does everything: write scripts, run, wait, summarise, run the notebooks, write pages |
+| [`lib/record_environment.sh`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/31427534453fb2304744b9a19fb0b54a15b13de9/tested-configs/lib/record_environment.sh) | records the executable, its md5, the MOM6 source, payu version and the date |
+| [`lib/summarise_run.py`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/31427534453fb2304744b9a19fb0b54a15b13de9/tested-configs/lib/summarise_run.py) | checks a run (`ocean.stats`), reads payu manifests (md5 hashes) and the run's parameters |
+| [`lib/run_notebooks.sh`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/31427534453fb2304744b9a19fb0b54a15b13de9/tested-configs/lib/run_notebooks.sh) | runs [`notebooks/explore_run.ipynb`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/31427534453fb2304744b9a19fb0b54a15b13de9/tested-configs/notebooks/explore_run.ipynb) on each successful run (papermill) |
+| [`lib/run_in_pbs.pbs`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/31427534453fb2304744b9a19fb0b54a15b13de9/tested-configs/lib/run_in_pbs.pbs) | runs a command in a PBS job (used for the notebooks) |
+| [`lib/param_diff.py`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/31427534453fb2304744b9a19fb0b54a15b13de9/tested-configs/lib/param_diff.py) | the "Parameters compared with the reference" tables |
+| [`lib/make_pages.py`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/31427534453fb2304744b9a19fb0b54a15b13de9/tested-configs/lib/make_pages.py) | writes these pages from `results/*/summary.json` |
+| [`build/build_mom6_solo.sh`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/31427534453fb2304744b9a19fb0b54a15b13de9/tested-configs/build/build_mom6_solo.sh), [`build/compare_with_release.sh`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/31427534453fb2304744b9a19fb0b54a15b13de9/tested-configs/build/compare_with_release.sh) | build your own `mom6-solo` and check it matches the release |
 
 To re-test everything with a new ACCESS-OM3 release, edit `versions.env` and run
 `PROJECT=<proj> ./regenerate_all.sh` from a login node.
@@ -125,7 +130,7 @@ scripts ran exactly as shown.
 
 `/g/data/ol01/access-iom3-configs/mom6exampledata/` holds GFDL's MOM6-examples data
 tarballs (downloaded with
-[`scripts/grab_mom6examples_data.sh`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/main/scripts/grab_mom6examples_data.sh)),
+[`scripts/grab_mom6examples_data.sh`](https://github.com/ACCESS-Community-Hub/access-idealised-configs/blob/31427534453fb2304744b9a19fb0b54a15b13de9/scripts/grab_mom6examples_data.sh)),
 and its `backup/` sub-directory holds them **unpacked**. The examples' `INPUT/` links expect
 the unpacked layout (e.g. `.datasets/global/siena_201204/INPUT/...`), so `.datasets`
 must point at `.../mom6exampledata/backup`, not at the directory of tarballs. The run
