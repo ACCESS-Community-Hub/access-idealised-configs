@@ -21,6 +21,7 @@ import json
 import os
 import re
 import shutil
+import subprocess
 
 import yaml
 
@@ -67,6 +68,19 @@ def is_excluded(example):
     rel = example.replace("ocean_only/", "")
     return any(re.fullmatch(pat.replace("%", ".*"), rel) for pat in EXCLUDED)
 commit = versions["MOM6_EXAMPLES_COMMIT"]
+
+# The commit whose scripts write these pages; links on "How this website is generated" are
+# pinned to it. Commit script changes first, then regenerate, so that this commit holds them.
+REPO_URL = "https://github.com/ACCESS-Community-Hub/access-idealised-configs"
+PAGES_COMMIT = subprocess.run(["git", "-C", HERE, "rev-parse", "HEAD"], capture_output=True,
+                              text=True, check=True).stdout.strip()
+_dirty = subprocess.run(["git", "-C", HERE, "status", "--porcelain", "--", "lib", "templates",
+                         "run_scripts", "notebooks", "build", "regenerate_all.sh", "versions.env",
+                         "examples.txt", "../scripts"],
+                        capture_output=True, text=True).stdout.strip()
+if _dirty:
+    print("WARNING: uncommitted script changes; pages will link to", PAGES_COMMIT[:8],
+          "which does not contain them:\n" + _dirty)
 
 examples = []
 section = "Examples"
@@ -669,7 +683,10 @@ index = (index
               .replace("@ACCESS_MOM6@", environment.get("access_mom6_module", ""))
               .replace("@MOM6_SOURCE@", environment.get("mom6_source", ""))
               .replace("@WORK_ROOT@", environment.get("work_root", "?"))
-              .replace("@WEBSITE_COMMIT@", environment.get("website_commit", "")))
+              .replace("@WEBSITE_COMMIT8@", environment.get("website_commit", "")[:8])
+              .replace("@WEBSITE_COMMIT@", environment.get("website_commit", ""))
+              .replace("@PAGES_COMMIT8@", PAGES_COMMIT[:8]).replace("@PAGES_COMMIT@", PAGES_COMMIT)
+              .replace("@REPO_URL@", REPO_URL))
 open(os.path.join(DOCS, "pages", "configurations", "how-they-were-run.md"), "w").write(index)
 # This page used to describe the MOM6 examples only; keep its URL working for old links.
 open(PAGES + ".md", "w").write("# MOM6 examples\n\nThis page has moved: see "
