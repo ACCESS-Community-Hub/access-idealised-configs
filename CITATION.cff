@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: 'mom6-idealised-configs'
+title: 'access-idealised-configs'
 message: >-
   If you use this software, please cite it using the
   metadata from this file.
@@ -23,8 +23,8 @@ authors:
   - description: "https://orcid.org/0000-0002-6340-4470"
     type: 
     value: 
-repository-code: 'https://github.com/ACCESS-Community-Hub/access-iom3-configs'
-url: 'https://github.com/ACCESS-Community-Hub/access-iom3-configs'
+repository-code: 'https://github.com/ACCESS-Community-Hub/access-idealised-configs'
+url: 'https://github.com/ACCESS-Community-Hub/access-idealised-configs'
 repository-artifact: >-
 abstract: >-
 license: CC-BY-4.0

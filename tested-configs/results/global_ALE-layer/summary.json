@@ -1,0 +1,261 @@
+{
+ "name": "global_ALE-layer",
+ "control_dir": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/layer",
+ "output_dir": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/lab/archive/global_ALE-layer/output000",
+ "stats_file": "ocean.stats",
+ "ocean_stats_tail": [
+  "            [days]                 [m2 s-2]           [Nondim]       [m]             [kg]         [PSU]      [degC]       [Nondim]        [PSU]        [degC]",
+  "     0,       0.000,     0, En 6.9417012666352618E-01, CFL  0.00000, SL  6.0314E-11, M 1.37953E+21, S 34.7196, T  3.6150, Me  0.00E+00, Se  0.00E+00, Te  0.00E+00",
+  "    12,       0.500,     0, En 6.9096368025556065E-01, CFL  0.10219, SL -1.0224E-02, M 1.37953E+21, S 34.7197, T  3.6148, Me  2.38E-15, Se  7.76E-14, Te  3.04E-14",
+  "    24,       1.000,     0, En 6.9053426333164825E-01, CFL  0.10831, SL -1.1973E-02, M 1.37952E+21, S 34.7197, T  3.6148, Me  2.40E-15, Se  7.76E-14, Te  3.30E-14"
+ ],
+ "ok": true,
+ "exe": {
+  "mom6-solo": {
+   "fullpath": "/g/data/vk83/apps/spack/1.1/release/linux-x86_64_v4/access-mom6-2026.05.003-ld7hklzo5ajizx5u4yl74i4ijberrpv6/bin/mom6-solo",
+   "md5": "4785d157c76c30d8d01baf7d0f69d218"
+  }
+ },
+ "inputs": {
+  "INPUT/31Layer_zgrid.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/31Layer_zgrid.nc",
+   "md5": "2d1b8673dc763a835081ab6d0e13d6d2"
+  },
+  "INPUT/GOLD_IC.2010.11.15.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/GOLD_IC.2010.11.15.nc",
+   "md5": "bf6ba441e98ff5c1b04b635b0ad84dac"
+  },
+  "INPUT/Layer_coord.cdl": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/Layer_coord.cdl",
+   "md5": "db3247a6fa0db236260ed2baf3ec0225"
+  },
+  "INPUT/Layer_coord.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/Layer_coord.nc",
+   "md5": "1d91bdff8a01fe461ecbc3dc1804b2a6"
+  },
+  "INPUT/Layer_coord50.cdl": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/Layer_coord50.cdl",
+   "md5": "0281af583b85dd773581c0c5244a0a84"
+  },
+  "INPUT/Layer_coord50.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/Layer_coord50.nc",
+   "md5": "696fbfcf664b79c14815e678a9107f71"
+  },
+  "INPUT/OM3_zgrid.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/OM3_zgrid.nc",
+   "md5": "0830d67f80834fe2796b219a84b3ba8d"
+  },
+  "INPUT/WOA05_pottemp_salt.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/WOA05_pottemp_salt.nc",
+   "md5": "46803f1e1595e29ea527086438a58391"
+  },
+  "INPUT/analysis_vgrid_lev35.v1.cdl": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/analysis_vgrid_lev35.v1.cdl",
+   "md5": "777b45acea071ca1a147760a2b850e41"
+  },
+  "INPUT/analysis_vgrid_lev35.v1.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/analysis_vgrid_lev35.v1.nc",
+   "md5": "cdfdc287b327daa2be262a67e57519fd"
+  },
+  "INPUT/atmos_hgrid.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/atmos_hgrid.nc",
+   "md5": "a4d8a2cc7554b265f53da1f91a48fee1"
+  },
+  "INPUT/atmos_mosaic.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/atmos_mosaic.nc",
+   "md5": "ed209f7d19cc856ec1a257c0ca63af90"
+  },
+  "INPUT/atmos_mosaic_tile1Xland_mosaic_tile1.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/atmos_mosaic_tile1Xland_mosaic_tile1.nc",
+   "md5": "6025fff17ee89d0ef6f4ac530c4a833b"
+  },
+  "INPUT/atmos_mosaic_tile1Xocean_mosaic_tile1.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/atmos_mosaic_tile1Xocean_mosaic_tile1.nc",
+   "md5": "c4ee9d91f1b2146d8e0c60827670fee6"
+  },
+  "INPUT/geothermal_heating_cm2g.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/geothermal_heating_cm2g.nc",
+   "md5": "2604459298a435e292be908e6059a89f"
+  },
+  "INPUT/grid_spec.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/grid_spec.nc",
+   "md5": "a2d3b842655c6ee2e0213db46154dc22"
+  },
+  "INPUT/gustiness_qscat.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/gustiness_qscat.nc",
+   "md5": "2fbcc31e266329ddb4dd1cd8c8d221f7"
+  },
+  "INPUT/hycom1_50.cdl": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/hycom1_50.cdl",
+   "md5": "bb6a8c90545b7511de61b93c4f44c01a"
+  },
+  "INPUT/hycom1_50.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/hycom1_50.nc",
+   "md5": "bbd1cf56686a11a342d61d9db3286b0d"
+  },
+  "INPUT/land_hgrid.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/land_hgrid.nc",
+   "md5": "a4d8a2cc7554b265f53da1f91a48fee1"
+  },
+  "INPUT/land_mask.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/land_mask.nc",
+   "md5": "d5caa6ffe6379a31e692f10ec65af033"
+  },
+  "INPUT/land_mosaic.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/land_mosaic.nc",
+   "md5": "5aeb9c82ad3a1c2ecc3d7988aa641ad2"
+  },
+  "INPUT/land_mosaic_tile1Xocean_mosaic_tile1.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/land_mosaic_tile1Xocean_mosaic_tile1.nc",
+   "md5": "56c455a11d61a23e19f056bf6c99cb7c"
+  },
+  "INPUT/mosaic.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/mosaic.nc",
+   "md5": "a2d3b842655c6ee2e0213db46154dc22"
+  },
+  "INPUT/ocean_forcing_daily.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/ocean_forcing_daily.nc",
+   "md5": "7065687a13038c404173d8c19525794b"
+  },
+  "INPUT/ocean_forcing_monthly.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/ocean_forcing_monthly.nc",
+   "md5": "b26fd7fb52928bbfea285f87479c15f0"
+  },
+  "INPUT/ocean_hgrid.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/ocean_hgrid.nc",
+   "md5": "c4782f49333b46f9ea53322ac1eff53a"
+  },
+  "INPUT/ocean_mask.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/ocean_mask.nc",
+   "md5": "b49dce31f5a9cd53a8ebbb47518e238c"
+  },
+  "INPUT/ocean_mosaic.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/ocean_mosaic.nc",
+   "md5": "1263df68b94e7a256be52283df611e94"
+  },
+  "INPUT/ocean_precip_monthly.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/ocean_precip_monthly.nc",
+   "md5": "12031a11fbcd3ca1a0534d7feb9193fc"
+  },
+  "INPUT/ocean_vgrid.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/ocean_vgrid.nc",
+   "md5": "34d06772f261d0ef502b4e3998109c28"
+  },
+  "INPUT/seawifs_1998-2006_GOLD_smoothed_2X.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/seawifs_1998-2006_GOLD_smoothed_2X.nc",
+   "md5": "7217a6bb87ebdf4570bbf8940e8b3c72"
+  },
+  "INPUT/sgs_h2.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/sgs_h2.nc",
+   "md5": "5f3897a97a4366edba744f35cea97d7d"
+  },
+  "INPUT/tideamp.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/tideamp.nc",
+   "md5": "8136b3e8b8f587734fc5b0abcb338702"
+  },
+  "INPUT/topog.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/topog.nc",
+   "md5": "bd19baefec0f42e89e90870fbee5a7e3"
+  },
+  "INPUT/vgrid.cdl": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/vgrid.cdl",
+   "md5": "5a93ca59f7f4d4807eeaef83ebce0297"
+  },
+  "INPUT/vgrid.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/common/INPUT/vgrid.nc",
+   "md5": "36555c9866ffd1f20b9d1954f3dd24b4"
+  }
+ },
+ "config_yaml": "# payu configuration for MOM6-examples/ocean_only/global_ALE/layer (written by global_ALE-layer.sh)\nproject: tm70\nqueue: normalsr          # mom6-solo is compiled for Sapphire Rapids nodes\nncpus: 64\nwalltime: 01:00:00\njobname: global_ALE-layer\nexperiment: global_ALE-layer\nlaboratory: /g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/lab\n\nmodel: mom6\nexe: mom6-solo           # found on PATH once the module below is loaded\ninput: /g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/global_ALE/layer/INPUT\n\nmodules:\n  use:\n    - /g/data/vk83/modules\n  load:\n    - access-om3/2026.05.004\n\nstorage:                 # vk83: executable, ol01: input data\n  gdata:\n    - vk83\n    - ol01\n\ncollate: false           # mom6 writes un-split netCDF files when IO_LAYOUT = 1,1\nrunlog: false            # don't commit run logs into the MOM6-examples clone\nmetadata:\n  enable: false\n",
+ "env": {
+  "LD_LIBRARY_PATH": "/apps/openmpi/4.1.7/lib:/apps/openmpi/4.1.7/lib/profilers",
+  "LOADEDMODULES": "access3-share/2026.03.002-eale5gm:access-cice/CICE6.6.3-2-huasrvo:access-mocsy/2025.07.002-saj7rvh:access-generic-tracers/2026.09.000-e3zb3ez:access-mom6/2026.05.003-ld7hklz:access-ww3/2026.03.001-bjzidie:access3/2026.03.002-26wbxup:access-om3/2026.05.004:pbs:openmpi/4.1.7",
+  "OMPI_MCA_orte_tmpdir_base": "/jobfs/183115245.gadi-pbs",
+  "PAYU_TELEMETRY_ENV_VERSION": "1.3.6_1",
+  "PBS_NCI_NCPUS_PER_NODE": "104",
+  "PBS_NCPUS": "64",
+  "PBS_QUEUE": "normalsr-exec"
+ },
+ "pbs": {
+  "Job Id": "183115245.gadi-pbs",
+  "Exit Status": "0",
+  "Service Units": "1.46",
+  "NCPUs Requested": "64",
+  "Walltime Used": "00:00:41",
+  "Memory Used": "26.4GB"
+ },
+ "pbs_log": "global_ALE-laye.o183115245",
+ "key_params": {
+  "NIGLOBAL": "360",
+  "NJGLOBAL": "210",
+  "NK": "63",
+  "GRID_CONFIG": "\"mosaic\"",
+  "TOPO_CONFIG": "\"file\"",
+  "REENTRANT_X": "True",
+  "REENTRANT_Y": "False",
+  "USE_REGRIDDING": "False",
+  "BOUSSINESQ": "True",
+  "ENABLE_THERMODYNAMICS": "True",
+  "EQN_OF_STATE": "\"WRIGHT\"",
+  "WIND_CONFIG": "\"file\"",
+  "BUOY_CONFIG": "\"file\"",
+  "ICE_SHELF": "False",
+  "DT": "3600.0",
+  "DT_THERM": "7200.0",
+  "DAYMAX": "1.0",
+  "TIMEUNIT": "8.64E+04"
+ },
+ "param_changes": {
+  "added": [
+   "ADVECTION_SCHEME_VARIANCE_UNDERFLOW",
+   "NONBLOCKING_P_SURF_BUG",
+   "RHO_PGF_REF_BUG",
+   "USE_FILE_DYES",
+   "USE_UH_PARTICLES"
+  ],
+  "removed": [
+   "CDRAG_MAP",
+   "CHANNEL_DRAG_SHELFBREAK_DEPTH",
+   "CONT_USE_H_MARG_MIN",
+   "DTBT_RESTART_BUG",
+   "ENSEMBLE_APPENDIX_PREFIX",
+   "GEOTHERMAL_MIN_COLUMN_THICKNESS",
+   "NUM_DIAG_DOWNSAMP_LEV",
+   "READ_MEAN_SEA_LEVEL",
+   "STOCHASTICS_ANSWER_DATE",
+   "SYMMETRIC_DOWNSAMPLE_SUMS",
+   "USE_THICKNESS_DIFFUSE_ANN"
+  ],
+  "changed": {
+   "SET_VISC_ANSWER_DATE": [
+    "20260703",
+    "99991231"
+   ]
+  }
+ },
+ "output_files": {
+  "MOM_IC.nc": 579374540,
+  "Vertical_coordinate.nc": 2744,
+  "ave_prog.nc": 95732432,
+  "cmor.nc": 199169176,
+  "cmor2.nc": 3656964,
+  "cmor_scalar.nc": 19860,
+  "cmor_z.nc": 61875548,
+  "cont.nc": 308446004,
+  "forcing.nc": 36344388,
+  "layer.nc": 19620,
+  "ocean.stats.nc": 10128,
+  "ocean_geometry.nc": 11560832,
+  "ocean_static.nc": 5792112,
+  "ocean_static_cmor.nc": 324328,
+  "prog.nc": 133834140,
+  "prog_z.nc": 41234236,
+  "scalar.nc": 23616,
+  "sfc_ave.nc": 3663048,
+  "surface.nc": 7896436,
+  "tracer.nc": 306942564,
+  "visc.nc": 117060848
+ },
+ "figure": "figure.png",
+ "figure_note": "Left: `SSH` at the last output time; right: total energy (`En`) from `ocean.stats.nc`"
+}

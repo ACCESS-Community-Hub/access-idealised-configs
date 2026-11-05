@@ -1,0 +1,102 @@
+{
+ "name": "CVmix_SCM_tests-skin_warming_wind-KPP",
+ "control_dir": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/CVmix_SCM_tests/skin_warming_wind/KPP",
+ "output_dir": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/lab/archive/CVmix_SCM_tests-skin_warming_wind-KPP/output000",
+ "stats_file": "ocean.stats",
+ "ocean_stats_tail": [
+  "   306,       4.250,     0, En 9.7575278939496650E-05, CFL  0.00071, SL -3.4106E-13, M 1.98264E+16, S 35.0000, T 15.0230, Me  0.00E+00, Se  0.00E+00, Te  1.38E-16",
+  "   324,       4.500,     0, En 9.5091550583126157E-05, CFL  0.00117, SL -3.4106E-13, M 1.98264E+16, S 35.0000, T 15.0243, Me  0.00E+00, Se  0.00E+00, Te  3.45E-15",
+  "   342,       4.750,     0, En 1.8443527074206846E-04, CFL  0.00104, SL -3.4106E-13, M 1.98264E+16, S 35.0000, T 15.0257, Me  0.00E+00, Se  0.00E+00, Te  1.38E-16",
+  "   360,       5.000,     0, En 8.7597941449551694E-05, CFL  0.00074, SL -3.4106E-13, M 1.98264E+16, S 35.0000, T 15.0271, Me  0.00E+00, Se  6.46E-15, Te  1.38E-16"
+ ],
+ "ok": true,
+ "exe": {
+  "mom6-solo": {
+   "fullpath": "/g/data/vk83/apps/spack/1.1/release/linux-x86_64_v4/access-mom6-2026.05.003-ld7hklzo5ajizx5u4yl74i4ijberrpv6/bin/mom6-solo",
+   "md5": "4785d157c76c30d8d01baf7d0f69d218"
+  }
+ },
+ "inputs": {},
+ "config_yaml": "# payu configuration for MOM6-examples/ocean_only/CVmix_SCM_tests/skin_warming_wind/KPP (written by CVmix_SCM_tests-skin_warming_wind-KPP.sh)\nproject: tm70\nqueue: normalsr          # mom6-solo is compiled for Sapphire Rapids nodes\nncpus: 1\nwalltime: 00:30:00\njobname: CVmix_SCM_tests-skin_warming_wind-KPP\nexperiment: CVmix_SCM_tests-skin_warming_wind-KPP\nlaboratory: /g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/lab\n\nmodel: mom6\nexe: mom6-solo           # found on PATH once the module below is loaded\n\nmodules:\n  use:\n    - /g/data/vk83/modules\n  load:\n    - access-om3/2026.05.004\n\nstorage:                 # vk83: executable, ol01: input data\n  gdata:\n    - vk83\n    - ol01\n\ncollate: false           # mom6 writes un-split netCDF files when IO_LAYOUT = 1,1\nrunlog: false            # don't commit run logs into the MOM6-examples clone\nmetadata:\n  enable: false\n",
+ "env": {
+  "LD_LIBRARY_PATH": "/apps/openmpi/4.1.7/lib:/apps/openmpi/4.1.7/lib/profilers",
+  "LOADEDMODULES": "access3-share/2026.03.002-eale5gm:access-cice/CICE6.6.3-2-huasrvo:access-mocsy/2025.07.002-saj7rvh:access-generic-tracers/2026.09.000-e3zb3ez:access-mom6/2026.05.003-ld7hklz:access-ww3/2026.03.001-bjzidie:access3/2026.03.002-26wbxup:access-om3/2026.05.004:pbs:openmpi/4.1.7",
+  "OMPI_MCA_orte_tmpdir_base": "/jobfs/183115213.gadi-pbs",
+  "PAYU_TELEMETRY_ENV_VERSION": "1.3.6_1",
+  "PBS_NCI_NCPUS_PER_NODE": "104",
+  "PBS_NCPUS": "1",
+  "PBS_QUEUE": "normalsr-exec"
+ },
+ "pbs": {
+  "Job Id": "183115213.gadi-pbs",
+  "Exit Status": "0",
+  "Service Units": "0.01",
+  "NCPUs Requested": "1",
+  "Walltime Used": "00:00:19",
+  "Memory Used": "1.14GB"
+ },
+ "pbs_log": "CVmix_SCM_tests.o183115213",
+ "key_params": {
+  "NIGLOBAL": "2",
+  "NJGLOBAL": "2",
+  "NK": "400",
+  "GRID_CONFIG": "\"cartesian\"",
+  "TOPO_CONFIG": "\"flat\"",
+  "REENTRANT_X": "True",
+  "REENTRANT_Y": "True",
+  "USE_REGRIDDING": "True",
+  "REGRIDDING_COORDINATE_MODE": "\"Z*\"",
+  "BOUSSINESQ": "True",
+  "ENABLE_THERMODYNAMICS": "True",
+  "EQN_OF_STATE": "\"LINEAR\"",
+  "THICKNESS_CONFIG": "\"coord\"",
+  "TS_CONFIG": "\"SCM_CVMix_tests\"",
+  "WIND_CONFIG": "\"const\"",
+  "BUOY_CONFIG": "\"const\"",
+  "ICE_SHELF": "False",
+  "DT": "1200.0",
+  "DT_THERM": "1200.0",
+  "DAYMAX": "5.0",
+  "TIMEUNIT": "8.64E+04"
+ },
+ "param_changes": {
+  "added": [
+   "ADVECTION_SCHEME_VARIANCE_UNDERFLOW",
+   "NONBLOCKING_P_SURF_BUG",
+   "RHO_PGF_REF_BUG",
+   "USE_FILE_DYES",
+   "USE_UH_PARTICLES"
+  ],
+  "removed": [
+   "CDRAG_MAP",
+   "CONT_USE_H_MARG_MIN",
+   "ENSEMBLE_APPENDIX_PREFIX",
+   "KPP_OBL_DEPTH_BOUNDS_BUG",
+   "NUM_DIAG_DOWNSAMP_LEV",
+   "READ_MEAN_SEA_LEVEL",
+   "REGRID_USE_DEPTH_BASED_TIME_FILTER",
+   "STOCHASTICS_ANSWER_DATE",
+   "SYMMETRIC_DOWNSAMPLE_SUMS",
+   "USE_ADJUST_INTERFACE_MOTION",
+   "USE_THICKNESS_DIFFUSE_ANN"
+  ],
+  "changed": {
+   "SET_VISC_ANSWER_DATE": [
+    "20260703",
+    "99991231"
+   ]
+  }
+ },
+ "output_files": {
+  "MOM_IC.nc": 141312,
+  "Vertical_coordinate.nc": 13528,
+  "ocean.stats.nc": 280444,
+  "ocean_geometry.nc": 20432,
+  "prog.nc": 3099236,
+  "prog_z.nc": 1945768,
+  "surffluxes.nc": 37132,
+  "visc.nc": 6970024
+ },
+ "figure": "figure.png",
+ "figure_note": "Left: `temp` time-depth evolution; right: total energy (`En`) from `ocean.stats.nc`"
+}

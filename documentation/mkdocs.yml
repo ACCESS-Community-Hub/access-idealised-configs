@@ -1,14 +1,14 @@
 # This file uses the following environment variables set within the build workflow:
 # - SITE_URL: the URL of the site (Falls back to the default URL)
 # For example, for PR-previews, SITE_URL is set to <default_URL>/pr-preview-NUM
-site_name: mom6-idealised-configs
+site_name: access-idealised-configs
  
 # Site URL
-site_url: !ENV [SITE_URL, "http://ACCESS-Community-Hub.github.io/mom6-idealised-configs/"]
+site_url: !ENV [SITE_URL, "http://ACCESS-Community-Hub.github.io/access-idealised-configs/"]
 
 # Git repository (Adds a link to the GitHub repository at the top)
-repo_url: https://github.com/ACCESS-Community-Hub/mom6-idealised-configs
-repo_name: ACCESS-Community-Hub/mom6-idealised-configs
+repo_url: https://github.com/ACCESS-Community-Hub/access-idealised-configs
+repo_name: ACCESS-Community-Hub/access-idealised-configs
 edit_uri: blob/main/documentation/docs/ #hopefully will fix the edit button from 404'ing, https://github.com/mkdocs/mkdocs/issues/2416
 
 # Theme
@@ -77,11 +77,15 @@ markdown_extensions:
   - pymdownx.caret
   - pymdownx.mark
   - pymdownx.tilde
-  - pymdownx.snippets
+  - pymdownx.snippets:
+      # run scripts are embedded from ../tested-configs; "." works when mkdocs runs in
+      # the repository root (Read the Docs), ".." when it runs in documentation/
+      base_path: [".", ".."]
+      check_paths: true
   - pymdownx.highlight
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.tabbed:
       alternate_style: true 
   - pymdownx.keys
@@ -96,12 +100,81 @@ markdown_extensions:
 # Navigation
 nav:
   - Home:                  pages/index.md
-  - Infrastructure:
-        - Building MOM6: pages/infrastructure/Building.md
   - Configurations:
         - Overview: pages/configurations/Overview.md
-        - ANU-tub:  pages/configurations/anu-tub.md
-        - MOM6 Examples: pages/configurations/mom6examples.md
+        - How this website is generated: pages/configurations/how-they-were-run.md
+        - COSIMA community configurations:
+            - ANU-TUB:  pages/configurations/anu-tub.md
+            - ISOMIP+ Ocean0: pages/configurations/isomip-plus.md
+            - ACCESS-OM3 single column: pages/configurations/om3-mom6-single-column.md
+        # BEGIN generated mom6examples nav (written by tested-configs/lib/make_pages.py)
+        - MOM6 examples:
+            - Basins and channels:
+                - double_gyre: pages/configurations/mom6examples/double_gyre.md
+                - double_gyre-10yr: pages/configurations/mom6examples/double_gyre-10yr.md
+                - DOME: pages/configurations/mom6examples/DOME.md
+                - Phillips_2layer: pages/configurations/mom6examples/Phillips_2layer.md
+                - benchmark: pages/configurations/mom6examples/benchmark.md
+                - buoy_forced_basin: pages/configurations/mom6examples/buoy_forced_basin.md
+                - circle_obcs: pages/configurations/mom6examples/circle_obcs.md
+                - external_gwave: pages/configurations/mom6examples/external_gwave.md
+                - lock_exchange: pages/configurations/mom6examples/lock_exchange.md
+                - mixed_layer_restrat_2d: pages/configurations/mom6examples/mixed_layer_restrat_2d.md
+                - torus_advection_test: pages/configurations/mom6examples/torus_advection_test.md
+                - unit_tests: pages/configurations/mom6examples/unit_tests.md
+            - Vertical-coordinate tests:
+                - adjustment2d-layer: pages/configurations/mom6examples/adjustment2d-layer.md
+                - adjustment2d-rho: pages/configurations/mom6examples/adjustment2d-rho.md
+                - adjustment2d-z: pages/configurations/mom6examples/adjustment2d-z.md
+                - flow_downslope-layer: pages/configurations/mom6examples/flow_downslope-layer.md
+                - flow_downslope-rho: pages/configurations/mom6examples/flow_downslope-rho.md
+                - flow_downslope-sigma: pages/configurations/mom6examples/flow_downslope-sigma.md
+                - flow_downslope-z: pages/configurations/mom6examples/flow_downslope-z.md
+                - resting-layer: pages/configurations/mom6examples/resting-layer.md
+                - resting-z: pages/configurations/mom6examples/resting-z.md
+                - seamount-layer: pages/configurations/mom6examples/seamount-layer.md
+                - seamount-rho: pages/configurations/mom6examples/seamount-rho.md
+                - seamount-sigma: pages/configurations/mom6examples/seamount-sigma.md
+                - seamount-z: pages/configurations/mom6examples/seamount-z.md
+                - sloshing-layer: pages/configurations/mom6examples/sloshing-layer.md
+                - sloshing-rho: pages/configurations/mom6examples/sloshing-rho.md
+                - sloshing-z: pages/configurations/mom6examples/sloshing-z.md
+                - tracer_mixing-rho: pages/configurations/mom6examples/tracer_mixing-rho.md
+                - tracer_mixing-z: pages/configurations/mom6examples/tracer_mixing-z.md
+            - Ice-shelf cavity:
+                - ISOMIP-layer: pages/configurations/mom6examples/ISOMIP-layer.md
+                - ISOMIP-rho: pages/configurations/mom6examples/ISOMIP-rho.md
+            - Hurricanes and single columns:
+                - SCM_idealized_hurricane: pages/configurations/mom6examples/SCM_idealized_hurricane.md
+                - idealized_hurricane: pages/configurations/mom6examples/idealized_hurricane.md
+                - single_column-BML: pages/configurations/mom6examples/single_column-BML.md
+                - single_column-EPBL: pages/configurations/mom6examples/single_column-EPBL.md
+                - single_column-KPP: pages/configurations/mom6examples/single_column-KPP.md
+                - CVmix_SCM_tests-cooling_only-BML: pages/configurations/mom6examples/CVmix_SCM_tests-cooling_only-BML.md
+                - CVmix_SCM_tests-cooling_only-EPBL: pages/configurations/mom6examples/CVmix_SCM_tests-cooling_only-EPBL.md
+                - CVmix_SCM_tests-cooling_only-KPP: pages/configurations/mom6examples/CVmix_SCM_tests-cooling_only-KPP.md
+                - CVmix_SCM_tests-mech_only-BML: pages/configurations/mom6examples/CVmix_SCM_tests-mech_only-BML.md
+                - CVmix_SCM_tests-mech_only-EPBL: pages/configurations/mom6examples/CVmix_SCM_tests-mech_only-EPBL.md
+                - CVmix_SCM_tests-mech_only-KPP: pages/configurations/mom6examples/CVmix_SCM_tests-mech_only-KPP.md
+                - CVmix_SCM_tests-skin_warming_wind-BML: pages/configurations/mom6examples/CVmix_SCM_tests-skin_warming_wind-BML.md
+                - CVmix_SCM_tests-skin_warming_wind-EPBL: pages/configurations/mom6examples/CVmix_SCM_tests-skin_warming_wind-EPBL.md
+                - CVmix_SCM_tests-skin_warming_wind-KPP: pages/configurations/mom6examples/CVmix_SCM_tests-skin_warming_wind-KPP.md
+                - CVmix_SCM_tests-wind_only-BML: pages/configurations/mom6examples/CVmix_SCM_tests-wind_only-BML.md
+                - CVmix_SCM_tests-wind_only-EPBL: pages/configurations/mom6examples/CVmix_SCM_tests-wind_only-EPBL.md
+                - CVmix_SCM_tests-wind_only-KPP: pages/configurations/mom6examples/CVmix_SCM_tests-wind_only-KPP.md
+            - Realistic (need the GFDL input data):
+                - global: pages/configurations/mom6examples/global.md
+                - nonBous_global: pages/configurations/mom6examples/nonBous_global.md
+                - global_ALE-hycom: pages/configurations/mom6examples/global_ALE-hycom.md
+                - global_ALE-layer: pages/configurations/mom6examples/global_ALE-layer.md
+                - global_ALE-z: pages/configurations/mom6examples/global_ALE-z.md
+                - MESO_025_23L: pages/configurations/mom6examples/MESO_025_23L.md
+                - MESO_025_63L: pages/configurations/mom6examples/MESO_025_63L.md
+                - tides_025: pages/configurations/mom6examples/tides_025.md
+        # END generated mom6examples nav
+  - Infrastructure:
+        - Building MOM6: pages/infrastructure/Building.md
+  - Contributing:          pages/contributing.md
 
 # Footer
 extra:
@@ -121,12 +194,14 @@ extra_css:
   - fontello/css/fontello-ie7.css
   - fontello/css/fontello.css
   - css/custom.css
+  - css/config_diff.css   # parameter comparison tables (from access-om3-live)
 
 extra_javascript:
   - javascripts/mathjax.js # For pymdownx.arithmatex extension
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js # For pymdownx.arithmatex extension
   - https://unpkg.com/tablesort@5.3.0/dist/tablesort.min.js     # For tablesort functionality 
   - https://cdn.jsdelivr.net/gh/atteggiani/animated-terminal@3.0/animated-terminal.min.js # Terminal animations
+  - js/config-filter.js   # tag filter for the table on pages/configurations/Overview.md
   # - js/custom-tags.js
   # - js/miscellaneous.js
 

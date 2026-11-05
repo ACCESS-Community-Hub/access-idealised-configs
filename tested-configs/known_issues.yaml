@@ -1,0 +1,53 @@
+# Explanations shown on the website for runs that fail, or that needed a workaround.
+# Written by hand (with Claude Code) after reading the logs; keys are run names.
+# "upstream_excluded" (automatic) marks examples GFDL itself excludes from its
+# `make test` suite in ocean_only/Makefile (EXCLUDE list).
+
+buoy_forced_basin: >-
+  The model goes numerically unstable: after about 105 model days (of the 100 years set
+  by `DAYMAX = 36500`) it stops with `write_energy : Ocean velocity has been truncated too
+  many times`. GFDL also excludes this example from its own test suite.
+
+ISOMIP-layer: &isomip >-
+  Needs the ice-shelf file `INPUT/Ocean1_3D.nc`, which is not in the repository or in the
+  GFDL input data (`initialize_topography_from_file: Unable to open INPUT/Ocean1_3D.nc`).
+  GFDL also excludes the ISOMIP examples from its own test suite. For a working
+  ice-shelf cavity case see [ISOMIP+ Ocean0](../isomip-plus.md).
+ISOMIP-rho: *isomip
+
+tides_025: >-
+  Needs the OM4 1/4° grid files (`ocean_hgrid.nc`, `ocean_topog.nc`, `All_edits.nc`) in
+  `INPUT/`, which the repository does not link (`set_grid_metrics_from_mosaic: Unable to
+  open INPUT/ocean_hgrid.nc`). GFDL also excludes this example from its own test suite.
+
+CVmix_SCM_tests-cooling_only-BML: &cvmixbml >-
+  The bulk-mixed-layer (BML) cases read `isopyc_coords.nc` from the run directory
+  (`COORD_FILE = "isopyc_coords.nc"`, `INPUTDIR = "."`), but upstream only links that file
+  in `common_BML/`, not in the `*/BML` directories, so MOM6 stops with
+  `set_coord_from_file: Unable to open ./isopyc_coords.nc`. GFDL's restart-test script
+  (`tools/MRS/setup_restart_test.sh`) copies the file in by hand. The ePBL and KPP
+  versions of the same tests run.
+CVmix_SCM_tests-mech_only-BML: *cvmixbml
+CVmix_SCM_tests-skin_warming_wind-BML: *cvmixbml
+CVmix_SCM_tests-wind_only-BML: *cvmixbml
+
+_restart_control: >-
+  Nothing in the MOM6-examples files is changed: `MOM_input` and `MOM_override` are used as they are
+  at the tested commit, so the model runs exactly as GFDL set it up. This example switches restart
+  files off (`RESTART_CONTROL = -1`), and payu 1.3.6 cannot archive such a run: it deletes empty
+  directories and then tries to move `work/<name>/RESTART`, which fails with `FileNotFoundError`.
+  So the run script adds a payu `run` userscript to the `config.yaml` it writes (see `userscripts:`
+  in the payu config.yaml under [Provenance](#provenance)). After the model finishes, the userscript creates
+  `RESTART/` with a one-line `README`, and payu can then archive the run.
+
+DOME: >-
+  Not a failure: the run is fine, but its `diag_table` writes diagnostics every 5 days
+  while the example runs for only 2 days (`DAYMAX = 2`), so the output files hold one
+  empty record and only the energy time series can be plotted. Increase `DAYMAX` (or the
+  output frequency) to see the overflow.
+
+MESO_025_63L: >-
+  Not a failure: the run is fine, but it lasts only 6 hours (`DAYMAX = 6` hours) while its
+  `diag_table` writes output every 1 to 10 days, so the output files hold one record of fill values
+  and only the energy time series can be plotted. Increase `DAYMAX` (or the output frequency) to
+  see the flow.

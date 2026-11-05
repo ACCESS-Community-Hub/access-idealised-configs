@@ -1,0 +1,93 @@
+{
+ "name": "isomip-plus-ocean0",
+ "control_dir": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/isomip-plus/config",
+ "output_dir": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/lab/archive/isomip-plus-ocean0/output000",
+ "stats_file": "ocean.stats",
+ "ocean_stats_tail": [
+  " 10755,      89.625,     0, En 2.6752921586712817E-04, CFL  0.09251, SL  0.0000E+00, M 1.33984E+16, S 34.2592, T -0.3998, Me -1.07E-14, Se  3.34E-05, Te  1.04E-04",
+  " 10770,      89.750,     0, En 2.6781129850780042E-04, CFL  0.09251, SL  0.0000E+00, M 1.33984E+16, S 34.2592, T -0.3998, Me -1.07E-14, Se  3.34E-05, Te  1.04E-04",
+  " 10785,      89.875,     0, En 2.6810178334436098E-04, CFL  0.09253, SL  0.0000E+00, M 1.33984E+16, S 34.2592, T -0.3998, Me -1.07E-14, Se  3.33E-05, Te  1.04E-04",
+  " 10800,      90.000,     0, En 2.6839108612804527E-04, CFL  0.09253, SL  0.0000E+00, M 1.33984E+16, S 34.2592, T -0.3998, Me -1.06E-14, Se  3.33E-05, Te  1.04E-04"
+ ],
+ "ok": true,
+ "exe": {
+  "mom6-solo": {
+   "fullpath": "/g/data/vk83/apps/spack/1.1/release/linux-x86_64_v4/access-mom6-2026.05.003-ld7hklzo5ajizx5u4yl74i4ijberrpv6/bin/mom6-solo",
+   "md5": "4785d157c76c30d8d01baf7d0f69d218"
+  }
+ },
+ "inputs": {
+  "INPUT/Ocean0_3D_Claire.nc": {
+   "fullpath": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/isomip-plus/input-repo/INPUT/Ocean0_3D_Claire.nc",
+   "md5": "a9e43676e2c0acbfe1d48ce856d2ff84"
+  }
+ },
+ "config_yaml": "# payu configuration for ISOMIP+ Ocean0 (written by isomip-plus-ocean0.sh)\nproject: tm70\nqueue: normalsr          # mom6-solo is compiled for Sapphire Rapids nodes\nncpus: 48\nwalltime: 01:00:00\njobname: isomip-plus\nexperiment: isomip-plus-ocean0\nlaboratory: /g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/lab\n\nmodel: mom6\nexe: mom6-solo\ninput:\n  - /g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/isomip-plus/input-repo/INPUT\nmodules:\n  use:\n    - /g/data/vk83/modules\n  load:\n    - access-om3/2026.05.004\n\ncollate: false\nrunlog: false            # don't commit run logs into the cloned repository\nmetadata:\n  enable: false\n",
+ "env": {
+  "LD_LIBRARY_PATH": "/apps/openmpi/4.1.7/lib:/apps/openmpi/4.1.7/lib/profilers",
+  "LOADEDMODULES": "access3-share/2026.03.002-eale5gm:access-cice/CICE6.6.3-2-huasrvo:access-mocsy/2025.07.002-saj7rvh:access-generic-tracers/2026.09.000-e3zb3ez:access-mom6/2026.05.003-ld7hklz:access-ww3/2026.03.001-bjzidie:access3/2026.03.002-26wbxup:access-om3/2026.05.004:pbs:openmpi/4.1.7",
+  "OMPI_MCA_orte_tmpdir_base": "/jobfs/183114027.gadi-pbs",
+  "PAYU_TELEMETRY_ENV_VERSION": "1.3.6_1",
+  "PBS_NCI_NCPUS_PER_NODE": "104",
+  "PBS_NCPUS": "48",
+  "PBS_QUEUE": "normalsr-exec"
+ },
+ "pbs": {
+  "Job Id": "183114027.gadi-pbs",
+  "Exit Status": "0",
+  "Service Units": "9.17",
+  "NCPUs Requested": "48",
+  "Walltime Used": "00:05:44",
+  "Memory Used": "11.48GB"
+ },
+ "pbs_log": "isomip-plus.o183114027",
+ "key_params": {
+  "NIGLOBAL": "240",
+  "NJGLOBAL": "40",
+  "NK": "36",
+  "GRID_CONFIG": "\"cartesian\"",
+  "TOPO_CONFIG": "\"ISOMIP\"",
+  "REENTRANT_X": "False",
+  "REENTRANT_Y": "False",
+  "USE_REGRIDDING": "True",
+  "REGRIDDING_COORDINATE_MODE": "\"SIGMA_SHELF_ZSTAR\"",
+  "BOUSSINESQ": "True",
+  "ENABLE_THERMODYNAMICS": "True",
+  "EQN_OF_STATE": "\"LINEAR\"",
+  "THICKNESS_CONFIG": "\"ISOMIP\"",
+  "TS_CONFIG": "\"ISOMIP\"",
+  "WIND_CONFIG": "\"zero\"",
+  "BUOY_CONFIG": "\"NONE\"",
+  "ICE_SHELF": "True",
+  "DT": "720.0",
+  "DT_THERM": "720.0",
+  "DAYMAX": "90.0",
+  "TIMEUNIT": "8.64E+04"
+ },
+ "param_changes": {
+  "added": [
+   "ADVECTION_SCHEME_VARIANCE_UNDERFLOW",
+   "ICE_SHELF_BUOYANCY_FLUX_ITT_BUG",
+   "ICE_SHELF_SALT_FLUX_ITT_BUG",
+   "NONBLOCKING_P_SURF_BUG",
+   "USE_FILE_DYES"
+  ],
+  "removed": [
+   "ICE_SHELF_BUOYANCY_FLUX_ITT_BUGFIX",
+   "ICE_SHELF_SALT_FLUX_ITT_BUGFIX"
+  ],
+  "changed": {}
+ },
+ "output_files": {
+  "ISOMIP_IC.nc": 39905880,
+  "MOM_Shelf_IC.nc": 250020,
+  "Vertical_coordinate.nc": 1920,
+  "ave_prog.nc": 175625964,
+  "forcing.nc": 27773952,
+  "ice.nc": 51967056,
+  "ocean.stats.nc": 926036,
+  "ocean_geometry.nc": 1503304
+ },
+ "figure": "figure.png",
+ "figure_note": "Left: `melt_rate` at the last output time; right: `temp` vertical section (model levels) at the last output time"
+}

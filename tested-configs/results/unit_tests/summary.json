@@ -1,0 +1,84 @@
+{
+ "name": "unit_tests",
+ "control_dir": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/MOM6-examples/ocean_only/unit_tests",
+ "output_dir": "/g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/lab/archive/unit_tests/output000",
+ "stats_file": "ocean.stats",
+ "ocean_stats_tail": [
+  "  Step,       Day,  Truncs,      Energy/Mass,      Maximum CFL,  Mean sea level,   Total Mass,    Frac Mass Err",
+  "            [days]                 [m2 s-2]           [Nondim]        [m]             [kg]           [Nondim]",
+  "     0,       0.000,     0, En 3.9581884780369484E-29, CFL  0.00000, SL  2.8422E-14, Mass 1.28252E+15, Me  0.00E+00",
+  "     1,       1.000,     0, En 3.9581884780369484E-29, CFL  0.00000, SL  2.8422E-14, Mass 1.28252E+15, Me  0.00E+00"
+ ],
+ "ok": true,
+ "exe": {
+  "mom6-solo": {
+   "fullpath": "/g/data/vk83/apps/spack/1.1/release/linux-x86_64_v4/access-mom6-2026.05.003-ld7hklzo5ajizx5u4yl74i4ijberrpv6/bin/mom6-solo",
+   "md5": "4785d157c76c30d8d01baf7d0f69d218"
+  }
+ },
+ "inputs": {},
+ "config_yaml": "# payu configuration for MOM6-examples/ocean_only/unit_tests (written by unit_tests.sh)\nproject: tm70\nqueue: normalsr          # mom6-solo is compiled for Sapphire Rapids nodes\nncpus: 1\nwalltime: 00:30:00\njobname: unit_tests\nexperiment: unit_tests\nlaboratory: /g/data/tm70/cyb561/repos/claude/mom6-idealised-configs/runs/lab\n\nmodel: mom6\nexe: mom6-solo           # found on PATH once the module below is loaded\n\nmodules:\n  use:\n    - /g/data/vk83/modules\n  load:\n    - access-om3/2026.05.004\n\nstorage:                 # vk83: executable, ol01: input data\n  gdata:\n    - vk83\n    - ol01\n\ncollate: false           # mom6 writes un-split netCDF files when IO_LAYOUT = 1,1\nrunlog: false            # don't commit run logs into the MOM6-examples clone\nmetadata:\n  enable: false\n",
+ "env": {
+  "LD_LIBRARY_PATH": "/apps/openmpi/4.1.7/lib:/apps/openmpi/4.1.7/lib/profilers",
+  "LOADEDMODULES": "access3-share/2026.03.002-eale5gm:access-cice/CICE6.6.3-2-huasrvo:access-mocsy/2025.07.002-saj7rvh:access-generic-tracers/2026.09.000-e3zb3ez:access-mom6/2026.05.003-ld7hklz:access-ww3/2026.03.001-bjzidie:access3/2026.03.002-26wbxup:access-om3/2026.05.004:pbs:openmpi/4.1.7",
+  "OMPI_MCA_orte_tmpdir_base": "/jobfs/183114959.gadi-pbs",
+  "PAYU_TELEMETRY_ENV_VERSION": "1.3.6_1",
+  "PBS_NCI_NCPUS_PER_NODE": "104",
+  "PBS_NCPUS": "1",
+  "PBS_QUEUE": "normalsr-exec"
+ },
+ "pbs": {
+  "Job Id": "183114959.gadi-pbs",
+  "Exit Status": "0",
+  "Service Units": "0.01",
+  "NCPUs Requested": "1",
+  "Walltime Used": "00:00:10",
+  "Memory Used": "1.13GB"
+ },
+ "pbs_log": "unit_tests.o183114959",
+ "key_params": {
+  "NIGLOBAL": "4",
+  "NJGLOBAL": "4",
+  "NK": "1",
+  "GRID_CONFIG": "\"cartesian\"",
+  "TOPO_CONFIG": "\"flat\"",
+  "REENTRANT_X": "True",
+  "REENTRANT_Y": "False",
+  "USE_REGRIDDING": "False",
+  "BOUSSINESQ": "True",
+  "ENABLE_THERMODYNAMICS": "False",
+  "THICKNESS_CONFIG": "\"uniform\"",
+  "WIND_CONFIG": "\"zero\"",
+  "BUOY_CONFIG": "\"zero\"",
+  "ICE_SHELF": "False",
+  "DT": "8.64E+04",
+  "DT_THERM": "8.64E+04",
+  "DAYMAX": "1.0",
+  "TIMEUNIT": "8.64E+04"
+ },
+ "param_changes": {
+  "added": [
+   "ADVECTION_SCHEME_VARIANCE_UNDERFLOW",
+   "RHO_PGF_REF_BUG",
+   "USE_FILE_DYES",
+   "USE_UH_PARTICLES"
+  ],
+  "removed": [
+   "CONT_USE_H_MARG_MIN",
+   "ENSEMBLE_APPENDIX_PREFIX",
+   "NUM_DIAG_DOWNSAMP_LEV",
+   "READ_MEAN_SEA_LEVEL",
+   "STOCHASTICS_ANSWER_DATE",
+   "SYMMETRIC_DOWNSAMPLE_SUMS",
+   "USE_THICKNESS_DIFFUSE_ANN"
+  ],
+  "changed": {}
+ },
+ "output_files": {
+  "Vertical_coordinate.nc": 760,
+  "ocean.stats.nc": 2120,
+  "ocean_geometry.nc": 22608
+ },
+ "figure": "figure.png",
+ "figure_note": "Left: no suitable diagnostic; right: total energy (`En`) from `ocean.stats.nc`"
+}

@@ -1,0 +1,13 @@
+# ---- 2b. Make a variant of the example with changed parameters ---------------
+# We copy the example to a sibling directory (the upstream one stays untouched)
+# and append our changes to its MOM_override.  `-L` copies symlinked files
+# (e.g. ../common/MOM_input) as real files so editing never touches the originals.
+VARIANT_DIR="$EXAMPLES_DIR/${EXAMPLE}_@VARIANT@"
+EXCLUDE="--exclude=work --exclude=archive --exclude=config.yaml --exclude=manifests"
+rsync -aL $EXCLUDE "$EXAMPLES_DIR/$EXAMPLE/" "$VARIANT_DIR/"
+cat >> "$VARIANT_DIR/MOM_override" <<'OVERRIDES'
+
+! ---- changes for the "@VARIANT@" variant (added by @SCRIPT_NAME@) ----
+@OVERRIDE_LINES@
+OVERRIDES
+EXAMPLE="${EXAMPLE}_@VARIANT@"
