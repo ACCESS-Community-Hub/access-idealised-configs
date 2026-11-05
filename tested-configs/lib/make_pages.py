@@ -16,6 +16,7 @@ Writes (all generated, do not edit by hand):
 and replaces the block between the "generated mom6examples nav" markers in
 documentation/mkdocs.yml.
 """
+import html
 import json
 import os
 import re
@@ -433,7 +434,7 @@ def results_section(name, s, assets, config_rows, reference_label, show_figure=F
         lines += [""]
 
     lines += notebook
-    lines += param_section(name, s, ex)
+    lines += param_section(name, s, ex, page_prefix=nb_prefix.replace("notebooks/", "parameters/"))
 
     # ---- provenance --------------------------------------------------------------
     lines += ["## Provenance", "",
@@ -493,8 +494,26 @@ COMMUNITY_REF = {
 }
 
 
-def param_section(name, s, ex=None, level=2):
-    """The "Parameters compared with the reference" section (lib/param_diff.py), or nothing."""
+PARAM_PAGES = os.path.join(DOCS, "pages", "configurations", "parameters")
+
+
+def write_param_page(name, run_file, back_link):
+    """pages/configurations/parameters/<name>.md: the run's MOM_parameter_doc.all with an
+    anchor on every line (#L<n>, as on GitHub), so the comparison table can link to it."""
+    os.makedirs(PARAM_PAGES, exist_ok=True)
+    body = "".join(f'<span id="L{n}">{html.escape(line.rstrip(chr(10)))}</span>\n'
+                   for n, line in enumerate(open(run_file), 1))
+    head = ["---", "search:", "  exclude: true", "---", "",
+            f"# {name}: MOM_parameter_doc.all", "",
+            f"Every MOM6 parameter of the tested run of [{name}]({back_link}), as MOM6 wrote it to "
+            "`MOM_parameter_doc.all` in the run's output folder. Line numbers match the file.", ""]
+    open(os.path.join(PARAM_PAGES, name + ".md"), "w").write(
+        "\n".join(head) + f'\n<pre class="paramdoc">{body}</pre>\n')
+
+
+def param_section(name, s, ex=None, level=2, page_prefix="../parameters/"):
+    """The "Parameters compared with the reference" section (lib/param_diff.py), or nothing.
+    Also writes the run's own file as a page (write_param_page) that the table links into."""
     run_file = os.path.join(s.get("output_dir") or "", "MOM_parameter_doc.all")
     work_root = environment.get("work_root", "")
     if ex is not None:
@@ -507,7 +526,11 @@ def param_section(name, s, ex=None, level=2):
         ref_file = os.path.join(work_root, rel)
     if not (os.path.exists(run_file) and os.path.exists(ref_file)):
         return []
-    return param_diff.section(ref_file, run_file, ref_url, label, gadi, level=level)
+    back = (f"../mom6examples/{name}.md" if ex is not None
+            else "../" + {"anu-tub-zstar": "anu-tub.md", "isomip-plus-ocean0": "isomip-plus.md"}.get(name, name + ".md"))
+    write_param_page(name, run_file, back)
+    return param_diff.section(ref_file, run_file, ref_url, label, gadi, level=level,
+                              run_page=f"{page_prefix}{name}.md")
 
 
 STANDALONE = {   # run name -> (page that includes the fragment, rows describing the config source)

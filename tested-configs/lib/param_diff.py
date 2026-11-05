@@ -58,10 +58,16 @@ def compare(ref_path, run_path):
     return sorted(rows, key=lambda r: (r["module"].lower(), r["name"]))
 
 
-def _table(rows, ref_url, label_a, label_b):
+def _md_safe(text):
+    """HTML-escape, and keep Markdown from reading _ * [ ] ` \\ in values (cells with links are
+    parsed as Markdown by md_in_html so that mkdocs rewrites the .md link)."""
+    return html.escape(text).translate({ord(c): f"&#{ord(c)};" for c in "_*[]`\\"})
+
+
+def _table(rows, ref_url, label_a, label_b, run_page=None):
     esc = html.escape
-    out = ['<table class="diff"><thead><tr><th>Parameter</th><th>Units</th>'
-           f"<th>{esc(label_a)}</th><th>{esc(label_b)}</th></tr></thead><tbody>"]
+    out = ['<table class="diff" markdown="1"><thead><tr><th>Parameter</th><th>Units</th>'
+           f"<th>{esc(label_a)}</th><th>{esc(label_b)}</th></tr></thead><tbody markdown=\"1\">"]
     module = None
     for r in rows:
         if r["module"] != module:
@@ -71,20 +77,25 @@ def _table(rows, ref_url, label_a, label_b):
         cell_a = (f'<td class="val a" data-label="{esc(label_a)}"><a href="{ref_url}#L{a["line"]}" '
                   f'target="_blank" rel="noopener">{esc(a["value"])}</a></td>' if a else
                   f'<td class="val a unset" data-label="{esc(label_a)}">(not in this version)</td>')
-        cell_b = (f'<td class="val b" data-label="{esc(label_b)}">{esc(b["value"])}'
-                  f'<span class="ln"> line {b["line"]}</span></td>' if b else
+        if b and run_page:
+            ln = f' [line {b["line"]}]({run_page}#L{b["line"]}){{.ln}}'
+        elif b:
+            ln = f'<span class="ln"> line {b["line"]}</span>'
+        cell_b = (f'<td class="val b" data-label="{esc(label_b)}" markdown="span">{_md_safe(b["value"])}'
+                  f'{ln}</td>' if b else
                   f'<td class="val b unset" data-label="{esc(label_b)}">(not in this version)</td>')
-        out.append(f'<tr class="param"><td><a href="{MOM6_SEARCH}{esc(r["name"])}" target="_blank" '
+        out.append(f'<tr class="param" markdown="1"><td><a href="{MOM6_SEARCH}{esc(r["name"])}" target="_blank" '
                    f'rel="noopener">{esc(r["name"])}</a></td><td class="units">{esc(r["units"])}</td>'
                    f"{cell_a}{cell_b}</tr>")
     out.append("</tbody></table>")
     return "".join(out)
 
 
-def section(ref_path, run_path, ref_url, ref_label, run_gadi_path, level=2):
+def section(ref_path, run_path, ref_url, ref_label, run_gadi_path, level=2, run_page=None):
     """Markdown lines for the "Parameters compared with the reference" section.
     ref_url: GitHub URL of the reference file (lines are linked as ref_url#L<n>);
-    run_gadi_path: where the run's own MOM_parameter_doc.all is on Gadi when you run the script."""
+    run_gadi_path: where the run's own MOM_parameter_doc.all is on Gadi when you run the script;
+    run_page: website page (.md, relative) showing the run's file with #L<n> anchors."""
     rows = compare(ref_path, run_path)
     changed = [r for r in rows if r["a"] and r["b"]]
     one_side = [r for r in rows if not (r["a"] and r["b"])]
@@ -93,16 +104,16 @@ def section(ref_path, run_path, ref_url, ref_label, run_gadi_path, level=2):
     h = "#" * level
     lines = [f"{h} Parameters compared with the reference", "",
              f'<span class="chip a">A</span> {ref_label}: [`MOM_parameter_doc.all`]({ref_url})  ',
-             f'<span class="chip b">B</span> this run: `MOM_parameter_doc.all` in the run\'s output, '
+             f'<span class="chip b">B</span> this run: ' + (f"[`MOM_parameter_doc.all`]({run_page})" if run_page else "`MOM_parameter_doc.all`") + ' in the run\'s output, '
              f"`{run_gadi_path}` when you run the script", "",
              f"**{len(changed)}** parameter values differ; **{only_run}** parameters exist only in this "
              f"run's MOM6 version and **{only_ref}** only in the reference (new, removed or renamed "
              "parameters). Values are compared ignoring quotes, case and number formatting. "
              "Parameter names link to a search of the MOM6 source; reference values link to their "
-             "line on GitHub.", ""]
+             "line on GitHub and this run's line numbers to its file.", ""]
     if changed:
-        lines += [_table(changed, ref_url, "A: reference", "B: this run"), ""]
+        lines += [_table(changed, ref_url, "A: reference", "B: this run", run_page), ""]
     if one_side:
         lines += [f'??? note "Parameters in only one of the two files ({len(one_side)})"',
-                  "    " + _table(one_side, ref_url, "A: reference", "B: this run"), ""]
+                  "    " + _table(one_side, ref_url, "A: reference", "B: this run", run_page), ""]
     return lines

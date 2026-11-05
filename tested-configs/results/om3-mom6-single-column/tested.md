@@ -100,9 +100,9 @@ From `ocean.stats.nc`: 366 records; time axis in days.
 ### Parameters compared with the reference
 
 <span class="chip a">A</span> the file committed in om3-mom6-single-column (`9a8310b0`): [`MOM_parameter_doc.all`](https://github.com/ACCESS-Community-Hub/om3-mom6-single-column/blob/9a8310b09bd4b97c676ccbd0b54ddf4dfe686b5f/docs/MOM_parameter_doc.all)  
-<span class="chip b">B</span> this run: `MOM_parameter_doc.all` in the run's output, `/scratch/<your-project>/$USER/access-om3/archive/om3-mom6-single-column/output000/MOM_parameter_doc.all` when you run the script
+<span class="chip b">B</span> this run: [`MOM_parameter_doc.all`](parameters/om3-mom6-single-column.md) in the run's output, `/scratch/<your-project>/$USER/access-om3/archive/om3-mom6-single-column/output000/MOM_parameter_doc.all` when you run the script
 
-**0** parameter values differ; **0** parameters exist only in this run's MOM6 version and **0** only in the reference (new, removed or renamed parameters). Values are compared ignoring quotes, case and number formatting. Parameter names link to a search of the MOM6 source; reference values link to their line on GitHub.
+**0** parameter values differ; **0** parameters exist only in this run's MOM6 version and **0** only in the reference (new, removed or renamed parameters). Values are compared ignoring quotes, case and number formatting. Parameter names link to a search of the MOM6 source; reference values link to their line on GitHub and this run's line numbers to its file.
 
 ### Provenance
 

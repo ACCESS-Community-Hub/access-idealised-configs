@@ -111,9 +111,9 @@ From `ocean.stats.nc`: 32 records; time axis in days.
 ### Parameters compared with the reference
 
 <span class="chip a">A</span> the file committed in anu-tub (`e413708c`): [`MOM_parameter_doc.all`](https://github.com/ACCESS-Community-Hub/anu-tub/blob/e413708c4b1446e267b42f2f0da95d6ab48ae0e0/docs/MOM_parameter_doc.all)  
-<span class="chip b">B</span> this run: `MOM_parameter_doc.all` in the run's output, `/scratch/<your-project>/$USER/mom6/archive/anu-tub-zstar/output000/MOM_parameter_doc.all` when you run the script
+<span class="chip b">B</span> this run: [`MOM_parameter_doc.all`](parameters/anu-tub-zstar.md) in the run's output, `/scratch/<your-project>/$USER/mom6/archive/anu-tub-zstar/output000/MOM_parameter_doc.all` when you run the script
 
-**0** parameter values differ; **0** parameters exist only in this run's MOM6 version and **0** only in the reference (new, removed or renamed parameters). Values are compared ignoring quotes, case and number formatting. Parameter names link to a search of the MOM6 source; reference values link to their line on GitHub.
+**0** parameter values differ; **0** parameters exist only in this run's MOM6 version and **0** only in the reference (new, removed or renamed parameters). Values are compared ignoring quotes, case and number formatting. Parameter names link to a search of the MOM6 source; reference values link to their line on GitHub and this run's line numbers to its file.
 
 ### Provenance
 
